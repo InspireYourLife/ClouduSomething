@@ -2,7 +2,7 @@ package groep3.cloudapi.model;
 
 import org.mongodb.morphia.annotations.Entity;
 
-@Entity
-public class Module {
+@Entity (value = "modules")
+public class Module extends EntityModel {
     
 }
