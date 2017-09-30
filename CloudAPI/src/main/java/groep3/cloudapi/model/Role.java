@@ -1,6 +1,7 @@
 package groep3.cloudapi.model;
 
-public enum Role {
+public enum Role 
+{
     Admin,
     Client,
     Caretaker,

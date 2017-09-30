@@ -1,5 +1,6 @@
 package groep3.cloudapi.presentation.model;
 
-public class BasePresenter {
+public abstract class BasePresenter 
+{
     
 }

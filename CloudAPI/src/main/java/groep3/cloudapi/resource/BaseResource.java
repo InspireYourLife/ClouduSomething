@@ -1,5 +1,6 @@
 package groep3.cloudapi.resource;
 
-public class BaseResource {
+public abstract class BaseResource 
+{
     
 }
