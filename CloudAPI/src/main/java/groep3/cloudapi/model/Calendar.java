@@ -1,6 +1,7 @@
 package groep3.cloudapi.model;
 
 import java.util.List;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -8,6 +9,7 @@ import org.mongodb.morphia.annotations.Reference;
 public class Calendar extends EntityModel 
 {
     @Reference
+    @NotEmpty
     User owner;
     
     @Reference

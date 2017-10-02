@@ -1,21 +1,32 @@
 package groep3.cloudapi.model;
 
 import java.util.Date;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity (value = "notifications")
 public class Notification extends EntityModel 
 {
+    @Embedded
+    @NotEmpty
     String subject;
+    
+    @Embedded
+    @NotEmpty
     String body;
     
     @Reference
+    @NotEmpty
     User sender;
     
     @Reference
+    @NotEmpty
     User recipient;
     
+    @Embedded
+    @NotEmpty
     Date creationDate;
 
     public String getSubject()

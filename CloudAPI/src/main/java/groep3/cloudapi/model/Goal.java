@@ -2,24 +2,46 @@ package groep3.cloudapi.model;
 
 import java.util.Date;
 import java.util.List;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity (value = "goal")
 public class Goal extends EntityModel 
 {
+    @Embedded
+    @NotEmpty
     String name;
+    
+    @Embedded
+    @NotEmpty
     String goalCode;
+    
+    @Embedded
+    @NotEmpty
     String description;
     
     @Reference
+    @NotEmpty
     List <Task> tasks;
     
+    @Embedded
     Date deadline;
+    
+    @Embedded
     Date completionDate;
+    
+    @Embedded
+    @NotEmpty
     Boolean isComplete;
+    
+    @Embedded
+    @NotEmpty
     Boolean isApproved;
     
+    @Embedded
+    @NotEmpty
     Date creationDate;
 
     public String getName()
