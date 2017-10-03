@@ -1,5 +1,6 @@
 package groep3.cloudapi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -24,7 +25,7 @@ public class Goal extends EntityModel
     
     @Reference
     @NotEmpty
-    List <Task> tasks;
+    List <Task> tasks = new ArrayList<Task>();
     
     @Embedded
     Date deadline;

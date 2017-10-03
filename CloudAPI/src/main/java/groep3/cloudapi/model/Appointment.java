@@ -1,5 +1,6 @@
 package groep3.cloudapi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -12,7 +13,7 @@ public class Appointment extends EntityModel
 {
     @Reference
     @NotEmpty
-    List<User> participants;
+    List<User> participants = new ArrayList<User>();
     
     @Embedded
     @NotEmpty

@@ -1,5 +1,6 @@
 package groep3.cloudapi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -20,7 +21,7 @@ public class Module extends EntityModel
     
     @Reference
     @NotEmpty
-    List<Goal> goals;
+    List<Goal> goals  = new ArrayList<Goal>();
     
     @Embedded
     @NotEmpty
