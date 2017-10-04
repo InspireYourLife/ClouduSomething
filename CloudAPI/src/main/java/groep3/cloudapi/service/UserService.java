@@ -2,6 +2,8 @@ package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.UserDAO;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -26,6 +28,14 @@ public class UserService extends BaseService
     public List<User> GetAll()
     {
         return userDAO.getAll();
+    }
+
+    public void create(User newUser)
+    {
+        Date currentTime = Date.from(Instant.now());
+        newUser.setCreationDate(currentTime);
+        
+        userDAO.create(newUser);
     }
     
 }
