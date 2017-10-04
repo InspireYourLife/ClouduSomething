@@ -1,22 +1,38 @@
 package groep3.cloudapi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity (value = "modules")
 public class Module extends EntityModel 
 {
+    @Embedded
+    @NotEmpty
     String name;
+    
+    @Embedded
+    @NotEmpty
     String moduleCode;
     
     @Reference
-    List<Goal> goals;
+    @NotEmpty
+    List<Goal> goals  = new ArrayList<Goal>();
     
+    @Embedded
+    @NotEmpty
     Boolean isComplete;
+    
+    @Embedded
+    @NotEmpty
     Boolean isApproved;
     
+    @Embedded
+    @NotEmpty
     Date CreationDate;
 
     public String getName()

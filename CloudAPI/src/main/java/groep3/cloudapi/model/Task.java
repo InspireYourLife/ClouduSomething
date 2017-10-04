@@ -1,6 +1,8 @@
 package groep3.cloudapi.model;
 
 import java.util.Date;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -8,16 +10,31 @@ import org.mongodb.morphia.annotations.Reference;
 public class Task extends EntityModel 
 {
     @Reference
+    @NotEmpty
     User owner;
     
     @Reference
+    @NotEmpty
     Goal goal;
     
+    @Embedded
+    @NotEmpty
     String name;
+    
+    @Embedded
+    @NotEmpty
     String description;
+    
+    @Embedded
+    @NotEmpty
     Integer points;
+    
+    @Embedded
+    @NotEmpty
     Boolean isComplete;
     
+    @Embedded
+    @NotEmpty
     Date creationDate;
 
     public User getOwner()

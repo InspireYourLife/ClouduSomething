@@ -1,7 +1,10 @@
 package groep3.cloudapi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -9,9 +12,15 @@ import org.mongodb.morphia.annotations.Reference;
 public class Appointment extends EntityModel 
 {
     @Reference
-    List<User> participants;
+    @NotEmpty
+    List<User> participants = new ArrayList<User>();
     
+    @Embedded
+    @NotEmpty
     Date date;
+    
+    @Embedded
+    @NotEmpty
     String description;
 
     public List<User> getParticipants()
