@@ -33,7 +33,7 @@ public class User extends EntityModel
     int collectedPoints;
     
     @Embedded
-    @NotEmpty
+    //@NotEmpty
     Role role;
     
     @Reference
@@ -46,7 +46,6 @@ public class User extends EntityModel
     String image;
     
     @Embedded
-    @NotEmpty
     Date creationDate;
 
     public String getName()
@@ -118,7 +117,7 @@ public class User extends EntityModel
     {
         this.role = role;
     }
-
+    
     public List<Module> getModules()
     {
         return modules;
