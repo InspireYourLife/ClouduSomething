@@ -41,11 +41,19 @@ public class UserResource extends BaseResource
     }
     
     @GET
-    @Path ( "/{userId}" )
-    public List <User> getAllContacts(@PathParam ("userId") String userId)
+    @Path ( "/{UserId}" )
+    public List <User> getAllContacts(@PathParam ("UserId") String userId)
     {
         List<User> contacts = contactService.getAllContacts(userId);
         return contacts;
+    }
+    
+    @GET
+    @Path ("/{UserId}/{ContactId}")
+    public User getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
+    {
+        User contact = contactService.getContact(userId, contactId);
+        return contact;
     }
     
     @POST

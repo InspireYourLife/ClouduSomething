@@ -19,4 +19,8 @@ public class UserDAO extends BaseDAO<User>
     {
         super(User.class, ds);
     }
+    
+    public User userById(String userId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

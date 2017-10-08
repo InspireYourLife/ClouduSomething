@@ -13,9 +13,4 @@ public class ContactDAO extends BaseDAO<User>{
     {
         super(User.class, ds);
     }
-
-    public List<User> getAllContacts(User ObjectId) {
-        
-    }
-    
 }
