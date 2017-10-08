@@ -34,7 +34,7 @@ public class User extends EntityModel
     
     @Embedded
     //@NotEmpty
-    List<String> role = new ArrayList<String>();
+    Role role;
     
     @Reference
     List<Module> modules = new ArrayList<Module>();
@@ -108,12 +108,12 @@ public class User extends EntityModel
         this.collectedPoints = collectedPoints;
     }
 
-    public List<String> getRole()
+    public Role getRole()
     {
         return role;
     }
 
-    public void setRole(List<String> role)
+    public void setRole(Role role)
     {
         this.role = role;
     }
