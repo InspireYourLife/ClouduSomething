@@ -4,8 +4,10 @@ import groep3.cloudapi.model.Task;
 import groep3.cloudapi.service.TaskService;
 import java.util.List;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -39,4 +41,11 @@ public class TaskResource extends BaseResource{
         return task;
     }
     
+    @POST
+    @Path("/{UserId}/{ModuleId}/{GoalId}")
+    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") int moduleId, @PathParam ("GoalId") int goalId, @Valid Task newTask)
+    {
+        Task task = taskService.createTask(userId, moduleId, goalId, newTask);
+        return task;
+    }
 }

@@ -5,6 +5,8 @@ import groep3.cloudapi.model.Task;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.TaskDAO;
 import groep3.cloudapi.persistence.UserDAO;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 
 public class TaskService extends BaseService{
@@ -33,5 +35,18 @@ public class TaskService extends BaseService{
         Task task = tasks.get(taskId);
         
         return task;
+    }
+
+    public void createTask(String userId, int moduleId, int goalId, Task newTask)
+    {
+        Date currentTime = Date.from(Instant.now());
+        newTask.setCreationDate(currentTime);
+        
+        Goal goal = goalDAO.getById(goalId);
+        List<Task> tasks = goal.getTasks();
+        tasks.add(newTask);
+        
+        taskDAO.create(newTask);
+        
     }
 }
