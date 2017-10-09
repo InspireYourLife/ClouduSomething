@@ -5,12 +5,15 @@
  */
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.Module;
 import groep3.cloudapi.service.ModuleService;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+
 
 /**
  *
@@ -31,5 +34,14 @@ public class ModuleResource extends BaseResource
         this.moduleService = moduleService;
         //this.modulePresenter = modulePresenter;
     }
+    
+    // Get all modules
+    @GET
+    public Array <Module> getAll()
+    {
+        Array<Module> modules = moduleService.getAll();
+        return modules;
+    }
+    
     
 }
