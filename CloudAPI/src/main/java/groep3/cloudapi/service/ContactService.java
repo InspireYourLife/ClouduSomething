@@ -1,5 +1,6 @@
 package groep3.cloudapi.service;
 
+import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.ContactDAO;
 import groep3.cloudapi.persistence.UserDAO;
@@ -39,5 +40,15 @@ public class ContactService extends BaseService{
         User contact = contactsToReturn.get(cId);
         
         return contact;
+    }
+
+    public void sendMessage(String userId, int contactId, Notification newMessage) {
+        
+        User user = userDAO.userById(userId);
+        List<User> contactsToReturn = user.getContacts();
+        
+        User contact = contactsToReturn.get(contactId);
+        
+        userDAO.sendMessage(contact, newMessage);
     }
 }

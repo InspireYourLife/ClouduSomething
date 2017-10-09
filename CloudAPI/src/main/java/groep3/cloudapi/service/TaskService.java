@@ -2,9 +2,7 @@ package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.Goal;
 import groep3.cloudapi.model.Task;
-import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.TaskDAO;
-import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
