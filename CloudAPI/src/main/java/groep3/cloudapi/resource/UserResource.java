@@ -1,5 +1,6 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.UserPresenter;
 import groep3.cloudapi.service.ContactService;
@@ -54,6 +55,14 @@ public class UserResource extends BaseResource
     {
         User contact = contactService.getContact(userId, contactId);
         return contact;
+    }
+    
+    @POST
+    @Path ("/{UserId}/{ContactId}")
+    public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") int contactId, Notification newMessage)
+    {
+        contactService.sendMessage(userId, contactId, newMessage);
+        return newMessage;
     }
     
     @POST
