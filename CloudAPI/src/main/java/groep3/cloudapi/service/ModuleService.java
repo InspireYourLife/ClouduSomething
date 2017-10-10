@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.Module;
@@ -37,13 +32,13 @@ public class ModuleService extends BaseService
     }
     
     // get all modules
-    public List<Module> GetAll()
+    public List<Module> GetAllModules()
     {
         return moduleDAO.getAll();
     }
     
     //Create a new module
-    public void create (Module newModule)
+    public void createModule (Module newModule)
     {
         String name = "";
         
@@ -55,5 +50,15 @@ public class ModuleService extends BaseService
         //return ModuleDAO userDAO.getAll(id);
     }
     
+    //Assign a module to a specific user
+    public void assignModule ()
+    {
+        
+    }
     
+    //Get specific module from specific user
+    public void getUserModule()
+    {
+        
+    }
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Module;
@@ -18,7 +13,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 
 /**
  *
@@ -37,14 +31,14 @@ public class ModuleResource extends BaseResource
     @Inject
     public ModuleResource (ModuleService moduleSurvice, ModulePresenter modulePresenter)
     {
-        this.moduleService = moduleService;
-        this.userService = userService;
+        //this.moduleService = moduleService;
+        //this.userService = userService;
         //this.modulePresenter = modulePresenter;
     }
     
     // Get all modules 
     @GET
-    public List<Module> getAll()
+    public List<Module> getAllModules()
     {
         List<Module> modules = moduleService.getAll();
         return modules;
@@ -52,7 +46,7 @@ public class ModuleResource extends BaseResource
     
     //Create a new module
     @POST
-    public Module create(@Valid Module newModule)
+    public Module createModule(@Valid Module newModule)
     {
             moduleService.create(newModule);
         return newModule;
@@ -60,10 +54,24 @@ public class ModuleResource extends BaseResource
     
     //Get all modules from specific user
     @GET
-    public List<Module> getAll()
+    public List<Module> getAllUserModules()
     {
-        //How to 
+        //How to incorporate the user id here?
         List<Module> userModules = moduleService.getAll();
         return userModules;
+    }
+    
+    //Assign module to specific userId
+    @POST
+    public Module assignModule();
+    {
+        
+    }
+    
+    //Get specific module from specific user
+    @GET
+    public List<Module> getUserModule()
+    {
+        
     }
 }
