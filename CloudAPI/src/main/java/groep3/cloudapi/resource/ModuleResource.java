@@ -5,8 +5,8 @@
  */
 package groep3.cloudapi.resource;
 
-import groep3.cloudapi.model.Module;
 import groep3.cloudapi.service.ModuleService;
+import java.lang.reflect.Array;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -35,11 +35,11 @@ public class ModuleResource extends BaseResource
         //this.modulePresenter = modulePresenter;
     }
     
-    // Get all modules
+    // Get all modules,should be array? 
     @GET
-    public Array <Module> getAll()
+    public Array getAll()
     {
-        Array<Module> modules = moduleService.getAll();
+        Array modules = moduleService.getAll();
         return modules;
     }
     
