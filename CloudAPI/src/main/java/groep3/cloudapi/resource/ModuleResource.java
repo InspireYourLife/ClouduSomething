@@ -5,6 +5,7 @@
  */
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.presentation.model.ModulePresenter;
 import groep3.cloudapi.service.ModuleService;
 import java.lang.reflect.Array;
 import javax.inject.Inject;
