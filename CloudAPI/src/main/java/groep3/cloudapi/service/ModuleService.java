@@ -5,7 +5,10 @@
  */
 package groep3.cloudapi.service;
 
+import groep3.cloudapi.model.Module;
 import groep3.cloudapi.persistence.ModuleDAO;
+import groep3.cloudapi.persistence.UserDAO;
+import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
@@ -26,9 +29,19 @@ public class ModuleService extends BaseService
     private final ModuleDAO moduleDAO;
     
     @Inject
-    public ModuleService (ModuleDAO moduleDAO)
+    public ModuleService (ModuleDAO moduleDAO, UserDAO userDAO)
     {
         this.moduleDAO = moduleDAO;
+        this.userDAO = userDAO;
     }
     
+    public List<Module> GetAll()
+    {
+        return moduleDAO.getAll();
+    }
+    
+    public Module getModulesByUserId(String id)
+    {
+        return userDAO.get(id);
+    }
 }
