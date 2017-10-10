@@ -21,7 +21,7 @@ import javax.ws.rs.core.MediaType;
  * @author Tim
  */
 
-@Path( "/Modules" )
+@Path( "/modules" )
 @Consumes ( MediaType.APPLICATION_JSON )
 @Produces ( MediaType.APPLICATION_JSON )
 
