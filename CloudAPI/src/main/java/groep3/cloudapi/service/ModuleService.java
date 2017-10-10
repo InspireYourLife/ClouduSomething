@@ -27,6 +27,7 @@ import javax.ws.rs.core.MediaType;
 public class ModuleService extends BaseService
 {
     private final ModuleDAO moduleDAO;
+    private final UserDAO userDAO;
     
     @Inject
     public ModuleService (ModuleDAO moduleDAO, UserDAO userDAO)
@@ -35,13 +36,24 @@ public class ModuleService extends BaseService
         this.userDAO = userDAO;
     }
     
+    // get all modules
     public List<Module> GetAll()
     {
         return moduleDAO.getAll();
     }
     
-    public Module getModulesByUserId(String id)
+    //Create a new module
+    public void create (Module newModule)
     {
-        return userDAO.get(id);
+        String name = "";
+        
     }
+    
+    // get all modules from a specific user
+    public Module getModulesByUserId(String id, List userModules)
+    {
+        //return ModuleDAO userDAO.getAll(id);
+    }
+    
+    
 }
