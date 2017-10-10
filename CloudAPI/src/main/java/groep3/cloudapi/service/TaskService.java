@@ -22,7 +22,7 @@ public class TaskService extends BaseService{
     {    
         Goal goal = goalDAO.getById(goalId);
         List<Task> tasks = goal.getTasks();
-        return tasks;   
+        return tasks;
     }
 
     public Task getSpecificTask(String userId, int moduleId, int goalId, int taskId) 
