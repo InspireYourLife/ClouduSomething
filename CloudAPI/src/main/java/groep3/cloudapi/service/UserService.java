@@ -30,6 +30,11 @@ public class UserService extends BaseService
         return userDAO.getAll();
     }
 
+        public User getUserById(String id)
+    {
+        return userDAO.get(id);
+    }
+    
     public void create(User newUser)
     {
         Date currentTime = Date.from(Instant.now());
