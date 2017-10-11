@@ -32,7 +32,7 @@ public class ModuleService extends BaseService
     }
     
     // get all modules
-    public List<Module> GetAllModules()
+    public List<Module> getAllModules()
     {
         return moduleDAO.getAll();
     }
@@ -47,7 +47,8 @@ public class ModuleService extends BaseService
     // get all modules from a specific user
     public Module getModulesByUserId(String id, List userModules)
     {
-        //return ModuleDAO userDAO.getAll(id);
+        
+        return ModuleDAO userDAO.getAll(id);
     }
     
     //Assign a module to a specific user
