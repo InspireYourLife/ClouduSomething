@@ -42,5 +42,11 @@ public class UserService extends BaseService
         
         userDAO.create(newUser);
     }
+
+    public int getPoints(String id)
+    {
+        User u = userDAO.get(id);
+        return u.getCollectedPoints();
+    }
     
 }
