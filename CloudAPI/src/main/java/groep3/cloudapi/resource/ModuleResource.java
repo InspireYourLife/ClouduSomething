@@ -38,6 +38,7 @@ public class ModuleResource extends BaseResource
     
     // Get all modules 
     @GET
+    @Path ("Modules/")
     public List<Module> getAllModules()
     {
         List<Module> modules = moduleService.getAll();
