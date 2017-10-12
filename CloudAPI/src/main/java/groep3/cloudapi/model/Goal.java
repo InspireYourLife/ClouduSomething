@@ -8,7 +8,7 @@ import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
-@Entity (value = "goal")
+@Entity (value = "goals")
 public class Goal extends EntityModel 
 {
     @Embedded

@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
-@Entity (value = "calendar")
+@Entity (value = "calendars")
 public class Calendar extends EntityModel 
 {
     @Reference
