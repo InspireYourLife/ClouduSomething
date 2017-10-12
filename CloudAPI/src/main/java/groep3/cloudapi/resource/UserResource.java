@@ -2,10 +2,13 @@ package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Goal;
 import groep3.cloudapi.model.Module;
+import groep3.cloudapi.model.Calendar;
+import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.GoalPresenter;
 import groep3.cloudapi.presentation.model.UserPresenter;
 import groep3.cloudapi.service.GoalService;
+import groep3.cloudapi.service.NotificationService;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.inject.Inject;
@@ -25,14 +28,16 @@ import javax.ws.rs.core.MediaType;
 public class UserResource extends BaseResource
 {
     private final UserService userService;
+    private final NotificationService notificationService;
     //private final UserPresenter userPresenter;
     private final GoalService goalService;
     private final GoalPresenter goalPresenter;
     
     @Inject
-    public UserResource (UserService userService, UserPresenter userPresenter, GoalService goalService, GoalPresenter goalPresenter)
+    public UserResource (UserService userService, UserPresenter userPresenter, GoalService goalService, GoalPresenter goalPresenter, NotificationService notificationService)
     {
         this.userService = userService;
+        this.notificationService = notificationService;
        // this.userPresenter = userPresenter;
         this.goalService = goalService;
         this.goalPresenter = goalPresenter;
@@ -43,6 +48,14 @@ public class UserResource extends BaseResource
     {
         List<User> users = userService.GetAll();
         return users;
+    }
+    
+    @GET
+    @Path( "/{id}" )
+    public User getUserById(@PathParam( "id") String id)
+    {
+        User user = userService.getUserById(id);
+        return user;
     }
     
     @POST
@@ -108,5 +121,28 @@ public class UserResource extends BaseResource
     public Module GetModule()
     {
         return null;
+    }
+    
+    @Path( "/{id}/points")
+    public int getPoints(@PathParam( "id") String id)
+    {
+        int points = userService.getPoints(id);
+        return points;
+    }
+    
+    @GET
+    @Path( "/{id}/notifications")
+    public List<Notification> getNotifications(@PathParam( "id") String id)
+    {
+        List<Notification> notifications = notificationService.getNotifications(id);
+        return notifications;
+    }
+    
+    @GET
+    @Path( "/{id}/calendar")
+    public Calendar getCalendar(@PathParam("id") String id)
+    {
+        Calendar calendar = userService.getCalendar(id);
+        return calendar;
     }
 }
