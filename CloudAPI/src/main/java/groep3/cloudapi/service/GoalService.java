@@ -28,33 +28,30 @@ public class GoalService extends BaseService
 
     public Goal GetGoal(String goalId)
     {
-        Goal goal = goalDAO.get(goalId);
-        return goal;
+        return goalDAO.get(goalId);
     }
     
     public List<Goal> GetAll()
     {
-        List<Goal> goals = goalDAO.getAll();
-        return goals;
+        return goalDAO.getAll();
+    }
+    
+    public List<Goal> GetAll(String moduleId)
+    {
+        // Moet nog toegevoegd worden in de baseDAO/goalDAO
+        //return goalDAO.getAll(moduleId);
+        return null;
     }
     
     public List<Goal> GetAll(List<Module> modules)
     {
-        List<Goal> goals = goalDAO.getAll(modules);
-        return goals;
-    }
-    
-    public List<Goal> GetAll(Module module)
-    {
-        List<Goal> goals = goalDAO.getAll(module);
-        return goals;
+        // Moet nog toegevoegd worden in de baseDAO/goalDAO
+        return goalDAO.getAll(modules);
     }
 
     public void create(Goal newGoal)
     {
-        Date currentTime = Date.from(Instant.now());
-        newGoal.setCreationDate(currentTime);
-        
-        goalDAO.create(newGoal);
+        // Needs save method in moduleDAO
+        //moduleDAO.create(newGoal);
     }
 }

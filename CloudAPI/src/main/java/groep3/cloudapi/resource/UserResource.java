@@ -54,40 +54,53 @@ public class UserResource extends BaseResource
     
     @GET
     @Path("/{userId}/goals")
-    public GoalPresenter get(@PathParam("userId") String userId) 
+    public List<Goal> get(@PathParam("userId") String userId) 
     {
-        List<Module> modules = GetModules(); //TODO: Pas methode aan naar functie van tim om modules op te halen
+        List<Module> modules = GetModules(userId); //TODO: Pas methode aan naar functie van tim om modules op te halen
         
         List<Goal> goals = goalService.GetAll(modules);
         
-        return null;
-        //return goalPresenter.present(goals);
+        return goals;
     }
     
     @GET
     @Path("/{userId}/goals/{ModulesId}/goals")
-    public GoalPresenter get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId) 
-    {
-        Module module = GetModule(); //TODO: Pas methode aan naar functie van tim om een module op te halen
+    public List<Goal> get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId) 
+    {   
+        List<Goal> goals = goalService.GetAll(moduleId);
         
-        List<Goal> goals = goalService.GetAll(module);
-        
-        return null;
-        //return goalPresenter.present(goals);
+        return goals;
     }
     
     @GET
     @Path("/{userId}/goals/{ModulesId}/goals/{GoalId}")
-    public GoalPresenter get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
+    public Goal get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
     {
         Goal goal = goalService.GetGoal( goalId );
         
+        return goal;
+    }
+    
+    @POST
+    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}")
+    public Goal post(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
+    {
+        Module module = GetModule(moduleId); //<-- method van Tim om specifieke module te verkrijgen
+        
+        // pak alle goalid's
+        // [Lijst goalId's in module].Add(goalId)
+        // moduleService.save(module);
+        
         return null;
-        //return goalPresenter.present(goal);
     }
     
     // Tijdelijk, tot methode van Tim er is
-    public List<Module> GetModules()
+    public List<Module> GetModules(String userId)
+    {
+        return null;
+    }
+    // Tijdelijk, tot methode van Tim er is
+    public Module GetModule(String userId)
     {
         return null;
     }
