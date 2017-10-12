@@ -1,10 +1,15 @@
 package groep3.cloudapi.resource;
 
+
+import groep3.cloudapi.model.Goal;
+import groep3.cloudapi.model.Module;
 import groep3.cloudapi.service.ContactService;
 import groep3.cloudapi.model.Calendar;
 import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.presentation.model.GoalPresenter;
 import groep3.cloudapi.presentation.model.UserPresenter;
+import groep3.cloudapi.service.GoalService;
 import groep3.cloudapi.service.NotificationService;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
@@ -28,15 +33,19 @@ public class UserResource extends BaseResource
     private final ContactService contactService;
     private final NotificationService notificationService;
     //private final UserPresenter userPresenter;
+    private final GoalService goalService;
+    private final GoalPresenter goalPresenter;
      
     @Inject
-    public UserResource (UserService userService, NotificationService notificationService, ContactService contactService, UserPresenter userPresenter)
+    public UserResource (UserService userService, NotificationService notificationService, GoalService goalService, GoalPresenter goalPresenter, ContactService contactService, UserPresenter userPresenter)
     {
         this.userService = userService;
         this.notificationService = notificationService;
         this.contactService = contactService; 
 
        // this.userPresenter = userPresenter;
+        this.goalService = goalService;
+        this.goalPresenter = goalPresenter;
     }
     
     @GET
@@ -87,6 +96,63 @@ public class UserResource extends BaseResource
     }
     
     @GET
+    @Path("/{userId}/goals")
+    public List<Goal> get(@PathParam("userId") String userId) 
+    {
+        List<Module> modules = GetModules(userId); //TODO: Pas methode aan naar functie van tim om modules op te halen
+        
+        List<Goal> goals = goalService.GetAll(modules);
+        
+        return goals;
+    }
+    
+    @GET
+    @Path("/{userId}/goals/{ModulesId}/goals")
+    public List<Goal> get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId) 
+    {   
+        List<Goal> goals = goalService.GetAll(moduleId);
+        
+        return goals;
+    }
+    
+    @GET
+    @Path("/{userId}/goals/{ModulesId}/goals/{GoalId}")
+    public Goal get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
+    {
+        Goal goal = goalService.GetGoal( goalId );
+        
+        return goal;
+    }
+    
+    @POST
+    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}")
+    public Goal post(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
+    {
+        Module module = GetModule(moduleId); //<-- method van Tim om specifieke module te verkrijgen
+        
+        // pak alle goalid's
+        // [Lijst goalId's in module].Add(goalId)
+        // moduleService.save(module);
+        
+        return null;
+    }
+    
+    // Tijdelijk, tot methode van Tim er is
+    public List<Module> GetModules(String userId)
+    {
+        return null;
+    }
+    // Tijdelijk, tot methode van Tim er is
+    public Module GetModule(String userId)
+    {
+        return null;
+    }
+    // Tijdelijk, tot methode van Tim er is
+    public Module GetModule()
+    {
+        return null;
+    }
+    
     @Path( "/{id}/points")
     public int getPoints(@PathParam( "id") String id)
     {

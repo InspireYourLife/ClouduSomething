@@ -1,5 +1,6 @@
 package groep3.cloudapi.persistence;
 
+import com.google.inject.util.Modules;
 import groep3.cloudapi.model.EntityModel;
 import java.util.List;
 import javax.inject.Singleton;
@@ -24,6 +25,12 @@ public abstract class BaseDAO<T extends EntityModel> extends BasicDAO<T, ObjectI
     {
         return find().asList();
     }
+    
+    // TODO: Deze moet toegevoegd worden
+    //public List<T> getAll(String id)
+    //{
+    //    return find().asList();
+    //}
     
     public void create (T obj)
     {
