@@ -1,6 +1,7 @@
 package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.Module;
+import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.util.List;
@@ -47,16 +48,15 @@ public class ModuleService extends BaseService
     }
     
     // get all modules from a specific user
-    public Module getModulesByUserId(String id, List userModules)
+    public User getModulesByUserId(String id, List userModules)
     {
-        
-        return ModuleDAO userDAO.getAll(id);
+        return userDAO.get(id);
     }
     
     //Assign a module to a specific user
-    public void assignModule (String id, Module modId)
+    public User assignModule (String id, Module modId)
     {
-        modId.
+        
     }
     
     //Get specific module from specific user
