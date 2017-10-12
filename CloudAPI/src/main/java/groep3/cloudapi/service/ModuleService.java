@@ -40,8 +40,10 @@ public class ModuleService extends BaseService
     //Create a new module
     public void createModule (Module newModule)
     {
+        //name needs to be made dynamic
         String name = "";
-        
+        newModule.setName(name);
+        moduleDAO.create(newModule);
     }
     
     // get all modules from a specific user
@@ -52,13 +54,13 @@ public class ModuleService extends BaseService
     }
     
     //Assign a module to a specific user
-    public void assignModule (String id)
+    public void assignModule (String id, Module modId)
     {
-        
+        modId.
     }
     
     //Get specific module from specific user
-    public void getUserModule()
+    public void getUserModule(Module modId, String id)
     {
         
     }

@@ -70,6 +70,7 @@ public class ModuleResource extends BaseResource
     public Module assignModule(String id);
     {
         moduleService.assignModule(id);
+        
     }
     
     //Get specific module from specific user
