@@ -50,26 +50,26 @@ public class ModuleResource extends BaseResource
     @Path ("/modules")
     public Module createModule(@Valid Module newModule)
     {
-            moduleService.createModule(newModule);
+        moduleService.createModule(newModule);
         return newModule;
     }
     
     //Get all modules from specific user
     @GET
     @Path ("/Users/{UserId}/modules")
-    public List<Module> getModulesByUserId(String Id)
+    public List<Module> getModulesByUserId(String Id, List userModule)
     {
         //How to incorporate the user id here?
-        List<Module> userModules = moduleService.getModulesByUserId(Id);
+        List<Module> userModules = moduleService.getModulesByUserId(Id, userModule);
         return userModules;
     }
     
     //Assign module to specific userId
     @POST
     @Path ("/Users/{UserId}/modules")
-    public Module assignModule();
+    public Module assignModule(String id);
     {
-        
+        moduleService.assignModule(id);
     }
     
     //Get specific module from specific user

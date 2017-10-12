@@ -52,7 +52,7 @@ public class ModuleService extends BaseService
     }
     
     //Assign a module to a specific user
-    public void assignModule ()
+    public void assignModule (String id)
     {
         
     }
