@@ -1,5 +1,6 @@
 package groep3.cloudapi.service;
 
+import groep3.cloudapi.model.Calendar;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
@@ -48,5 +49,10 @@ public class UserService extends BaseService
         User u = userDAO.get(id);
         return u.getCollectedPoints();
     }
-    
+
+    public Calendar getCalendar(String id)
+    {
+        User u = userDAO.get(id);
+        return u.getCalendar();
+    }
 }

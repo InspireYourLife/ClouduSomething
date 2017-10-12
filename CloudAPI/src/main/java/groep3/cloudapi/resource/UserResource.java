@@ -1,5 +1,6 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.Calendar;
 import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.UserPresenter;
@@ -70,5 +71,13 @@ public class UserResource extends BaseResource
     {
         List<Notification> notifications = notificationService.getNotifications(id);
         return notifications;
+    }
+    
+    @GET
+    @Path( "/{id}/calendar")
+    public Calendar getCalendar(@PathParam("id") String id)
+    {
+        Calendar calendar = userService.getCalendar(id);
+        return calendar;
     }
 }
