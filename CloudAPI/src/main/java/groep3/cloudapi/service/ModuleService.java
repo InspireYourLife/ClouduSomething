@@ -54,14 +54,14 @@ public class ModuleService extends BaseService
     }
     
     //Assign a module to a specific user
-    public User assignModule (String id, Module modId)
-    {
-        
-    }
-    
-    //Get specific module from specific user
-    public void getUserModule(Module modId, String id)
-    {
-        
-    }
+//    public User assignModule (String id, Module modId)
+//    {
+//        
+//    }
+//    
+//    //Get specific module from specific user
+//    public void getUserModule(Module modId, String id)
+//    {
+//        
+//    }
 }
