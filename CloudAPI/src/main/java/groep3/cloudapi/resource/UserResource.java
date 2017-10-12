@@ -1,5 +1,6 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.service.ContactService;
 import groep3.cloudapi.model.Calendar;
 import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
@@ -24,14 +25,17 @@ import javax.ws.rs.core.MediaType;
 public class UserResource extends BaseResource
 {
     private final UserService userService;
+    private final ContactService contactService;
     private final NotificationService notificationService;
     //private final UserPresenter userPresenter;
-    
+     
     @Inject
-    public UserResource (UserService userService, NotificationService notificationService, UserPresenter userPresenter)
+    public UserResource (UserService userService, NotificationService notificationService, ContactService contactService, UserPresenter userPresenter)
     {
         this.userService = userService;
         this.notificationService = notificationService;
+        this.contactService = contactService; 
+
        // this.userPresenter = userPresenter;
     }
     
@@ -43,11 +47,36 @@ public class UserResource extends BaseResource
     }
     
     @GET
+    @Path ( "/{UserId}" )
+    public List <User> getAllContacts(@PathParam ("UserId") String userId)
+    {
+        List<User> contacts = contactService.getAllContacts(userId);
+        return contacts;
+    }
+    
+    @GET
+    @Path ("/{UserId}/{ContactId}")
+    public User getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
+    {
+        User contact = contactService.getContact(userId, contactId);
+        return contact;
+    }
+    
+    @POST
+    @Path ("/{UserId}/{ContactId}")
+    public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") int contactId, Notification newMessage)
+    {
+        contactService.sendMessage(userId, contactId, newMessage);
+        return newMessage;
+    }
+    
+    @GET
     @Path( "/{id}" )
     public User getUserById(@PathParam( "id") String id)
     {
         User user = userService.getUserById(id);
         return user;
+
     }
     
     @POST
