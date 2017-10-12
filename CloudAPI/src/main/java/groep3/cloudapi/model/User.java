@@ -33,7 +33,7 @@ public class User extends EntityModel
     int collectedPoints;
     
     @Embedded
-    //@NotEmpty
+    @NotEmpty
     Role role;
     
     @Reference
@@ -41,6 +41,9 @@ public class User extends EntityModel
     
     @Reference
     List<User> contacts = new ArrayList<User>();
+    
+    @Reference
+    Calendar calendar;
     
     @Embedded
     String image;
@@ -138,6 +141,16 @@ public class User extends EntityModel
         this.contacts = contacts;
     }
 
+    public Calendar getCalendar()
+    {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar)
+    {
+        this.calendar = calendar;
+    }
+    
     public String getImage()
     {
         return image;
