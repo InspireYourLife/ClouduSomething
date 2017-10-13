@@ -26,12 +26,6 @@ public abstract class BaseDAO<T extends EntityModel> extends BasicDAO<T, ObjectI
         return find().asList();
     }
     
-    // TODO: Deze moet toegevoegd worden
-    //public List<T> getAll(String id)
-    //{
-    //    return find().asList();
-    //}
-    
     public void create (T obj)
     {
         save(obj);
