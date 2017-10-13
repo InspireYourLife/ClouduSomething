@@ -1,5 +1,6 @@
 package groep3.cloudapi.persistence;
 
+import com.google.inject.util.Modules;
 import groep3.cloudapi.model.EntityModel;
 import java.util.List;
 import javax.inject.Singleton;

@@ -2,6 +2,7 @@ package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.Calendar;
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.persistence.CalendarDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
 import java.util.Date;
@@ -11,6 +12,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.bson.types.ObjectId;
 
 @Path( "/users" )
 @Consumes ( MediaType.APPLICATION_JSON )
@@ -19,11 +21,13 @@ import javax.ws.rs.core.MediaType;
 public class UserService extends BaseService
 {
     private final UserDAO userDAO;
+    private final CalendarDAO calendarDAO;
 
     @Inject
-    public UserService(UserDAO userDAO)
+    public UserService(UserDAO userDAO, CalendarDAO calendarDAO)
     {
         this.userDAO = userDAO;
+        this.calendarDAO = calendarDAO;
     }
 
     public List<User> GetAll()
@@ -53,6 +57,10 @@ public class UserService extends BaseService
     public Calendar getCalendar(String id)
     {
         User u = userDAO.get(id);
-        return u.getCalendar();
+        
+        ObjectId calendarId = u.getCalendar().getId();
+        Calendar c = calendarDAO.get(calendarId);
+        
+        return c;
     }
 }

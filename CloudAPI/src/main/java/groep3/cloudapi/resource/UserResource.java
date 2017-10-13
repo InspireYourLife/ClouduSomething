@@ -1,10 +1,7 @@
 package groep3.cloudapi.resource;
 
-import groep3.cloudapi.model.Calendar;
-import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.UserPresenter;
-import groep3.cloudapi.service.NotificationService;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.inject.Inject;
@@ -24,17 +21,17 @@ import javax.ws.rs.core.MediaType;
 public class UserResource extends BaseResource
 {
     private final UserService userService;
-    private final NotificationService notificationService;
     //private final UserPresenter userPresenter;
-    
+     
     @Inject
-    public UserResource (UserService userService, NotificationService notificationService, UserPresenter userPresenter)
+
+    public UserResource (UserService userService, UserPresenter userPresenter)
     {
         this.userService = userService;
-        this.notificationService = notificationService;
        // this.userPresenter = userPresenter;
     }
     
+    //Get Calls - User
     @GET
     public List <User> getAll()
     {
@@ -50,13 +47,6 @@ public class UserResource extends BaseResource
         return user;
     }
     
-    @POST
-    public User create(@Valid User newUser)
-    {
-        userService.create(newUser);
-        return newUser;
-    }
-    
     @GET
     @Path( "/{id}/points")
     public int getPoints(@PathParam( "id") String id)
@@ -65,19 +55,11 @@ public class UserResource extends BaseResource
         return points;
     }
     
-    @GET
-    @Path( "/{id}/notifications")
-    public List<Notification> getNotifications(@PathParam( "id") String id)
+    //Post Calls - User
+    @POST
+    public User create(@Valid User newUser)
     {
-        List<Notification> notifications = notificationService.getNotifications(id);
-        return notifications;
-    }
-    
-    @GET
-    @Path( "/{id}/calendar")
-    public Calendar getCalendar(@PathParam("id") String id)
-    {
-        Calendar calendar = userService.getCalendar(id);
-        return calendar;
+        userService.create(newUser);
+        return newUser;
     }
 }
