@@ -1,15 +1,7 @@
 package groep3.cloudapi.resource;
 
-import groep3.cloudapi.model.Goal;
-import groep3.cloudapi.model.Module;
-import groep3.cloudapi.service.ContactService;
-import groep3.cloudapi.model.Calendar;
-import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
-import groep3.cloudapi.presentation.model.GoalPresenter;
 import groep3.cloudapi.presentation.model.UserPresenter;
-import groep3.cloudapi.service.GoalService;
-import groep3.cloudapi.service.NotificationService;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.inject.Inject;
@@ -29,24 +21,17 @@ import javax.ws.rs.core.MediaType;
 public class UserResource extends BaseResource
 {
     private final UserService userService;
-    private final ContactService contactService;
-    private final NotificationService notificationService;
     //private final UserPresenter userPresenter;
-    private final GoalService goalService;
-    private final GoalPresenter goalPresenter;
      
     @Inject
 
-    public UserResource (UserService userService, NotificationService notificationService, GoalService goalService, GoalPresenter goalPresenter, ContactService contactService, UserPresenter userPresenter)
+    public UserResource (UserService userService, UserPresenter userPresenter)
     {
         this.userService = userService;
-        this.notificationService = notificationService;
-        this.contactService = contactService; 
        // this.userPresenter = userPresenter;
-        this.goalService = goalService;
-        this.goalPresenter = goalPresenter;
     }
     
+    //Get Calls - User
     @GET
     public List <User> getAll()
     {
@@ -55,104 +40,14 @@ public class UserResource extends BaseResource
     }
     
     @GET
-    @Path ( "/{UserId}" )
-    public List <User> getAllContacts(@PathParam ("UserId") String userId)
-    {
-        List<User> contacts = contactService.getAllContacts(userId);
-        return contacts;
-    }
-    
-    @GET
-    @Path ("/{UserId}/{ContactId}")
-    public User getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
-    {
-        User contact = contactService.getContact(userId, contactId);
-        return contact;
-    }
-    
-    @POST
-    @Path ("/{UserId}/{ContactId}")
-    public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") int contactId, Notification newMessage)
-    {
-        contactService.sendMessage(userId, contactId, newMessage);
-        return newMessage;
-    }
-    
-    @GET
     @Path( "/{id}" )
     public User getUserById(@PathParam( "id") String id)
     {
         User user = userService.getUserById(id);
         return user;
-
-    }
-    
-    @POST
-    public User create(@Valid User newUser)
-    {
-        userService.create(newUser);
-        return newUser;
     }
     
     @GET
-
-    @Path("/{userId}/goals")
-    public List<Goal> get(@PathParam("userId") String userId) 
-    {
-        List<Module> modules = GetModules(userId); //TODO: Pas methode aan naar functie van tim om modules op te halen
-        
-        List<Goal> goals = goalService.GetAll(modules);
-        
-        return goals;
-    }
-    
-    @GET
-    @Path("/{userId}/goals/{ModulesId}/goals")
-    public List<Goal> get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId) 
-    {   
-        List<Goal> goals = goalService.GetAll(moduleId);
-        
-        return goals;
-    }
-    
-    @GET
-    @Path("/{userId}/goals/{ModulesId}/goals/{GoalId}")
-    public Goal get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
-    {
-        Goal goal = goalService.GetGoal( goalId );
-        
-        return goal;
-    }
-    
-    @POST
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}")
-    public Goal post(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
-    {
-        Module module = GetModule(moduleId); //<-- method van Tim om specifieke module te verkrijgen
-        
-        // pak alle goalid's
-        // [Lijst goalId's in module].Add(goalId)
-        // moduleService.save(module);
-        
-        return null;
-    }
-    
-    // Tijdelijk, tot methode van Tim er is
-    public List<Module> GetModules(String userId)
-    {
-        return null;
-    }
-    // Tijdelijk, tot methode van Tim er is
-    public Module GetModule(String userId)
-    {
-        return null;
-    }
-    // Tijdelijk, tot methode van Tim er is
-    public Module GetModule()
-    {
-        return null;
-    }
-    
     @Path( "/{id}/points")
     public int getPoints(@PathParam( "id") String id)
     {
@@ -160,19 +55,11 @@ public class UserResource extends BaseResource
         return points;
     }
     
-    @GET
-    @Path( "/{id}/notifications")
-    public List<Notification> getNotifications(@PathParam( "id") String id)
+    //Post Calls - User
+    @POST
+    public User create(@Valid User newUser)
     {
-        List<Notification> notifications = notificationService.getNotifications(id);
-        return notifications;
-    }
-    
-    @GET
-    @Path( "/{id}/calendar")
-    public Calendar getCalendar(@PathParam("id") String id)
-    {
-        Calendar calendar = userService.getCalendar(id);
-        return calendar;
+        userService.create(newUser);
+        return newUser;
     }
 }

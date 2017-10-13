@@ -2,6 +2,7 @@ package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.Goal;
 import groep3.cloudapi.model.Task;
+import groep3.cloudapi.persistence.GoalDAO;
 import groep3.cloudapi.persistence.TaskDAO;
 import java.time.Instant;
 import java.util.Date;
@@ -18,29 +19,29 @@ public class TaskService extends BaseService{
         this.goalDAO = goalDAO;
     }
 
-    public List<Task> getTasks(String userId, int moduleId, int goalId) 
+    public List<Task> getTasks(String userId, String moduleId, String goalId) 
     {    
-        Goal goal = goalDAO.getById(goalId);
+        Goal goal = goalDAO.get(goalId);
         List<Task> tasks = goal.getTasks();
         return tasks;
     }
 
-    public Task getSpecificTask(String userId, int moduleId, int goalId, int taskId) 
+    public Task getSpecificTask(String userId, String moduleId, String goalId, String taskId) 
     {
-        Goal goal = goalDAO.getById(goalId);
+        Goal goal = goalDAO.get(goalId);
         List<Task> tasks = goal.getTasks();
         
-        Task task = tasks.get(taskId);
+        Task task = taskDAO.get(taskId);
         
         return task;
     }
 
-    public void createTask(String userId, int moduleId, int goalId, Task newTask)
+    public void createTask(String userId, String moduleId, String goalId, Task newTask)
     {
         Date currentTime = Date.from(Instant.now());
         newTask.setCreationDate(currentTime);
         
-        Goal goal = goalDAO.getById(goalId);
+        Goal goal = goalDAO.get(goalId);
         List<Task> tasks = goal.getTasks();
         tasks.add(newTask);
         

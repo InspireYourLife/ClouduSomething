@@ -27,23 +27,23 @@ public class TaskResource extends BaseResource{
     }
     
     @GET
-    @Path("/{UserId}/{ModuleId}/{GoalId}")
-    public List<Task> getTasks(@PathParam ("UserId") String userId, @PathParam ("ModuleId") int moduleId, @PathParam ("GoalId") int goalId)
+    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
+    public List<Task> getTasks(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId)
     {
         List<Task> task = taskService.getTasks(userId, moduleId, goalId);
         return task;
     }
     @GET
-    @Path("/{UserId}/{ModuleId}/{GoalId}/{TaskId}")
-    public Task getSpecificTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") int moduleId, @PathParam ("GoalId") int goalId, @PathParam ("TaskId") int taskId)
+    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
+    public Task getSpecificTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
     {
         Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId);
         return task;
     }
     
     @POST
-    @Path("/{UserId}/{ModuleId}/{GoalId}")
-    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") int moduleId, @PathParam ("GoalId") int goalId, @Valid Task newTask)
+    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
+    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @Valid Task newTask)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
         return newTask;

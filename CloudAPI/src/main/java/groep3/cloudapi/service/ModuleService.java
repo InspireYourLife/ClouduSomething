@@ -11,11 +11,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-/**
- *
- * @author Tim
- */
-
 @Path ("/Modules")
 @Consumes ( MediaType.APPLICATION_JSON )
 @Produces ( MediaType.APPLICATION_JSON )
@@ -41,16 +36,17 @@ public class ModuleService extends BaseService
     //Create a new module
     public void createModule (Module newModule)
     {
-        //name needs to be made dynamic
-        String name = "";
-        newModule.setName(name);
         moduleDAO.create(newModule);
     }
     
     // get all modules from a specific user
-    public User getModulesByUserId(String id, List userModules)
+    public List<Module> getModulesByUserId(String id, List userModules)
     {
-        return userDAO.get(id);
+        User u = userDAO.get(id);
+        List<Module> m = u.getModules();
+        return m;
+        
+        //TODO m foreach loop -> module doe je een get op de ModuleDAO en die stop je in een nieuwe lijst.
     }
     
     //Assign a module to a specific user

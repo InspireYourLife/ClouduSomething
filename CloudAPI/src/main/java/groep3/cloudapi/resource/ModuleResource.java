@@ -53,31 +53,4 @@ public class ModuleResource extends BaseResource
         moduleService.createModule(newModule);
         return newModule;
     }
-    
-//    //Get all modules from specific user
-//    @GET
-//    @Path ("/Users/{UserId}/modules")
-//    public List<Module> getModulesByUserId(String Id, List userModule)
-//    {
-//        //How to incorporate the user id here?
-//        List<Module> userModules = moduleService.getModulesByUserId(Id, userModule);
-//        return userModules;
-//    }
-//    
-//    //Assign module to specific userId
-//    @POST
-//    @Path ("/Users/{UserId}/modules")
-//    public assignModule(String id);
-//    {
-//        moduleService.assignModule(id);
-//        
-//    }
-//    
-//    //Get specific module from specific user
-//    @GET
-//    @Path ("/Users/{UserId}/modules/{ModuleId}")
-//    public List<Module> getUserModule()
-//    {
-//        
-//    }
 }
