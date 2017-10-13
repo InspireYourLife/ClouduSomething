@@ -1,6 +1,5 @@
 package groep3.cloudapi.resource;
 
-
 import groep3.cloudapi.model.Goal;
 import groep3.cloudapi.model.Module;
 import groep3.cloudapi.service.ContactService;
@@ -37,12 +36,12 @@ public class UserResource extends BaseResource
     private final GoalPresenter goalPresenter;
      
     @Inject
+
     public UserResource (UserService userService, NotificationService notificationService, GoalService goalService, GoalPresenter goalPresenter, ContactService contactService, UserPresenter userPresenter)
     {
         this.userService = userService;
         this.notificationService = notificationService;
         this.contactService = contactService; 
-
        // this.userPresenter = userPresenter;
         this.goalService = goalService;
         this.goalPresenter = goalPresenter;
@@ -96,6 +95,7 @@ public class UserResource extends BaseResource
     }
     
     @GET
+
     @Path("/{userId}/goals")
     public List<Goal> get(@PathParam("userId") String userId) 
     {
