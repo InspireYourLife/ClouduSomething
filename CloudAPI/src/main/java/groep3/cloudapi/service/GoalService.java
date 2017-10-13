@@ -51,7 +51,6 @@ public class GoalService extends BaseService
 
     public void create(Goal newGoal)
     {
-        // Needs save method in moduleDAO
-        //moduleDAO.create(newGoal);
+        goalDAO.save(newGoal);
     }
 }

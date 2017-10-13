@@ -25,7 +25,7 @@ public class GoalDAO extends BaseDAO<Goal>
     
     public List<Goal> getAll(List<Module> modules)
     {
-        List<Goal> allGoals = new ArrayList<Goal>();
+        List<Goal> allGoals = new ArrayList<>();
         
         // Haal alle goals op uit de lijst van meegegeven modules, en voeg ze toe aan de 'allGoals' list
         
@@ -34,7 +34,7 @@ public class GoalDAO extends BaseDAO<Goal>
     
     public List<Goal> getAll(Module module)
     {
-        List<Goal> allGoals = new ArrayList<Goal>();
+        List<Goal> allGoals = new ArrayList<>();
         
         // Haal alle goals op uit de lijst van meegegeven modules, en voeg ze toe aan de 'allGoals' list
         
