@@ -3,6 +3,7 @@ package groep3.cloudapi.resource;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.UserPresenter;
 import groep3.cloudapi.service.UserService;
+import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
@@ -33,7 +34,7 @@ public class UserResource extends BaseResource
     
     //Get Calls - User
     @GET
-    public List <User> getAll()
+    public List <User> getAll(@Auth User authenticatedUser)
     {
         List<User> users = userService.GetAll();
         return users;
