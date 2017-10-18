@@ -1,5 +1,6 @@
 package groep3.cloudapi.model;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,7 @@ import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
 @Entity (value = "users")
-public class User extends EntityModel
+public class User extends EntityModel implements Principal
 {
     @Embedded
     @NotEmpty
