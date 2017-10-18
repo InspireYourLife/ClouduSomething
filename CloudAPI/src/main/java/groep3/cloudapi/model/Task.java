@@ -36,6 +36,9 @@ public class Task extends EntityModel
     @Embedded
     @NotEmpty
     Date creationDate;
+    
+    @Embedded
+    String feedback;
 
     public User getOwner()
     {
@@ -105,6 +108,16 @@ public class Task extends EntityModel
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
+    }
+    
+    public String getFeedback() 
+    {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) 
+    {
+        this.feedback = feedback;
     }
 
     

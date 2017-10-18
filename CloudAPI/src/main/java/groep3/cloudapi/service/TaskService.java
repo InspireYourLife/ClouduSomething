@@ -27,12 +27,8 @@ public class TaskService extends BaseService{
     }
 
     public Task getSpecificTask(String userId, String moduleId, String goalId, String taskId) 
-    {
-        Goal goal = goalDAO.get(goalId);
-        List<Task> tasks = goal.getTasks();
-        
-        Task task = taskDAO.get(taskId);
-        
+    {   
+        Task task = taskDAO.get(taskId);   
         return task;
     }
 
@@ -46,6 +42,7 @@ public class TaskService extends BaseService{
         tasks.add(newTask);
         
         taskDAO.create(newTask);
+        goalDAO.create(goal);
         
     }
 }

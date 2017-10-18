@@ -16,12 +16,12 @@ import javax.ws.rs.core.MediaType;
 @Path ("/users")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
-public class TaskResource extends BaseResource{
+public class UserTaskResource extends BaseResource{
     
     private final TaskService taskService;
     
     @Inject
-    public TaskResource (TaskService taskService){
+    public UserTaskResource (TaskService taskService){
         
         this.taskService = taskService;
     }
