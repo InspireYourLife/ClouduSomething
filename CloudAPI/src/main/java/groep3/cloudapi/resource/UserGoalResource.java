@@ -50,61 +50,24 @@ public class UserGoalResource extends BaseResource
         return goalsFromModule;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     @GET
-    @Path("/{userId}/goals/{ModulesId}/goals")
-    public List<Goal> get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId) 
-    {   
-        List<Goal> goals = goalService.GetAll(moduleId);
-        
-        return goals;
-    }
-    
-    @GET
-    @Path("/{userId}/goals/{ModulesId}/goals/{GoalId}")
-    public Goal get(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
+    public Goal getGoal(@PathParam("goalId") String goalId)
     {
-        Goal goal = goalService.GetGoal( goalId );
-        
+        Goal goal = goalService.getGoal(goalId);
         return goal;
     }
-        
+    
+    
+    
+    
+    
+    
+    
+  
     @POST
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}")
     public Goal post(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
-    {
-        Module module = GetModule(moduleId); //<-- method van Tim om specifieke module te verkrijgen
-        
-        // pak alle goalid's
-        // [Lijst goalId's in module].Add(goalId)
-        // moduleService.save(module);
-        
-        return null;
-    }
-    
-    // Tijdelijk, tot methode van Tim er is
-    public List<Module> GetModules(String userId)
-    {
-        return null;
-    }
-    // Tijdelijk, tot methode van Tim er is
-    public Module GetModule(String userId)
-    {
-        return null;
-    }
-    // Tijdelijk, tot methode van Tim er is
-    public Module GetModule()
     {
         return null;
     }

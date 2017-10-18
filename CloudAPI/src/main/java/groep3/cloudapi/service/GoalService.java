@@ -9,14 +9,6 @@ import groep3.cloudapi.persistence.UserDAO;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-@Path( "/goals" )
-@Consumes ( MediaType.APPLICATION_JSON )
-@Produces ( MediaType.APPLICATION_JSON )
 
 public class GoalService extends BaseService
 {
@@ -30,6 +22,11 @@ public class GoalService extends BaseService
         this.goalDAO = goalDAO;
         this.userDAO = userDAO;
         this.moduleDAO = moduleDAO;
+    }
+    
+    public Goal getGoal(String goalId)
+    {
+        return goalDAO.get(goalId);
     }
     
     public List<Goal> getAll()
@@ -68,36 +65,10 @@ public class GoalService extends BaseService
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
-    public Goal GetGoal(String goalId)
-    {
-        return goalDAO.get(goalId);
-    }
     
-    public List<Goal> GetAll(String moduleId)
-    {
-        // Moet nog toegevoegd worden in de baseDAO/goalDAO
-        //return goalDAO.getAll(moduleId);
-        return null;
-    }
     
-    public List<Goal> GetAll(List<Module> modules)
-    {
-        // Moet nog toegevoegd worden in de baseDAO/goalDAO
-        return null;
-    }
-
+    
     public void create(Goal newGoal)
     {
         goalDAO.save(newGoal);

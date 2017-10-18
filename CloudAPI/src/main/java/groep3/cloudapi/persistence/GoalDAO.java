@@ -11,29 +11,4 @@ public class GoalDAO extends BaseDAO<Goal>
     {
         super(Goal.class, ds);
     }
-    
-//    public List<Goal> getAll(List<Module> modules)
-//    {
-//        List<Goal> allGoals = new ArrayList<>();
-//        
-//        // Haal alle goals op uit de lijst van meegegeven modules, en voeg ze toe aan de 'allGoals' list
-//        
-//        return allGoals;
-//    }
-//    
-//    public List<Goal> getAll(Module module)
-//    {
-//        List<Goal> allGoals = new ArrayList<>();
-//        
-//        // Haal alle goals op uit de lijst van meegegeven modules, en voeg ze toe aan de 'allGoals' list
-//        
-//        return allGoals;
-//    }
-    
-//    public Goal get(String goalId)
-//    {
-//        // Haal alle goals op uit de lijst van meegegeven modules, en voeg ze toe aan de 'allGoals' list
-//        
-//        return null;
-//    }
 }
