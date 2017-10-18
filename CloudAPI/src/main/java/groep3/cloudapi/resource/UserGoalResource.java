@@ -36,11 +36,25 @@ public class UserGoalResource extends BaseResource
     //Get Calls - Goals
     @GET
     @Path("/{userId}/goals")
-    public List<Goal> get(@PathParam("userId") String userId) 
+    public List<Goal> getAllGoalsFromUser(@PathParam("userId") String userId) 
     {
-        List<Goal> goals = goalService.getAllGoalsFromUser(userId);
-        return goals;
+        List<Goal> allGoalsFromUser = goalService.getAllGoalsFromUser(userId);
+        return allGoalsFromUser;
     }
+    
+    @GET
+    @Path("/{userId}/modules/{moduleId}/goals")
+    public List<Goal> getGoalsFormModule(@PathParam("userId") String userId, @PathParam("moduleId") String moduleId) 
+    {
+        List<Goal> goalsFromModule = goalService.getGoalsFromModule(moduleId);
+        return goalsFromModule;
+    }
+    
+    
+    
+    
+    
+    
     
     
     

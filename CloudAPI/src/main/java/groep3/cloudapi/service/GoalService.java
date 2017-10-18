@@ -23,7 +23,6 @@ public class GoalService extends BaseService
     private final GoalDAO goalDAO;
     private final UserDAO userDAO;
     private final ModuleDAO moduleDAO;
-    
 
     @Inject
     public GoalService(GoalDAO goalDAO, UserDAO userDAO, ModuleDAO moduleDAO)
@@ -60,6 +59,23 @@ public class GoalService extends BaseService
         
         return allGoalsFromUser;
     }
+    
+    public List<Goal> getGoalsFromModule(String moduleId)
+    {
+        List<Goal> goalsFormModule = moduleDAO.get(moduleId).getGoals();
+        return goalsFormModule;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
