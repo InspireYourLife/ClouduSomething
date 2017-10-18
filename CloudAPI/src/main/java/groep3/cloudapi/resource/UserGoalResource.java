@@ -38,12 +38,15 @@ public class UserGoalResource extends BaseResource
     @Path("/{userId}/goals")
     public List<Goal> get(@PathParam("userId") String userId) 
     {
-        List<Module> modules = GetModules(userId); //TODO: Pas methode aan naar functie van tim om modules op te halen
-        
-        List<Goal> goals = goalService.GetAll(modules);
-        
+        List<Goal> goals = goalService.getAllGoalsFromUser(userId);
         return goals;
     }
+    
+    
+    
+    
+    
+    
     
     @GET
     @Path("/{userId}/goals/{ModulesId}/goals")

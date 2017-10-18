@@ -13,7 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path( "/Goals" )
+@Path( "/goals" )
 @Consumes ( MediaType.APPLICATION_JSON )
 @Produces ( MediaType.APPLICATION_JSON )
 
@@ -32,7 +32,7 @@ public class GoalResource extends BaseResource
     @GET
     public List <Goal> getAll()
     {
-        List<Goal> goals = goalService.GetAll();
+        List<Goal> goals = goalService.getAll();
         return goals;
     }
     

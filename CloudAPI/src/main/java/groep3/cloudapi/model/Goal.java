@@ -17,10 +17,6 @@ public class Goal extends EntityModel
     
     @Embedded
     @NotEmpty
-    String goalCode;
-    
-    @Embedded
-    @NotEmpty
     String description;
     
     @Reference
@@ -35,7 +31,7 @@ public class Goal extends EntityModel
     
     @Embedded
     @NotEmpty
-    Boolean isComplete;
+    Boolean isCompleted;
     
     @Embedded
     @NotEmpty
@@ -53,16 +49,6 @@ public class Goal extends EntityModel
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public String getGoalCode()
-    {
-        return goalCode;
-    }
-
-    public void setGoalCode(String goalCode)
-    {
-        this.goalCode = goalCode;
     }
 
     public String getDescription()
@@ -107,12 +93,12 @@ public class Goal extends EntityModel
 
     public Boolean getIsComplete()
     {
-        return isComplete;
+        return isCompleted;
     }
 
-    public void setIsComplete(Boolean isComplete)
+    public void setIsComplete(Boolean isCompleted)
     {
-        this.isComplete = isComplete;
+        this.isCompleted = isCompleted;
     }
 
     public Boolean getIsApproved()
@@ -134,6 +120,4 @@ public class Goal extends EntityModel
     {
         this.creationDate = creationDate;
     }
-
-    
 }
