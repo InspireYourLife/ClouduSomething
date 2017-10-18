@@ -1,6 +1,8 @@
 package groep3.cloudapi;
 
 import com.hubspot.dropwizard.guice.GuiceBundle;
+import groep3.cloudapi.model.User;
+import groep3.cloudapi.service.AuthenticationService;
 import io.dropwizard.Application;
 import io.dropwizard.auth.AuthDynamicFeature;
 import io.dropwizard.auth.AuthValueFactoryProvider;
@@ -37,6 +39,14 @@ public class CloudApplication extends Application<CloudConfiguration>
     public void run( final CloudConfiguration configuration, 
                      final Environment environment) throws Exception
     {       
-        
+       environment.jersey().register(new AuthDynamicFeature(
+       new BasicCredentialAuthFilter.Builder<User>()
+       .setAuthenticator(
+            guiceBundle.getInjector().getInstance(
+            AuthenticationService.class))
+       .setRealm( "Super Secret Stuff")
+       .buildAuthFilter()));
+       
+       environment.jersey().register(new AuthValueFactoryProvider.Binder<>(User.class));
     }
 }
