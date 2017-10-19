@@ -6,7 +6,7 @@ import org.mongodb.morphia.annotations.Id;
 public abstract class EntityModel 
 {
     @Id
-    protected ObjectId id;
+    protected ObjectId id = new ObjectId();
 
     public ObjectId getId()
     {
