@@ -40,23 +40,17 @@ public class UserModuleResource extends BaseResource
 //    }
 //    
 //    //Assign module to specific userId
-    @POST
-    @Path ("/{UserId}/modules")
-    public Module assignModule(String userId, String modId);
-    {
-        moduleService.assignModule(userId, modId);
-        
-        
-        
-        
-    }
-        public Module createModule(@Valid Module newModule)
-    {
-        moduleService.createModule(newModule);
-        return newModule;
-    }
-    
-//    
+//    @POST
+//    @Path ("/{UserId}/modules")
+//    public Module assignModule(String userId, String modId);
+//    {
+//        moduleService.assignModule(userId, modId);
+//        
+//        
+//        
+//        
+//    }
+//  
 //    //Get specific module from specific user
     @GET
     @Path ("/{UserId}/{ModuleId}")
