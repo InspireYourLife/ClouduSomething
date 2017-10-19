@@ -43,7 +43,7 @@ public class UserTaskResource extends BaseResource{
     
     @POST
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
-    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @Valid Task newTask)
+    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, Task newTask)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
         return newTask;
