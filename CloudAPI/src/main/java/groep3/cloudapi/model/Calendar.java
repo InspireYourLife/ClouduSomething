@@ -9,25 +9,12 @@ import org.mongodb.morphia.annotations.Reference;
 @Entity (value = "calendars")
 public class Calendar extends EntityModel 
 {
-    @Reference
-    @NotEmpty
-    User owner;
     
     @Reference
     List<Goal> deadlines = new ArrayList<Goal>();
     
     @Reference
     List<Appointment> appointments = new ArrayList<Appointment>();
-
-    public User getOwner()
-    {
-        return owner;
-    }
-
-    public void setOwner(User owner)
-    {
-        this.owner = owner;
-    }
 
     public List<Goal> getDeadlines()
     {

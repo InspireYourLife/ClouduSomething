@@ -1,21 +1,23 @@
 package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.persistence.CalendarDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
-import org.bson.types.ObjectId;
 
 public class UserService extends BaseService
 {
+    private final CalendarDAO calendarDAO;
     private final UserDAO userDAO;
 
     @Inject
-    public UserService(UserDAO userDAO)
+    public UserService(UserDAO userDAO, CalendarDAO calendarDAO)
     {
         this.userDAO = userDAO;
+        this.calendarDAO = calendarDAO;
     }
 
     public List<User> GetAll()
@@ -38,6 +40,8 @@ public class UserService extends BaseService
     {
         Date currentTime = Date.from(Instant.now());
         newUser.setCreationDate(currentTime);
+        
+        calendarDAO.create(newUser.getCalendar());
         
         userDAO.create(newUser);
     }
