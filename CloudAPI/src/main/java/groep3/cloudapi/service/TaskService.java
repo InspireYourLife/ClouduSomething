@@ -7,12 +7,14 @@ import groep3.cloudapi.persistence.TaskDAO;
 import java.time.Instant;
 import java.util.Date;
 import java.util.List;
+import javax.inject.Inject;
 
 public class TaskService extends BaseService{
 
     private final TaskDAO taskDAO;
     private final GoalDAO goalDAO;
     
+    @Inject
     public TaskService(TaskDAO taskDAO, GoalDAO goalDAO)
     {
         this.taskDAO = taskDAO;

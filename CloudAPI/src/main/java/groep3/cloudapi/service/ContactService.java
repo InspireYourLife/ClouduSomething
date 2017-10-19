@@ -41,7 +41,8 @@ public class ContactService extends BaseService{
         
         return contact;
     }
-
+    
+    //Verplaatsen naar NotificationService
     public void sendMessage(String userId, int contactId, Notification newMessage) {
         
         User user = userDAO.get(userId);
