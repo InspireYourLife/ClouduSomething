@@ -20,7 +20,7 @@ public class Goal extends EntityModel
     String description;
     
     @Reference
-    @NotEmpty
+    //@NotEmpty
     List <Task> tasks = new ArrayList<Task>();
     
     @Embedded

@@ -6,7 +6,9 @@ import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.GoalDAO;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 
@@ -69,8 +71,23 @@ public class GoalService extends BaseService
     
     
     
+    public Goal switchApproveBool(String goalId)
+    {
+        Goal goal = goalDAO.get(goalId);
+        
+        boolean isApproved = goal.getIsApproved();
+        goal.setIsApproved(!isApproved);
+        
+        goalDAO.update(goal);
+        
+        return goal;
+    }
+    
     public void create(Goal newGoal)
     {
-        goalDAO.save(newGoal);
+        Date currentTime = Date.from(Instant.now());
+        newGoal.setCreationDate(currentTime);
+        
+        goalDAO.create(newGoal);
     }
 }

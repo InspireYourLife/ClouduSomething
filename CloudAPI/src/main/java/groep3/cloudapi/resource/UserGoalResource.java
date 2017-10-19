@@ -1,7 +1,6 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Goal;
-import groep3.cloudapi.model.Module;
 import groep3.cloudapi.presentation.model.GoalPresenter;
 import groep3.cloudapi.service.GoalService;
 import groep3.cloudapi.service.UserService;
@@ -10,6 +9,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -58,17 +58,27 @@ public class UserGoalResource extends BaseResource
         return goal;
     }
     
-    
+    @POST
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
+    public Goal post(@PathParam("userId") String userId, @PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId) 
+    {
+        //TODO: Should return a boolean?
+        return null;
+    }
     
     
     
     
     
   
-    @POST
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}")
-    public Goal post(@PathParam("userId") String userId, @PathParam("ModuleId") String moduleId, @PathParam("GoalId") String goalId) 
+    
+    
+    @PUT
+    @Path("/{UserId}/modules/{ModuleId}/goals/{goalId}/approve")
+    public Goal switchApproveBool(@PathParam("goalId") String goalId)
     {
-        return null;
+        Goal goal = goalService.switchApproveBool(goalId);
+        
+        return goal;
     }
 }
