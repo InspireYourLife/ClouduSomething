@@ -47,7 +47,6 @@ public class ModuleResource extends BaseResource
     
     //Create a new module
     @POST
-    @Path ("/modules")
     public Module createModule(@Valid Module newModule)
     {
         moduleService.createModule(newModule);

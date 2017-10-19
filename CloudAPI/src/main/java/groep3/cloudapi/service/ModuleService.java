@@ -33,6 +33,7 @@ public class ModuleService extends BaseService
         return moduleDAO.getAll();
     }
     
+    // get specific module by id
     public Module getModuleById(String moduleId)
     {
         Module tempModule = moduleDAO.get(moduleId);
@@ -48,33 +49,21 @@ public class ModuleService extends BaseService
         return m;    
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
     //Create a new module
     public void createModule (Module newModule)
     {
         moduleDAO.create(newModule);
     }
     
-    
-    
     //Assign a module to a specific user
-    public void assignModule (String id, Module modId)
+    public boolean assignModule (String id, Module modId)
     {
         User u = userDAO.get(id);
         Module m = moduleDAO.get(id);
         
         moduleDAO.create(m);
+        
+        return false;
     }   
     
     //Get specific module from specific user
