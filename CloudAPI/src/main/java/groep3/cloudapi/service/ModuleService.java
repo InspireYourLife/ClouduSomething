@@ -27,28 +27,38 @@ public class ModuleService extends BaseService
         this.userDAO = userDAO;
     }
     
+    // get all modules
+    public List<Module> getAllModules()
+    {
+        return moduleDAO.getAll();
+    }
+    
     public Module getModuleById(String moduleId)
     {
         Module tempModule = moduleDAO.get(moduleId);
         return tempModule;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // get all modules
-    public List<Module> getAllModules()
+    // get all modules from a specific user
+    public List<Module> getModulesByUserId(String id)
     {
-        return moduleDAO.getAll();
+        User u = userDAO.get(id);
+        List<Module> m = u.getModules();
+        
+        return m;    
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     //Create a new module
     public void createModule (Module newModule)
@@ -56,19 +66,7 @@ public class ModuleService extends BaseService
         moduleDAO.create(newModule);
     }
     
-    // get all modules from a specific user
-    public List<Module> getModulesByUserId(String id, List userModules)
-    {
-        User u = userDAO.get(id);
-        List<Module> m = u.getModules();
-        
-        return m;
-        
-        //TODO m foreach loop -> module doe je een get op de ModuleDAO en die stop je in een nieuwe lijst.
-        //for (Module mod : m)
-        //
-        
-    }
+    
     
     //Assign a module to a specific user
     public void assignModule (String id, Module modId)
