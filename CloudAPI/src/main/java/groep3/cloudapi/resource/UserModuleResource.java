@@ -50,11 +50,14 @@ public class UserModuleResource extends BaseResource
 //    }
 //  
 //    //Get specific module from specific user
+    
+    
+    
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
     public Module getModule(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId)
     {
-        Module module = moduleService.getUserModule(userId, moduleId);
+        Module module = moduleService.getModuleById(moduleId);
         return module;
     }
 }

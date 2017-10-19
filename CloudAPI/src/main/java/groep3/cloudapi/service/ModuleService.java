@@ -27,6 +27,23 @@ public class ModuleService extends BaseService
         this.userDAO = userDAO;
     }
     
+    public Module getModuleById(String moduleId)
+    {
+        Module tempModule = moduleDAO.get(moduleId);
+        return tempModule;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     // get all modules
     public List<Module> getAllModules()
     {
