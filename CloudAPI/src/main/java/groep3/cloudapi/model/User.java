@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
@@ -34,7 +35,7 @@ public class User extends EntityModel implements Principal
     int collectedPoints;
     
     @Embedded
-    @NotEmpty
+    @NotNull
     Role role;
     
     @Reference
