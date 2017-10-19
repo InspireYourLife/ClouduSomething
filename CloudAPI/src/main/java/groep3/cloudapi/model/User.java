@@ -44,7 +44,7 @@ public class User extends EntityModel implements Principal
     List<User> contacts = new ArrayList<User>();
     
     @Reference
-    Calendar calendar;
+    Calendar calendar = new Calendar();
     
     @Embedded
     String image;

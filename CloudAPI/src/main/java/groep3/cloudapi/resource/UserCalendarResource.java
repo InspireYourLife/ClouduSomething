@@ -1,17 +1,8 @@
 package groep3.cloudapi.resource;
 
-import groep3.cloudapi.model.Goal;
-import groep3.cloudapi.model.Module;
-import groep3.cloudapi.service.ContactService;
+import groep3.cloudapi.model.Appointment;
 import groep3.cloudapi.model.Calendar;
-import groep3.cloudapi.model.Notification;
-import groep3.cloudapi.model.User;
-import groep3.cloudapi.presentation.model.GoalPresenter;
-import groep3.cloudapi.presentation.model.UserPresenter;
-import groep3.cloudapi.service.GoalService;
-import groep3.cloudapi.service.NotificationService;
-import groep3.cloudapi.service.UserService;
-import java.util.List;
+import groep3.cloudapi.service.CalendarService;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -28,12 +19,12 @@ import javax.ws.rs.core.MediaType;
 
 public class UserCalendarResource extends BaseResource
 {
-    private final UserService userService;
+    private final CalendarService calendarService;
      
     @Inject
-    public UserCalendarResource (UserService userService)
+    public UserCalendarResource (CalendarService userService)
     {
-        this.userService = userService;
+        this.calendarService = userService;
     }
     
     //Get Calls - Calendar
@@ -41,7 +32,17 @@ public class UserCalendarResource extends BaseResource
     @Path( "/{id}/calendar")
     public Calendar getCalendar(@PathParam("id") String id)
     {
-        Calendar calendar = userService.getCalendar(id);
+        Calendar calendar = calendarService.getCalendar(id);
+        return calendar;
+    }
+    
+    //Post Calls - Calendar
+    @POST
+    @Path( "/{id}/calendar/appointment")
+    public Calendar addAppointment(@PathParam("id") String id, @Valid Appointment appointment)
+    {
+        calendarService.addAppointment(id, appointment);
+        Calendar calendar = calendarService.getCalendar(id);
         return calendar;
     }
 }

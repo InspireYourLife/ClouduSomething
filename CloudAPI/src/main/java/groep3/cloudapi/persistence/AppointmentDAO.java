@@ -1,14 +1,14 @@
 package groep3.cloudapi.persistence;
 
-import groep3.cloudapi.model.Calendar;
+import groep3.cloudapi.model.Appointment;
 import javax.inject.Inject;
 import org.mongodb.morphia.Datastore;
 
-public class CalendarDAO extends BaseDAO<Calendar>{
+public class AppointmentDAO extends BaseDAO<Appointment>{
     
     @Inject
-    public CalendarDAO(Datastore ds)
+    public AppointmentDAO(Datastore ds)
     {
-        super(Calendar.class, ds);
+        super(Appointment.class, ds);
     }
 }
