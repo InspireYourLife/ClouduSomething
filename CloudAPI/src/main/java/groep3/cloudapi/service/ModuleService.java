@@ -44,18 +44,25 @@ public class ModuleService extends BaseService
     {
         User u = userDAO.get(id);
         List<Module> m = u.getModules();
+        
         return m;
         
         //TODO m foreach loop -> module doe je een get op de ModuleDAO en die stop je in een nieuwe lijst.
+        //for (Module mod : m)
+        //
+        
     }
     
     //Assign a module to a specific user
-//    public User assignModule (String id, Module modId)
-//    {
-//        
-//    }
-//    
-//    //Get specific module from specific user
+    public void assignModule (String id, Module modId)
+    {
+        User u = userDAO.get(id);
+        Module m = moduleDAO.get(id);
+        
+        moduleDAO.create(m);
+    }   
+    
+    //Get specific module from specific user
     public Module getUserModule(String userId, String moduleId)
     {
         int modId = Integer.parseInt(moduleId);
@@ -66,16 +73,5 @@ public class ModuleService extends BaseService
         Module module = m.get(modId);
         
         return module; //temp null
-    }
-
-    public User getContact(String userId, String moduleId) {
-        int cId = Integer.parseInt(moduleId);
-        
-        User user = userDAO.get(userId);
-        List<User> contactsToReturn = user.getContacts();
-        
-        User contact = contactsToReturn.get(cId);
-        
-        return contact;
     }
 }
