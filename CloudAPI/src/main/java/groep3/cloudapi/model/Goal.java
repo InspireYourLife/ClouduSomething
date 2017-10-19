@@ -3,6 +3,7 @@ package groep3.cloudapi.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
@@ -14,10 +15,6 @@ public class Goal extends EntityModel
     @Embedded
     @NotEmpty
     String name;
-    
-    @Embedded
-    @NotEmpty
-    String goalCode;
     
     @Embedded
     @NotEmpty
@@ -34,11 +31,11 @@ public class Goal extends EntityModel
     Date completionDate;
     
     @Embedded
-    @NotEmpty
-    Boolean isComplete;
+    @NotNull
+    Boolean isCompleted;
     
     @Embedded
-    @NotEmpty
+    @NotNull
     Boolean isApproved;
     
     @Embedded
@@ -53,16 +50,6 @@ public class Goal extends EntityModel
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public String getGoalCode()
-    {
-        return goalCode;
-    }
-
-    public void setGoalCode(String goalCode)
-    {
-        this.goalCode = goalCode;
     }
 
     public String getDescription()
@@ -107,12 +94,12 @@ public class Goal extends EntityModel
 
     public Boolean getIsComplete()
     {
-        return isComplete;
+        return isCompleted;
     }
 
-    public void setIsComplete(Boolean isComplete)
+    public void setIsComplete(Boolean isCompleted)
     {
-        this.isComplete = isComplete;
+        this.isCompleted = isCompleted;
     }
 
     public Boolean getIsApproved()
@@ -134,6 +121,4 @@ public class Goal extends EntityModel
     {
         this.creationDate = creationDate;
     }
-
-    
 }

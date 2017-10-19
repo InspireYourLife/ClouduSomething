@@ -15,9 +15,9 @@ public class Module extends EntityModel
     @NotEmpty
     String name;
     
-    @Embedded
-    @NotEmpty
-    String moduleCode;
+    //@Embedded
+    //@NotEmpty
+    //String moduleCode;
     
     @Reference
     @NotEmpty
@@ -25,7 +25,7 @@ public class Module extends EntityModel
     
     @Embedded
     @NotEmpty
-    Boolean isComplete;
+    Boolean isCompleted;
     
     @Embedded
     @NotEmpty
@@ -33,7 +33,7 @@ public class Module extends EntityModel
     
     @Embedded
     @NotEmpty
-    Date CreationDate;
+    Date creationDate;
 
     public String getName()
     {
@@ -45,15 +45,15 @@ public class Module extends EntityModel
         this.name = name;
     }
 
-    public String getModuleCode()
-    {
-        return moduleCode;
-    }
-
-    public void setModuleCode(String moduleCode)
-    {
-        this.moduleCode = moduleCode;
-    }
+//    public String getModuleCode()
+//    {
+//        return moduleCode;
+//    }
+//
+//    public void setModuleCode(String moduleCode)
+//    {
+//        this.moduleCode = moduleCode;
+//    }
 
     public List<Goal> getGoals()
     {
@@ -67,12 +67,12 @@ public class Module extends EntityModel
 
     public Boolean getIsComplete()
     {
-        return isComplete;
+        return isCompleted;
     }
 
     public void setIsComplete(Boolean isComplete)
     {
-        this.isComplete = isComplete;
+        this.isCompleted = isComplete;
     }
 
     public Boolean getIsApproved()
@@ -87,12 +87,12 @@ public class Module extends EntityModel
 
     public Date getCreationDate()
     {
-        return CreationDate;
+        return creationDate;
     }
 
-    public void setCreationDate(Date CreationDate)
+    public void setCreationDate(Date creationDate)
     {
-        this.CreationDate = CreationDate;
+        this.creationDate = creationDate;
     }
     
     
