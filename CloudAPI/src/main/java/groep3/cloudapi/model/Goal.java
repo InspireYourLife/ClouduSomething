@@ -3,6 +3,7 @@ package groep3.cloudapi.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
@@ -30,11 +31,11 @@ public class Goal extends EntityModel
     Date completionDate;
     
     @Embedded
-    @NotEmpty
+    @NotNull
     Boolean isCompleted;
     
     @Embedded
-    @NotEmpty
+    @NotNull
     Boolean isApproved;
     
     @Embedded

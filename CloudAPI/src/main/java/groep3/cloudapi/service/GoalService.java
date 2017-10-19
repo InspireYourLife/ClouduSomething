@@ -28,7 +28,8 @@ public class GoalService extends BaseService
     
     public Goal getGoal(String goalId)
     {
-        return goalDAO.get(goalId);
+        Goal tempGoal = goalDAO.get(goalId);
+        return tempGoal;
     }
     
     public List<Goal> getAll()
@@ -65,22 +66,50 @@ public class GoalService extends BaseService
         return goalsFormModule;
     }
     
-    
-    
-
-    
-    
-    
-    public Goal switchApproveBool(String goalId)
+    public Boolean switchApproveBool(String goalId)
     {
+        boolean itemHasChanged = false;
+        Boolean originalBoolean;
+        
         Goal goal = goalDAO.get(goalId);
+        originalBoolean = goal.getIsApproved();
         
         boolean isApproved = goal.getIsApproved();
         goal.setIsApproved(!isApproved);
         
         goalDAO.update(goal);
         
-        return goal;
+        boolean boolCheck = goalDAO.get(goalId).getIsApproved();
+        
+        if (originalBoolean != boolCheck)
+        {
+            itemHasChanged = true;
+        }
+        
+        return itemHasChanged;
+    }
+    
+    public Boolean switchCompleteBool(String goalId)
+    {
+        boolean itemHasChanged = false;
+        Boolean originalBoolean;
+        
+        Goal goal = goalDAO.get(goalId);
+        originalBoolean = goal.getIsComplete();
+        
+        boolean isCompleted = goal.getIsComplete();
+        goal.setIsComplete(!isCompleted);
+        
+        goalDAO.update(goal);
+        
+        boolean boolCheck = goalDAO.get(goalId).getIsComplete();
+        
+        if (originalBoolean != boolCheck)
+        {
+            itemHasChanged = true;
+        }
+        
+        return itemHasChanged;
     }
     
     public void create(Goal newGoal)

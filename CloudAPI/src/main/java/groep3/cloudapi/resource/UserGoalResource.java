@@ -65,20 +65,20 @@ public class UserGoalResource extends BaseResource
         //TODO: Should return a boolean?
         return null;
     }
-    
-    
-    
-    
-    
-  
-    
-    
+
     @PUT
     @Path("/{UserId}/modules/{ModuleId}/goals/{goalId}/approve")
-    public Goal switchApproveBool(@PathParam("goalId") String goalId)
+    public Boolean switchApproveBool(@PathParam("goalId") String goalId)
     {
-        Goal goal = goalService.switchApproveBool(goalId);
-        
-        return goal;
+        boolean hasSucceeded = goalService.switchApproveBool(goalId);
+        return hasSucceeded;
+    }
+    
+    @PUT
+    @Path("/{UserId}/modules/{ModuleId}/goals/{goalId}/complete")
+    public Boolean switchCompleteBool(@PathParam("goalId") String goalId)
+    {
+        boolean hasSucceeded = goalService.switchCompleteBool(goalId);
+        return hasSucceeded;
     }
 }
