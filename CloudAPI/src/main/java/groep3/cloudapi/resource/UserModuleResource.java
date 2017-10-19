@@ -1,10 +1,13 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.User;
 import groep3.cloudapi.service.ModuleService;
 import groep3.cloudapi.service.UserService;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -44,10 +47,11 @@ public class UserModuleResource extends BaseResource
 //    }
 //    
 //    //Get specific module from specific user
-//    @GET
-//    @Path ("{UserId}/modules/{ModuleId}")
-//    public List<Module> getUserModule()
-//    {
-//        
-//    }
+    @GET
+    @Path ("/{UserId}/{ModuleId}")
+    public User getModule(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId)
+    {
+        User module = moduleService.getUserModule(userId, moduleId);
+        return module;
+    }
 }

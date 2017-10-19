@@ -56,8 +56,8 @@ public class ModuleService extends BaseService
 //    }
 //    
 //    //Get specific module from specific user
-//    public void getUserModule(Module modId, String id)
-//    {
-//        
-//    }
+    public User getUserModule(String userId, String ModuleId)
+    {
+        return null; //temp null
+    }
 }
