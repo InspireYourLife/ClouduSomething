@@ -14,8 +14,8 @@ public class Module extends EntityModel
 {
     @Embedded
     @NotEmpty
-    String name;
-    
+    String name;  
+ 
     @Reference
     List<Goal> goals  = new ArrayList<Goal>();
     
@@ -78,7 +78,5 @@ public class Module extends EntityModel
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
-    }
-    
-    
+    }    
 }
