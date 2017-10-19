@@ -30,14 +30,16 @@ public class CalendarService extends BaseService
     {
         User u = userDAO.get(id);
         
-        ObjectId calendarId = u.getCalendar().getId();
-        Calendar c = calendarDAO.get(calendarId);
+        Calendar c = u.getCalendar();
         
         return c;
     }
 
     public void addAppointment(String id, Appointment appointment)
     {
+        Date currentTime = Date.from(Instant.now());
+        appointment.setCreationDate(currentTime);
+        
         appointmentDAO.create(appointment);
         
         User u = userDAO.get(id);

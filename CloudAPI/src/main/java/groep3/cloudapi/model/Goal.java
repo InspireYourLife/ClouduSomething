@@ -39,7 +39,6 @@ public class Goal extends EntityModel
     Boolean isApproved;
     
     @Embedded
-    @NotEmpty
     Date creationDate;
 
     public String getName()
@@ -92,12 +91,12 @@ public class Goal extends EntityModel
         this.completionDate = completionDate;
     }
 
-    public Boolean getIsComplete()
+    public Boolean getIsCompleted()
     {
         return isCompleted;
     }
 
-    public void setIsComplete(Boolean isCompleted)
+    public void setIsCompleted(Boolean isCompleted)
     {
         this.isCompleted = isCompleted;
     }
