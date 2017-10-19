@@ -17,7 +17,6 @@ public class Module extends EntityModel
     String name;
     
     @Reference
-    //@NotEmpty
     List<Goal> goals  = new ArrayList<Goal>();
     
     @Embedded
