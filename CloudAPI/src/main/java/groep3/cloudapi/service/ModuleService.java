@@ -4,6 +4,8 @@ import groep3.cloudapi.model.Module;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -52,6 +54,9 @@ public class ModuleService extends BaseService
     //Create a new module
     public void createModule (Module newModule)
     {
+        Date currentTime = Date.from(Instant.now());
+        newModule.setCreationDate(currentTime);
+        
         moduleDAO.create(newModule);
     }
     
