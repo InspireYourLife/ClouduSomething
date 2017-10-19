@@ -15,13 +15,17 @@ public class Module extends EntityModel
     @NotEmpty
     String name;
     
+    @Embedded
+    @NotEmpty
+    String moduleCode;
+    
     @Reference
     @NotEmpty
     List<Goal> goals  = new ArrayList<Goal>();
     
     @Embedded
     @NotEmpty
-    Boolean isCompleted;
+    Boolean isComplete;
     
     @Embedded
     @NotEmpty
@@ -29,7 +33,7 @@ public class Module extends EntityModel
     
     @Embedded
     @NotEmpty
-    Date creationDate;
+    Date CreationDate;
 
     public String getName()
     {
@@ -39,6 +43,16 @@ public class Module extends EntityModel
     public void setName(String name)
     {
         this.name = name;
+    }
+
+    public String getModuleCode()
+    {
+        return moduleCode;
+    }
+
+    public void setModuleCode(String moduleCode)
+    {
+        this.moduleCode = moduleCode;
     }
 
     public List<Goal> getGoals()
@@ -53,12 +67,12 @@ public class Module extends EntityModel
 
     public Boolean getIsComplete()
     {
-        return isCompleted;
+        return isComplete;
     }
 
-    public void setIsComplete(Boolean isCompleted)
+    public void setIsComplete(Boolean isComplete)
     {
-        this.isCompleted = isCompleted;
+        this.isComplete = isComplete;
     }
 
     public Boolean getIsApproved()
@@ -73,11 +87,13 @@ public class Module extends EntityModel
 
     public Date getCreationDate()
     {
-        return creationDate;
+        return CreationDate;
     }
 
-    public void setCreationDate(Date creationDate)
+    public void setCreationDate(Date CreationDate)
     {
-        this.creationDate = creationDate;
-    }  
+        this.CreationDate = CreationDate;
+    }
+    
+    
 }
