@@ -24,7 +24,7 @@ public class UserModuleResource extends BaseResource
         this.userService = userService;
     }
     
-            //    //Get all modules from specific user
+//Get all modules from specific user
 //    @GET
 //    @Path ("/{UserId}/modules")
 //    public List<Module> getModulesByUserId(String Id, List userModule)
