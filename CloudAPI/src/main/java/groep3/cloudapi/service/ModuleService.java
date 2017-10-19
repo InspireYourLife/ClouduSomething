@@ -56,8 +56,26 @@ public class ModuleService extends BaseService
 //    }
 //    
 //    //Get specific module from specific user
-    public User getUserModule(String userId, String ModuleId)
+    public Module getUserModule(String userId, String moduleId)
     {
-        return null; //temp null
+        int modId = Integer.parseInt(moduleId);
+        
+        User u = userDAO.get(userId);
+        List<Module> m = u.getModules();
+        
+        Module module = m.get(modId);
+        
+        return module; //temp null
+    }
+
+    public User getContact(String userId, String moduleId) {
+        int cId = Integer.parseInt(moduleId);
+        
+        User user = userDAO.get(userId);
+        List<User> contactsToReturn = user.getContacts();
+        
+        User contact = contactsToReturn.get(cId);
+        
+        return contact;
     }
 }
