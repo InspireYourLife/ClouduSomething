@@ -1,6 +1,7 @@
 package groep3.cloudapi.model;
 
 import java.util.Date;
+import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.mongodb.morphia.annotations.Embedded;
 import org.mongodb.morphia.annotations.Entity;
@@ -13,10 +14,6 @@ public class Task extends EntityModel
     @NotEmpty
     User owner;
     
-    @Reference
-    @NotEmpty
-    Goal goal;
-    
     @Embedded
     @NotEmpty
     String name;
@@ -26,16 +23,18 @@ public class Task extends EntityModel
     String description;
     
     @Embedded
-    @NotEmpty
+    @NotNull
     Integer points;
     
     @Embedded
-    @NotEmpty
+    @NotNull
     Boolean isComplete;
     
     @Embedded
-    @NotEmpty
     Date creationDate;
+    
+    @Embedded
+    String feedback;
 
     public User getOwner()
     {
@@ -45,16 +44,6 @@ public class Task extends EntityModel
     public void setOwner(User owner)
     {
         this.owner = owner;
-    }
-
-    public Goal getGoal()
-    {
-        return goal;
-    }
-
-    public void setGoal(Goal goal)
-    {
-        this.goal = goal;
     }
 
     public String getName()
@@ -105,6 +94,16 @@ public class Task extends EntityModel
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
+    }
+    
+    public String getFeedback() 
+    {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) 
+    {
+        this.feedback = feedback;
     }
 
     

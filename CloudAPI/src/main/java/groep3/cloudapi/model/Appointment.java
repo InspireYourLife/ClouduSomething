@@ -22,6 +22,10 @@ public class Appointment extends EntityModel
     @Embedded
     @NotEmpty
     String description;
+    
+    @Embedded
+    @NotEmpty
+    Date creationDate;
 
     public List<User> getParticipants()
     {
@@ -53,5 +57,14 @@ public class Appointment extends EntityModel
         this.description = description;
     }
     
+    public Date getCreationDate()
+    {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate)
+    {
+        this.creationDate = creationDate;
+    }
     
 }

@@ -16,12 +16,12 @@ import javax.ws.rs.core.MediaType;
 @Path ("/users")
 @Consumes (MediaType.APPLICATION_JSON)
 @Produces (MediaType.APPLICATION_JSON)
-public class TaskResource extends BaseResource{
+public class UserTaskResource extends BaseResource{
     
     private final TaskService taskService;
     
     @Inject
-    public TaskResource (TaskService taskService){
+    public UserTaskResource (TaskService taskService){
         
         this.taskService = taskService;
     }
@@ -43,7 +43,7 @@ public class TaskResource extends BaseResource{
     
     @POST
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
-    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @Valid Task newTask)
+    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, Task newTask)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
         return newTask;
