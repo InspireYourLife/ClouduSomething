@@ -29,6 +29,10 @@ public class Module extends EntityModel
     
     @Embedded
     Date creationDate;
+    
+    @Embedded
+    @NotNull
+    Boolean isTemplate;
 
     public String getName()
     {
@@ -50,12 +54,12 @@ public class Module extends EntityModel
         this.goals = goals;
     }
 
-    public Boolean getIsComplete()
+    public Boolean getIsCompleted()
     {
         return isCompleted;
     }
 
-    public void setIsComplete(Boolean isCompleted)
+    public void setIsCompleted(Boolean isCompleted)
     {
         this.isCompleted = isCompleted;
     }
@@ -78,5 +82,15 @@ public class Module extends EntityModel
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
-    }    
+    }   
+    
+    public Boolean getIsTemplate()
+    {
+        return isTemplate;
+    }
+
+    public void setIsTemplate(Boolean isTemplate)
+    {
+        this.isTemplate = isTemplate;
+    }
 }
