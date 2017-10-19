@@ -4,6 +4,8 @@ import groep3.cloudapi.model.Module;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
+import java.time.Instant;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -11,7 +13,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-@Path ("/Modules")
+@Path ("/modules")
 @Consumes ( MediaType.APPLICATION_JSON )
 @Produces ( MediaType.APPLICATION_JSON )
 
@@ -33,31 +35,52 @@ public class ModuleService extends BaseService
         return moduleDAO.getAll();
     }
     
-    //Create a new module
-    public void createModule (Module newModule)
+    // get specific module by id
+    public Module getModuleById(String moduleId)
     {
-        moduleDAO.create(newModule);
+        Module tempModule = moduleDAO.get(moduleId);
+        return tempModule;
     }
     
     // get all modules from a specific user
-    public List<Module> getModulesByUserId(String id, List userModules)
+    public List<Module> getModulesByUserId(String id)
     {
         User u = userDAO.get(id);
         List<Module> m = u.getModules();
-        return m;
         
-        //TODO m foreach loop -> module doe je een get op de ModuleDAO en die stop je in een nieuwe lijst.
+        return m;    
+    }
+    
+    //Create a new module
+    public void createModule (Module newModule)
+    {
+        Date currentTime = Date.from(Instant.now());
+        newModule.setCreationDate(currentTime);
+        
+        moduleDAO.create(newModule);
     }
     
     //Assign a module to a specific user
-//    public User assignModule (String id, Module modId)
-//    {
-//        
-//    }
-//    
-//    //Get specific module from specific user
-//    public void getUserModule(Module modId, String id)
-//    {
-//        
-//    }
+    public boolean assignModule (String id, Module modId)
+    {
+        User u = userDAO.get(id);
+        Module m = moduleDAO.get(id);
+        
+        moduleDAO.create(m);
+        
+        return false;
+    }   
+    
+    //Get specific module from specific user
+    public Module getUserModule(String userId, String moduleId)
+    {
+        int modId = Integer.parseInt(moduleId);
+        
+        User u = userDAO.get(userId);
+        List<Module> m = u.getModules();
+        
+        Module module = m.get(modId);
+        
+        return module; //temp null
+    }
 }
