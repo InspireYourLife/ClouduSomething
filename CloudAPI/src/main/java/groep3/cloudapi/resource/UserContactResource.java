@@ -1,19 +1,11 @@
 package groep3.cloudapi.resource;
 
-import groep3.cloudapi.model.Goal;
-import groep3.cloudapi.model.Module;
 import groep3.cloudapi.service.ContactService;
-import groep3.cloudapi.model.Calendar;
 import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
-import groep3.cloudapi.presentation.model.GoalPresenter;
-import groep3.cloudapi.presentation.model.UserPresenter;
-import groep3.cloudapi.service.GoalService;
-import groep3.cloudapi.service.NotificationService;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.inject.Inject;
-import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -41,7 +33,7 @@ public class UserContactResource extends BaseResource
     
     //Get Calls - Contacts
     @GET
-    @Path ( "/{UserId}/contacts" )
+    @Path ("{UserId}/contacts" )
     public List <User> getAllContacts(@PathParam ("UserId") String userId)
     {
         List<User> contacts = contactService.getAllContacts(userId);
@@ -49,7 +41,7 @@ public class UserContactResource extends BaseResource
     }
     
     @GET
-    @Path ("/{UserId}/{ContactId}")
+    @Path ("{UserId}/contacts/{ContactId}")
     public User getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
     {
         User contact = contactService.getContact(userId, contactId);
@@ -57,7 +49,7 @@ public class UserContactResource extends BaseResource
     }
     
     @POST
-    @Path ("/{UserId}/{ContactId}")
+    @Path ("{UserId}/contacts/{ContactId}/sendMessage")
     public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") int contactId, Notification newMessage)
     {
         contactService.sendMessage(userId, contactId, newMessage);
