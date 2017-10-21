@@ -6,8 +6,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -47,5 +49,20 @@ public class UserTaskResource extends BaseResource{
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
         return newTask;
+    }
+    
+    @DELETE
+    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
+    public void deleteTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    {
+        taskService.deleteTask(userId, moduleId, goalId, taskId);
+    }
+    
+    @PUT
+    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}/complete")
+    public boolean taskStatus(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    {
+        boolean taskIsCompleted = taskService.taskStatus(userId, moduleId, goalId, taskId);
+        return taskIsCompleted;
     }
 }

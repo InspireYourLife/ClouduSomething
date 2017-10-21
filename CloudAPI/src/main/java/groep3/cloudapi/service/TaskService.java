@@ -61,4 +61,28 @@ public class TaskService extends BaseService{
         taskDAO.create(newTask);
         goalDAO.update(goal);        
     }
+
+    public void deleteTask(String userId, String moduleId, String goalId, String taskId) 
+    {
+        Task task = taskDAO.get(taskId);
+        taskDAO.delete(task);
+    }
+
+    public boolean taskStatus(String userId, String moduleId, String goalId, String taskId) {
+        
+        Task task = taskDAO.get(taskId);
+        boolean isComplete = task.getIsComplete();
+        
+        if(!isComplete){
+            isComplete = true;
+            task.setIsComplete(isComplete);
+            taskDAO.update(task);
+        } else {
+            isComplete = false;
+            task.setIsComplete(isComplete);
+            taskDAO.update(task);
+        }
+        
+        return isComplete;
+    }
 }
