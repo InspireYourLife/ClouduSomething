@@ -8,9 +8,11 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -51,5 +53,15 @@ public class ModuleResource extends BaseResource
     {
         moduleService.createModule(newModule);
         return newModule;
+    }
+    
+    //Delete a module by Id
+    @DELETE
+    @Path("/{moduleId}")
+    public boolean deleteModule(@PathParam ("id") String modId)
+    {
+        Boolean deleted = moduleService.deleteModule(modId);
+        
+        return deleted;
     }
 }

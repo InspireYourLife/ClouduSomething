@@ -81,6 +81,22 @@ public class ModuleService extends BaseService
         
         Module module = m.get(modId);
         
-        return module; //temp null
+        return module;
+    }
+    
+    //Delete module
+    public boolean deleteModule(String modId)
+    {
+        Module m = moduleDAO.get(modId);
+        moduleDAO.delete(m);
+        
+        if (moduleDAO.get(modId)== null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
