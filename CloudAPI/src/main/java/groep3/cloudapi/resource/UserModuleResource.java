@@ -31,9 +31,11 @@ public class UserModuleResource extends BaseResource
         this.userService = userService;
     }
 
+    //What if I want to get a list of modules from a different user?
+    //Get all modules from logged in user
     @GET
     @Path ("/{UserId}/modules")
-    public List<Module> getModule(@Auth User authenticatedUser)
+    public List<Module> getModulesFromUser(@Auth User authenticatedUser)
     {
         ObjectId userId = authenticatedUser.getId();
         List<Module> allModulesFromUser = moduleService.getModulesByUserId(userId.toString());
@@ -41,11 +43,24 @@ public class UserModuleResource extends BaseResource
         return allModulesFromUser;
     }
     
+    //What if I want to get a list of modules from a different user?
+    //Get specific module from logged in user
+    @GET
+    @Path ("/{UserId}/modules/{ModuleId}")
+    public Module getModuleFromUser(@Auth User authenticatedUser, String moduleId)
+    {
+        ObjectId userId = authenticatedUser.getId();       
+        Module m = moduleService.getUserModule(userId.toString(), moduleId);
+        
+        return m;
+    }
+    
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
     public Module getModule(@PathParam ("ModuleId") String moduleId)
     {
         Module module = moduleService.getModuleById(moduleId);
+        
         return module;
     }
 }
