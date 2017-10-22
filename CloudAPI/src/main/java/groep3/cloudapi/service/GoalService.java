@@ -139,6 +139,23 @@ public class GoalService extends BaseService
         return itemHasChanged;
     }
     
+    public Boolean removeGoal(String goalId)
+    {
+        boolean hasSucceeded = false;
+        
+        Goal goal = goalDAO.get(goalId);
+        goalDAO.delete(goal);
+        
+        Goal goalAfterDeletion = goalDAO.get(goalId);
+        
+        if (goalAfterDeletion == null) 
+        {
+            hasSucceeded = true;
+        }
+        
+        return hasSucceeded;
+    }
+    
     public void create(Goal newGoal)
     {
         Date currentTime = Date.from(Instant.now());

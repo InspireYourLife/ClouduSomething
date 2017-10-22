@@ -7,6 +7,7 @@ import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -79,6 +80,14 @@ public class UserGoalResource extends BaseResource
     public Boolean switchCompleteBool(@PathParam("goalId") String goalId)
     {
         boolean hasSucceeded = goalService.switchCompleteBool(goalId);
+        return hasSucceeded;
+    }
+    
+    @DELETE
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
+    public Boolean removeGoal(@PathParam("goalId") String goalId)
+    {
+        boolean hasSucceeded = goalService.removeGoal(goalId);
         return hasSucceeded;
     }
 }
