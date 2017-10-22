@@ -29,7 +29,7 @@ public class UserCalendarResource extends BaseResource
     
     //Get Calls - Calendar
     @GET
-    @Path( "/{id}/calendar")
+    @Path( "/{userId}/calendar")
     public Calendar getCalendar(@PathParam("id") String id)
     {
         Calendar calendar = calendarService.getCalendar(id);
@@ -38,7 +38,7 @@ public class UserCalendarResource extends BaseResource
     
     //Post Calls - Calendar
     @POST
-    @Path( "/{id}/calendar/appointment")
+    @Path( "/{userId}/calendar/appointment")
     public Calendar addAppointment(@PathParam("id") String id, @Valid Appointment appointment)
     {
         calendarService.addAppointment(id, appointment);

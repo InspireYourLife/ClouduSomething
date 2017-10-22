@@ -19,6 +19,21 @@ public class NotificationService extends BaseService
     {
         return notificationDAO.getAllByOwnerId(id);
     }
+
+    public Boolean deleteSpecificNotification(String uid, String nid)
+    {
+        Notification n = notificationDAO.get(nid);
+        notificationDAO.deleteById(n.getId());
+        
+        if (notificationDAO.get(nid) == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
     
 }

@@ -43,8 +43,8 @@ public class CalendarService extends BaseService
         appointmentDAO.create(appointment);
         
         User u = userDAO.get(id);
-        ObjectId calendarId = u.getCalendar().getId();
-        Calendar c = calendarDAO.get(calendarId);
+        
+        Calendar c = u.getCalendar();
         
         List<Appointment> appointments = c.getAppointments();
         appointments.add(appointment);

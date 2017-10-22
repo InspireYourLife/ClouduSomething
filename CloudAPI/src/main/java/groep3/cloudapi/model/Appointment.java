@@ -25,6 +25,13 @@ public class Appointment extends EntityModel
     
     @Embedded
     @NotEmpty
+    String location;
+    
+    @Embedded
+    String comments;
+    
+    @Embedded
+    @NotEmpty
     Date creationDate;
 
     public List<User> getParticipants()
@@ -55,6 +62,26 @@ public class Appointment extends EntityModel
     public void setDescription(String description)
     {
         this.description = description;
+    }
+    
+     public String getLocation()
+    {
+        return location;
+    }
+
+    public void setLocation(String location)
+    {
+        this.location = location;
+    }
+
+    public String getComments()
+    {
+        return comments;
+    }
+
+    public void setComments(String comments)
+    {
+        this.comments = comments;
     }
     
     public Date getCreationDate()

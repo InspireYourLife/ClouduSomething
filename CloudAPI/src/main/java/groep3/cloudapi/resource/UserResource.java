@@ -8,8 +8,10 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -41,16 +43,16 @@ public class UserResource extends BaseResource
     }
     
     @GET
-    @Path( "/{id}" )
-    public User getUserById(@PathParam( "id") String id)
+    @Path( "/{userId}" )
+    public User getUserById(@PathParam( "userId") String id)
     {
         User user = userService.getUserById(id);
         return user;
     }
     
     @GET
-    @Path( "/{id}/points")
-    public int getPoints(@PathParam( "id") String id)
+    @Path( "/{userId}/points")
+    public int getPoints(@PathParam( "userId") String id)
     {
         int points = userService.getPoints(id);
         return points;
@@ -62,5 +64,31 @@ public class UserResource extends BaseResource
     {
         userService.create(newUser);
         return newUser;
+    }
+    
+    //Put Calls - User
+    @PUT
+    @Path( "/{userId}")
+    public Boolean editUser(@Valid User editedUser, @PathParam( "userId") String id)
+    {
+        Boolean success = userService.editUser(editedUser, id);
+        return success;
+    }
+    
+    @PUT
+    @Path( "/{userId}/points" )
+    public Boolean addPoints(int value, @PathParam( "userId") String id)
+    {
+        Boolean success = userService.addPoints(value, id);
+        return success;
+    }
+    
+    //Delete Calls - User
+    @DELETE
+    @Path( "/{userId}" )
+    public Boolean deleteUserById(@PathParam( "id") String id)
+    {
+        Boolean success = userService.deleteUserById(id);
+        return success;
     }
 }

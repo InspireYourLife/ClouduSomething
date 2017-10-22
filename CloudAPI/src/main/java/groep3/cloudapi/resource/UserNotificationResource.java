@@ -6,6 +6,7 @@ import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -30,10 +31,18 @@ public class UserNotificationResource extends BaseResource
  
     //Get Calls - Notifications
     @GET
-    @Path( "/{id}/notifications")
-    public List<Notification> getNotifications(@PathParam( "id") String id)
+    @Path( "/{userId}/notifications")
+    public List<Notification> getNotifications(@PathParam( "userId") String id)
     {
         List<Notification> notifications = notificationService.getNotifications(id);
         return notifications;
+    }
+    
+    @DELETE
+    @Path("/{userId}/notifications/notifications/{notificationId}")
+    public Boolean deleteSpecificNotification(@PathParam("userId") String uid, @PathParam("notificationId") String nid)
+    {
+        Boolean success = notificationService.deleteSpecificNotification(uid, nid);
+        return success;
     }
 }
