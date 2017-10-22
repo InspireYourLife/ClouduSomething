@@ -60,14 +60,14 @@ public class UserGoalResource extends BaseResource
     
     @POST
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
-    public Goal post(@PathParam("userId") String userId, @PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId) 
+    public Boolean assignGoalToModule(@PathParam("userId") String userId, @PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId) 
     {
-        //TODO: Should return a boolean?
-        return null;
+        boolean hasSucceeded = goalService.assignGoalToModule(moduleId, goalId);
+        return hasSucceeded;
     }
 
     @PUT
-    @Path("/{UserId}/modules/{ModuleId}/goals/{goalId}/approve")
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/approve")
     public Boolean switchApproveBool(@PathParam("goalId") String goalId)
     {
         boolean hasSucceeded = goalService.switchApproveBool(goalId);
@@ -75,7 +75,7 @@ public class UserGoalResource extends BaseResource
     }
     
     @PUT
-    @Path("/{UserId}/modules/{ModuleId}/goals/{goalId}/complete")
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/complete")
     public Boolean switchCompleteBool(@PathParam("goalId") String goalId)
     {
         boolean hasSucceeded = goalService.switchCompleteBool(goalId);
