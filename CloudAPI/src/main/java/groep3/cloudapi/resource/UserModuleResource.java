@@ -8,6 +8,7 @@ import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -43,7 +44,6 @@ public class UserModuleResource extends BaseResource
         return allModulesFromUser;
     }
     
-    //What if I want to get a list of modules from a different user?
     //Get specific module from logged in user
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
@@ -55,6 +55,7 @@ public class UserModuleResource extends BaseResource
         return m;
     }
     
+    //Get specific module from specific user
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
     public Module getModule(@PathParam ("ModuleId") String moduleId)
@@ -62,5 +63,15 @@ public class UserModuleResource extends BaseResource
         Module module = moduleService.getModuleById(moduleId);
         
         return module;
+    }
+    
+    //Delete specific module from specific user
+    @DELETE
+    @Path("/{UserId}/modules/{ModuleId}")
+    public boolean deleteUserModule(@PathParam ("id") String modId)
+    {
+        Boolean deleted = moduleService.deleteModule(modId);
+        
+        return deleted;
     }
 }

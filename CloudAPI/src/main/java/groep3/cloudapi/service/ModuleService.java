@@ -101,14 +101,18 @@ public class ModuleService extends BaseService
     }
     
     //Delete specific module from specific user
-    public boolean deleteModuleFromUser(String userId, String modId)
+    public boolean deleteModuleFromUser(String userId, String moduleId)
     {
+        int modId = Integer.parseInt(moduleId);
+        
         User u = userDAO.get(userId);
-        Module m = u.getModule(modId);
+        List<Module> m = u.getModules();
         
-        moduleDAO.delete(m);
+        Module mToRemove = m.get(modId);
         
-        if (moduleDAO.get(modId)== null)
+        moduleDAO.delete(mToRemove);
+        
+        if (mToRemove == null)
         {
             return true;
         }
