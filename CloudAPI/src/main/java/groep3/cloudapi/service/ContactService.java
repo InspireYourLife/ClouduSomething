@@ -33,13 +33,22 @@ public class ContactService extends BaseService{
     }
     
     //Verplaatsen naar NotificationService
-    public void sendMessage(String userId, int contactId, Notification newMessage) {
-        
+    public void sendMessage(String userId, String contactId, Notification newMessage) {
+        int cId = Integer.parseInt(contactId);
         User user = userDAO.get(userId);
         List<User> contactsToReturn = user.getContacts();
         
-        User contact = contactsToReturn.get(contactId);
+        User contact = contactsToReturn.get(cId);
         
         userDAO.sendMessage(contact, newMessage);
+    }
+
+    public void deleteContact(String userId, String contactId) {
+        
+        int cId = Integer.parseInt(contactId);
+        User user = userDAO.get(userId);
+        List<User> contacts = user.getContacts();
+        
+        contacts.remove(cId);
     }
 }

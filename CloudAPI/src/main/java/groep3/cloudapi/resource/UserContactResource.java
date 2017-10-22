@@ -7,6 +7,7 @@ import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -24,7 +25,6 @@ public class UserContactResource extends BaseResource
     private final ContactService contactService;
      
     @Inject
-
     public UserContactResource (UserService userService, ContactService contactService)
     {
         this.userService = userService;
@@ -50,9 +50,16 @@ public class UserContactResource extends BaseResource
     
     @POST
     @Path ("{UserId}/contacts/{ContactId}/sendMessage")
-    public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") int contactId, Notification newMessage)
+    public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId, Notification newMessage)
     {
         contactService.sendMessage(userId, contactId, newMessage);
         return newMessage;
+    }
+    
+    @DELETE
+    @Path ("{UserId}/contacts/{ContactId}")
+    public void deleteContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
+    {
+        contactService.deleteContact(userId, contactId);
     }
 }
