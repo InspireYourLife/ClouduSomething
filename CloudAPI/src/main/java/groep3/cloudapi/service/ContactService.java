@@ -4,6 +4,8 @@ import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.UserDAO;
 import java.util.List;
+import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 
 public class ContactService extends BaseService{
     
@@ -16,8 +18,9 @@ public class ContactService extends BaseService{
     public List<User> getAllContacts(String userId) {
         
         User user = userDAO.get(userId);
+        requireResult(user, "Üser not found");
         List<User> contactsToReturn = user.getContacts();
-        
+        requireResult(contactsToReturn, "Empty list");
         return contactsToReturn;
     }
 
@@ -25,8 +28,9 @@ public class ContactService extends BaseService{
         int cId = Integer.parseInt(contactId);
         
         User user = userDAO.get(userId);
+        requireResult(user, "User not found");
         List<User> contactsToReturn = user.getContacts();
-        
+        requireResult(contactsToReturn, "Empty list");
         User contact = contactsToReturn.get(cId);
         
         return contact;
@@ -36,8 +40,9 @@ public class ContactService extends BaseService{
     public void sendMessage(String userId, String contactId, Notification newMessage) {
         int cId = Integer.parseInt(contactId);
         User user = userDAO.get(userId);
+        requireResult(user, "User not found");
         List<User> contactsToReturn = user.getContacts();
-        
+        requireResult(contactsToReturn, "Empty list");
         User contact = contactsToReturn.get(cId);
         
         userDAO.sendMessage(contact, newMessage);
@@ -47,8 +52,20 @@ public class ContactService extends BaseService{
         
         int cId = Integer.parseInt(contactId);
         User user = userDAO.get(userId);
+        requireResult(user, "User not found");
         List<User> contacts = user.getContacts();
+        requireResult(contacts, "Empty list");
         
+        if(contacts.get(cId) == null){
+            throw new BadRequestException();
+        }
         contacts.remove(cId);
+    }
+    
+    protected void requireResult(Object obj, String message)
+    {
+        if(obj == null){
+            throw new NotFoundException(message);
+        }
     }
 }
