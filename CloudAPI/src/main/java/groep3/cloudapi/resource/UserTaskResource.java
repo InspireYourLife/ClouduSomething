@@ -1,6 +1,8 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Task;
+import groep3.cloudapi.presentation.model.TaskPresenter;
+import groep3.cloudapi.presentation.model.TaskView;
 import groep3.cloudapi.service.TaskService;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -22,37 +24,39 @@ import javax.ws.rs.core.MediaType;
 public class UserTaskResource extends BaseResource{
     
     private final TaskService taskService;
+    private final TaskPresenter taskPresenter;
     
     @Inject
-    public UserTaskResource (TaskService taskService){
+    public UserTaskResource (TaskService taskService, TaskPresenter taskPresenter){
         
         this.taskService = taskService;
+        this.taskPresenter = taskPresenter;
     }
     
     @GET
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
     @RolesAllowed({"ADMIN", "ÜSER"})
-    public List<Task> getTasks(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId)
+    public List<TaskView> getTasks(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId)
     {
         List<Task> task = taskService.getTasks(userId, moduleId, goalId);
-        return task;
+        return taskPresenter.presentAllTasks(task);
     }
     @GET
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
     @RolesAllowed({"ADMIN", "USER"})
-    public Task getSpecificTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    public TaskView getSpecificTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
     {
         Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId);
-        return task;
+        return taskPresenter.presentSpecificTask(task);
     }
     
     @POST
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
     @RolesAllowed("ADMIN")
-    public Task createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @Valid Task newTask)
+    public TaskView createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @Valid Task newTask)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
-        return newTask;
+        return taskPresenter.presentSpecificTask(newTask);
     }
     
     @DELETE

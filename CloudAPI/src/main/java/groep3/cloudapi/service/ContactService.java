@@ -4,6 +4,7 @@ import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.UserDAO;
 import java.util.List;
+import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
 
@@ -11,6 +12,7 @@ public class ContactService extends BaseService{
     
     private final UserDAO userDAO;
     
+    @Inject
     public ContactService (UserDAO userDAO){
         this.userDAO = userDAO;
     }

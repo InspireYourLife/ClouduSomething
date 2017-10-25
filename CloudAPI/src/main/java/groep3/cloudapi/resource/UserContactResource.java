@@ -3,6 +3,8 @@ package groep3.cloudapi.resource;
 import groep3.cloudapi.service.ContactService;
 import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.presentation.model.ContactPresenter;
+import groep3.cloudapi.presentation.model.ContactView;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
@@ -25,31 +27,33 @@ public class UserContactResource extends BaseResource
 {
     private final UserService userService;
     private final ContactService contactService;
+    private final ContactPresenter contactPresenter;
      
     @Inject
-    public UserContactResource (UserService userService, ContactService contactService)
+    public UserContactResource (UserService userService, ContactService contactService, ContactPresenter contactPresenter)
     {
         this.userService = userService;
-        this.contactService = contactService; 
+        this.contactService = contactService;
+        this.contactPresenter = contactPresenter;
     }
     
     //Get Calls - Contacts
     @GET
     @Path ("{UserId}/contacts")
     @RolesAllowed({"ADMIN", "USER"})
-    public List <User> getAllContacts(@PathParam ("UserId") String userId)
+    public List<ContactView> getAllContacts(@PathParam ("UserId") String userId)
     {
         List<User> contacts = contactService.getAllContacts(userId);
-        return contacts;
+        return contactPresenter.presentAllContacts(contacts);
     }
     
     @GET
     @Path ("{UserId}/contacts/{ContactId}")
     @RolesAllowed({"ADMIN", "USER"})
-    public User getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
+    public ContactView getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
     {
         User contact = contactService.getContact(userId, contactId);
-        return contact;
+        return contactPresenter.presentContact(contact);
     }
     
     @POST
