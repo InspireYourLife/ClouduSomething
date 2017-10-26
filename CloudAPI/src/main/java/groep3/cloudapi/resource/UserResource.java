@@ -48,6 +48,7 @@ public class UserResource extends BaseResource
     }
     
     @GET
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path( "/{userId}" )
     public UserView getUserById(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
@@ -57,6 +58,7 @@ public class UserResource extends BaseResource
     }
     
     @GET
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path( "/{userId}/points")
     public int getPoints(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
@@ -66,6 +68,7 @@ public class UserResource extends BaseResource
     
     //Post Calls - User
     @POST
+    @RolesAllowed(Role.Labels.ADMIN)
     public User create(@Valid User newUser)
     {
         userService.create(newUser);
@@ -74,6 +77,7 @@ public class UserResource extends BaseResource
     
     //Put Calls - User
     @PUT
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path( "/{userId}")
     public Boolean editUser(@Valid User editedUser, @PathParam( "userId") String id, @Auth User authenticatedUser)
     {
@@ -82,6 +86,7 @@ public class UserResource extends BaseResource
     }
     
     @PUT
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     @Path( "/{userId}/points" )
     public Boolean addPoints(int value, @PathParam( "userId") String id, @Auth User authenticatedUser)
     {
@@ -91,6 +96,7 @@ public class UserResource extends BaseResource
     
     //Delete Calls - User
     @DELETE
+    @RolesAllowed(Role.Labels.ADMIN)
     @Path( "/{userId}" )
     public Boolean deleteUserById(@PathParam( "id") String id, @Auth User authenticatedUser)
     {

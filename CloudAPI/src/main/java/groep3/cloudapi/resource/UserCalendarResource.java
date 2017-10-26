@@ -2,12 +2,14 @@ package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Appointment;
 import groep3.cloudapi.model.Calendar;
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.AppointmentPresenter;
 import groep3.cloudapi.presentation.CalendarPresenter;
 import groep3.cloudapi.presentation.model.CalendarView;
 import groep3.cloudapi.service.CalendarService;
 import io.dropwizard.auth.Auth;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -38,6 +40,7 @@ public class UserCalendarResource extends BaseResource
     
     //Get Calls - Calendar
     @GET
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path( "/{userId}/calendar")
     public CalendarView getCalendar(@PathParam("id") String id, @Auth User authenticatedUser)
     {
@@ -48,6 +51,7 @@ public class UserCalendarResource extends BaseResource
     
     //Post Calls - Calendar
     @POST
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     @Path( "/{userId}/calendar/appointment")
     public Calendar addAppointment(@PathParam("id") String id, @Valid Appointment appointment, @Auth User authenticatedUser)
     {

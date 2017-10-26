@@ -1,12 +1,14 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Notification;
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.NotificationPresenter;
 import groep3.cloudapi.presentation.model.NotificationView;
 import groep3.cloudapi.service.NotificationService;
 import io.dropwizard.auth.Auth;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -34,6 +36,7 @@ public class UserNotificationResource extends BaseResource
  
     //Get Calls - Notifications
     @GET
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path( "/{userId}/notifications")
     public List<NotificationView> getNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
@@ -43,6 +46,7 @@ public class UserNotificationResource extends BaseResource
     }
     
     @DELETE
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path("/{userId}/notifications/notifications/{notificationId}")
     public Boolean deleteSpecificNotification(@PathParam("userId") String uid, @PathParam("notificationId") String nid, @Auth User authenticatedUser)
     {
