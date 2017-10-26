@@ -66,6 +66,33 @@ public class GoalService extends BaseService
         return goalsFormModule;
     }
     
+    //Assign goal to module
+    public Boolean assignGoalToModule(String moduleId, String goalId)
+    {
+        boolean hasSucceeded = false;
+        
+        List<Goal> oldGoalList = moduleDAO.get(moduleId).getGoals();
+        
+        Module module = moduleDAO.get(moduleId);
+        Goal goal = goalDAO.get(goalId);
+        
+        List<Goal> goalsFromModule = module.getGoals();
+        goalsFromModule.add(goal);
+        module.setGoals(goalsFromModule);
+        
+        moduleDAO.update(module);
+        
+        List<Goal> newGoalList = moduleDAO.get(moduleId).getGoals();
+        
+        if (oldGoalList != newGoalList) 
+        {
+            hasSucceeded = true;
+        }
+        
+        return hasSucceeded;
+    }
+    
+    
     public Boolean switchApproveBool(String goalId)
     {
         boolean itemHasChanged = false;
@@ -95,14 +122,14 @@ public class GoalService extends BaseService
         Boolean originalBoolean;
         
         Goal goal = goalDAO.get(goalId);
-        originalBoolean = goal.getIsComplete();
+        originalBoolean = goal.getIsCompleted();
         
-        boolean isCompleted = goal.getIsComplete();
-        goal.setIsComplete(!isCompleted);
+        boolean isCompleted = goal.getIsCompleted();
+        goal.setIsCompleted(!isCompleted);
         
         goalDAO.update(goal);
         
-        boolean boolCheck = goalDAO.get(goalId).getIsComplete();
+        boolean boolCheck = goalDAO.get(goalId).getIsCompleted();
         
         if (originalBoolean != boolCheck)
         {
@@ -110,6 +137,23 @@ public class GoalService extends BaseService
         }
         
         return itemHasChanged;
+    }
+    
+    public Boolean removeGoal(String goalId)
+    {
+        boolean hasSucceeded = false;
+        
+        Goal goal = goalDAO.get(goalId);
+        goalDAO.delete(goal);
+        
+        Goal goalAfterDeletion = goalDAO.get(goalId);
+        
+        if (goalAfterDeletion == null) 
+        {
+            hasSucceeded = true;
+        }
+        
+        return hasSucceeded;
     }
     
     public void create(Goal newGoal)
