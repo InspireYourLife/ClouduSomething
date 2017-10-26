@@ -1,6 +1,7 @@
 package groep3.cloudapi.presentation.model;
 
 import groep3.cloudapi.model.Task;
+import groep3.cloudapi.presentation.BasePresenter;
 import java.util.ArrayList;
 import java.util.List;
 
