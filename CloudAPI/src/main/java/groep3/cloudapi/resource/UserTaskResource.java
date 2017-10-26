@@ -35,7 +35,7 @@ public class UserTaskResource extends BaseResource{
     
     @GET
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
-    @RolesAllowed({"ADMIN", "ÜSER"})
+    @RolesAllowed({"ADMIN", "CLIENT"})
     public List<TaskView> getTasks(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId)
     {
         List<Task> task = taskService.getTasks(userId, moduleId, goalId);
@@ -43,7 +43,7 @@ public class UserTaskResource extends BaseResource{
     }
     @GET
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
-    @RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN", "CLIENT"})
     public TaskView getSpecificTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
     {
         Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId);
@@ -69,7 +69,7 @@ public class UserTaskResource extends BaseResource{
     
     @PUT
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}/complete")
-    @RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN", "CLIENT"})
     public boolean taskStatus(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
     {
         boolean taskIsCompleted = taskService.taskStatus(userId, moduleId, goalId, taskId);

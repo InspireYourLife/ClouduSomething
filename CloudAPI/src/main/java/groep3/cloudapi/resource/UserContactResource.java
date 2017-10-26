@@ -40,7 +40,7 @@ public class UserContactResource extends BaseResource
     //Get Calls - Contacts
     @GET
     @Path ("{UserId}/contacts")
-    @RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN", "CLIENT"})
     public List<ContactView> getAllContacts(@PathParam ("UserId") String userId)
     {
         List<User> contacts = contactService.getAllContacts(userId);
@@ -49,7 +49,7 @@ public class UserContactResource extends BaseResource
     
     @GET
     @Path ("{UserId}/contacts/{ContactId}")
-    @RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN", "CLIENT"})
     public ContactView getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
     {
         User contact = contactService.getContact(userId, contactId);
@@ -58,7 +58,7 @@ public class UserContactResource extends BaseResource
     
     @POST
     @Path ("{UserId}/contacts/{ContactId}/sendMessage")
-    @RolesAllowed({"ADMIN", "USER"})
+    @RolesAllowed({"ADMIN", "CLIENT"})
     public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId, @Valid Notification newMessage)
     {
         contactService.sendMessage(userId, contactId, newMessage);
