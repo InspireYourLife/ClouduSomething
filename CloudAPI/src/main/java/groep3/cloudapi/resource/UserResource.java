@@ -2,6 +2,7 @@ package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.UserPresenter;
+import groep3.cloudapi.presentation.model.UserView;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
 import java.util.List;
@@ -24,35 +25,37 @@ import javax.ws.rs.core.MediaType;
 public class UserResource extends BaseResource
 {
     private final UserService userService;
-    //private final UserPresenter userPresenter;
+    private final UserPresenter userPresenter;
      
     @Inject
 
     public UserResource (UserService userService, UserPresenter userPresenter)
     {
         this.userService = userService;
-       // this.userPresenter = userPresenter;
+        this.userPresenter = userPresenter;
     }
     
     //Get Calls - User
     @GET
-    public List <User> getAll(@Auth User authenticatedUser)
+    public List <UserView> getAll(@Auth User authenticatedUser)
     {
         List<User> users = userService.GetAll();
-        return users;
+        List<UserView> usersToReturn = userPresenter.present(users);
+        return usersToReturn;
     }
     
     @GET
     @Path( "/{userId}" )
-    public User getUserById(@PathParam( "userId") String id)
+    public UserView getUserById(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         User user = userService.getUserById(id);
-        return user;
+        UserView userToReturn = userPresenter.present(user);
+        return userToReturn;
     }
     
     @GET
     @Path( "/{userId}/points")
-    public int getPoints(@PathParam( "userId") String id)
+    public int getPoints(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         int points = userService.getPoints(id);
         return points;
@@ -69,7 +72,7 @@ public class UserResource extends BaseResource
     //Put Calls - User
     @PUT
     @Path( "/{userId}")
-    public Boolean editUser(@Valid User editedUser, @PathParam( "userId") String id)
+    public Boolean editUser(@Valid User editedUser, @PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         Boolean success = userService.editUser(editedUser, id);
         return success;
@@ -77,7 +80,7 @@ public class UserResource extends BaseResource
     
     @PUT
     @Path( "/{userId}/points" )
-    public Boolean addPoints(int value, @PathParam( "userId") String id)
+    public Boolean addPoints(int value, @PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         Boolean success = userService.addPoints(value, id);
         return success;
@@ -86,7 +89,7 @@ public class UserResource extends BaseResource
     //Delete Calls - User
     @DELETE
     @Path( "/{userId}" )
-    public Boolean deleteUserById(@PathParam( "id") String id)
+    public Boolean deleteUserById(@PathParam( "id") String id, @Auth User authenticatedUser)
     {
         Boolean success = userService.deleteUserById(id);
         return success;

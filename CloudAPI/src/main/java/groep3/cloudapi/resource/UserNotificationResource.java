@@ -1,8 +1,10 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Notification;
+import groep3.cloudapi.model.User;
 import groep3.cloudapi.service.NotificationService;
 import groep3.cloudapi.service.UserService;
+import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -19,20 +21,18 @@ import javax.ws.rs.core.MediaType;
 
 public class UserNotificationResource extends BaseResource
 {
-    private final UserService userService;
     private final NotificationService notificationService;
      
     @Inject
     public UserNotificationResource (UserService userService, NotificationService notificationService)
     {
-        this.userService = userService;
         this.notificationService = notificationService;
     }
  
     //Get Calls - Notifications
     @GET
     @Path( "/{userId}/notifications")
-    public List<Notification> getNotifications(@PathParam( "userId") String id)
+    public List<Notification> getNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         List<Notification> notifications = notificationService.getNotifications(id);
         return notifications;
@@ -40,7 +40,7 @@ public class UserNotificationResource extends BaseResource
     
     @DELETE
     @Path("/{userId}/notifications/notifications/{notificationId}")
-    public Boolean deleteSpecificNotification(@PathParam("userId") String uid, @PathParam("notificationId") String nid)
+    public Boolean deleteSpecificNotification(@PathParam("userId") String uid, @PathParam("notificationId") String nid, @Auth User authenticatedUser)
     {
         Boolean success = notificationService.deleteSpecificNotification(uid, nid);
         return success;
