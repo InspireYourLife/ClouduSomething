@@ -6,6 +6,7 @@ import groep3.cloudapi.service.ModuleService;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -37,6 +38,7 @@ public class UserModuleResource extends BaseResource
     //Get all modules from logged in user
     @GET
     @Path ("/{UserId}/modules")
+    @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
     public List<Module> getModulesFromUser(@Auth User authenticatedUser)
     {
         ObjectId userId = authenticatedUser.getId();
@@ -48,6 +50,7 @@ public class UserModuleResource extends BaseResource
     //Get specific module from logged in user
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
+    @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
     public Module getModuleFromUser(@Auth User authenticatedUser, String moduleId)
     {
         ObjectId userId = authenticatedUser.getId();       
@@ -59,6 +62,7 @@ public class UserModuleResource extends BaseResource
     //Get specific module from specific user
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
+    @RolesAllowed( "ADMIN, CLIENT, CARETAKER, FAMILY" )
     public Module getModule(@PathParam ("ModuleId") String moduleId)
     {
         Module module = moduleService.getModuleById(moduleId);
@@ -69,6 +73,7 @@ public class UserModuleResource extends BaseResource
     //Delete specific module from specific user
     @DELETE
     @Path("/{UserId}/modules/{ModuleId}")
+    @RolesAllowed( "ADMIN, CARETAKER" )
     public boolean deleteUserModule(@PathParam ("id") String modId)
     {
         Boolean deleted = moduleService.deleteModule(modId);
@@ -79,6 +84,7 @@ public class UserModuleResource extends BaseResource
     //Assign a module to a user
     @PUT
     @Path ("/{UserId}/modules/{ModuleId}")
+    @RolesAllowed( "ADMIN, CARETAKER" )
     public boolean assignModule (String id, String modId)
     {
         Boolean mAssigned = moduleService.assignModule(id, modId);

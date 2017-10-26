@@ -5,6 +5,7 @@ import groep3.cloudapi.presentation.model.ModulePresenter;
 import groep3.cloudapi.service.ModuleService;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -41,6 +42,7 @@ public class ModuleResource extends BaseResource
     
     // Get all modules 
     @GET
+    @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
     public List<Module> getAllModules()
     {
         List<Module> modules = moduleService.getAllModules();
@@ -49,6 +51,7 @@ public class ModuleResource extends BaseResource
     
     //Create a new module
     @POST
+    @RolesAllowed( "ADMIN" )
     public Module createModule(@Valid Module newModule)
     {
         moduleService.createModule(newModule);
@@ -58,6 +61,7 @@ public class ModuleResource extends BaseResource
     //Delete a module by Id
     @DELETE
     @Path("/{moduleId}")
+    @RolesAllowed( "ADMIN" )
     public boolean deleteModule(@PathParam ("id") String modId)
     {
         Boolean deleted = moduleService.deleteModule(modId);
