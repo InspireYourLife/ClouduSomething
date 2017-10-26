@@ -1,4 +1,4 @@
-package groep3.cloudapi.presentation.model;
+package groep3.cloudapi.presentation;
 
 public abstract class BasePresenter 
 {

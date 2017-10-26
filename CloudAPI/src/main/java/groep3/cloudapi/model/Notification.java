@@ -11,23 +11,23 @@ public class Notification extends EntityModel
 {
     @Embedded
     @NotEmpty
-    String subject;
+    private String subject;
     
     @Embedded
     @NotEmpty
-    String body;
+    private String body;
     
     @Reference
     @NotEmpty
-    User sender;
+    private User sender;
     
     @Reference
     @NotEmpty
-    User recipient;
+    private User recipient;
     
     @Embedded
     @NotEmpty
-    Date creationDate;
+    private Date creationDate;
 
     public String getSubject()
     {

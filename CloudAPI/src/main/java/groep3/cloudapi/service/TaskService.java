@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 
 public class TaskService extends BaseService{
 
@@ -29,13 +30,17 @@ public class TaskService extends BaseService{
     public List<Task> getTasks(String userId, String moduleId, String goalId) 
     {    
         Goal goal = goalDAO.get(goalId);
+        requireResult(goal, "Goal not found");
+        
         List<Task> tasks = goal.getTasks();
+        requireResult(tasks, "No tasks found in this list");
         return tasks;
     }
 
     public Task getSpecificTask(String userId, String moduleId, String goalId, String taskId) 
     {   
-        Task task = taskDAO.get(taskId);   
+        Task task = taskDAO.get(taskId);
+        requireResult(task, "Task not found");
         return task;
     }
 
@@ -45,7 +50,8 @@ public class TaskService extends BaseService{
         newTask.setCreationDate(currentTime);
         
         Goal goal = goalDAO.get(goalId);
-        List<Task> tasks = new ArrayList<Task>();
+        requireResult(goal, "Goal not found");
+        List<Task> tasks = new ArrayList<>();
         
         if (goal.getTasks() != null)
         {
@@ -56,9 +62,39 @@ public class TaskService extends BaseService{
         goal.setTasks(tasks);
         
         User owner = userDAO.get(userId);
+        requireResult(owner, "User not found");
         newTask.setOwner(owner);
         
+        if(newTask.getId() == null){
+            throw new BadRequestException();
+        }
         taskDAO.create(newTask);
         goalDAO.update(goal);        
+    }
+
+    public void deleteTask(String userId, String moduleId, String goalId, String taskId) 
+    {
+        Task task = taskDAO.get(taskId);
+        requireResult(task, "Task not found");
+        taskDAO.delete(task);
+    }
+
+    public boolean taskStatus(String userId, String moduleId, String goalId, String taskId) {
+        
+        Task task = taskDAO.get(taskId);
+        requireResult(task, "Task not found");
+        boolean isComplete = task.getIsComplete();
+        
+        if(!isComplete){
+            isComplete = true;
+            task.setIsComplete(isComplete);
+            taskDAO.update(task);
+        } else {
+            isComplete = false;
+            task.setIsComplete(isComplete);
+            taskDAO.update(task);
+        }
+        
+        return isComplete;
     }
 }

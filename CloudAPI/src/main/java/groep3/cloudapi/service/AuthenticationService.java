@@ -7,6 +7,7 @@ import io.dropwizard.auth.AuthenticationException;
 import io.dropwizard.auth.Authenticator;
 import io.dropwizard.auth.basic.BasicCredentials;
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 
 
 public class AuthenticationService implements Authenticator<BasicCredentials, User>
@@ -26,7 +27,7 @@ public class AuthenticationService implements Authenticator<BasicCredentials, Us
         
         if (userFromDB == null)
         {
-            throw new NullPointerException("User does not exist in DB");
+            throw new NotFoundException("User does not exist in DB");
         }
         
         if (!credentials.getUsername().equals(userFromDB.getName()))

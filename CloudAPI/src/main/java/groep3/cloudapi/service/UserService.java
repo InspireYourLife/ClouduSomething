@@ -45,4 +45,59 @@ public class UserService extends BaseService
         
         userDAO.create(newUser);
     }
+
+    public Boolean editUser(User editedUser, String id)
+    {
+        User originalUser = userDAO.get(id);
+        userDAO.update(editedUser);
+        User newUser = userDAO.get(id);
+        
+        if (originalUser == newUser)
+        {
+            return false;
+        }
+        
+        else
+        {
+            return true;
+        }
+    }
+
+    public Boolean addPoints(int value, String id)
+    {
+        User originalUser = userDAO.get(id);
+        int newPoints = originalUser.getCollectedPoints() + value;
+        
+        User editedUser = originalUser;
+        editedUser.setCollectedPoints(newPoints);
+         
+        userDAO.update(editedUser);
+        int editedPoints = userDAO.get(id).getCollectedPoints();
+        
+        if (originalUser.getCollectedPoints() == editedPoints)
+        {
+            return false;
+        }
+        
+        else
+        {
+            return true;
+        }
+         
+    }
+
+    public Boolean deleteUserById(String id)
+    {
+        User u = userDAO.get(id);
+        userDAO.deleteById(u.getId());
+        
+        if (userDAO.get(id) == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

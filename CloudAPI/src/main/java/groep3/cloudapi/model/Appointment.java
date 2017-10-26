@@ -13,19 +13,26 @@ public class Appointment extends EntityModel
 {
     @Reference
     @NotEmpty
-    List<User> participants = new ArrayList<User>();
+    private List<User> participants = new ArrayList<User>();
     
     @Embedded
     @NotEmpty
-    Date date;
+    private Date date;
     
     @Embedded
     @NotEmpty
-    String description;
+    private String description;
     
     @Embedded
     @NotEmpty
-    Date creationDate;
+    private String location;
+    
+    @Embedded
+    private String comments;
+    
+    @Embedded
+    @NotEmpty
+    private Date creationDate;
 
     public List<User> getParticipants()
     {
@@ -55,6 +62,26 @@ public class Appointment extends EntityModel
     public void setDescription(String description)
     {
         this.description = description;
+    }
+    
+     public String getLocation()
+    {
+        return location;
+    }
+
+    public void setLocation(String location)
+    {
+        this.location = location;
+    }
+
+    public String getComments()
+    {
+        return comments;
+    }
+
+    public void setComments(String comments)
+    {
+        this.comments = comments;
     }
     
     public Date getCreationDate()

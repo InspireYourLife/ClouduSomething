@@ -4,6 +4,7 @@ import groep3.cloudapi.model.Goal;
 import groep3.cloudapi.presentation.model.GoalPresenter;
 import groep3.cloudapi.service.GoalService;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -30,6 +31,7 @@ public class GoalResource extends BaseResource
     }
     
     @GET
+    @RolesAllowed( "CARETAKER" )
     public List <Goal> getAll()
     {
         List<Goal> goals = goalService.getAll();
@@ -37,6 +39,7 @@ public class GoalResource extends BaseResource
     }
     
     @POST
+    @RolesAllowed( "ADMIN" )
     public Goal create(@Valid Goal newGoal)
     {
         goalService.create(newGoal);
