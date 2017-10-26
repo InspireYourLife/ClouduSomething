@@ -57,18 +57,32 @@ public class ModuleService extends BaseService
         Date currentTime = Date.from(Instant.now());
         newModule.setCreationDate(currentTime);
         
+        newModule.getIsTemplate();
+        
         moduleDAO.create(newModule);
     }
     
     //Assign a module to a specific user
-    public boolean assignModule (String id, Module modId)
+    public boolean assignModule (String id, String modId)
     {
+        
         User u = userDAO.get(id);
-        Module m = moduleDAO.get(id);
+        Module m = moduleDAO.get(modId);
         
         moduleDAO.create(m);
         
-        return false;
+        m.setIsTemplate(false);
+        
+        // u.setmodule(m) ... why is there a setmodules <list> but nothing for individual modules?
+        
+        if (m == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }   
     
     //Get specific module from specific user
@@ -81,6 +95,44 @@ public class ModuleService extends BaseService
         
         Module module = m.get(modId);
         
-        return module; //temp null
+        return module;
+    }
+    
+    //Delete TEMPLATE module
+    public boolean deleteModule(String modId)
+    {
+        Module m = moduleDAO.get(modId);
+        moduleDAO.delete(m);
+        
+        if (moduleDAO.get(modId)== null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    
+    //Delete specific module from specific user
+    public boolean deleteModuleFromUser(String userId, String moduleId)
+    {
+        int modId = Integer.parseInt(moduleId);
+        
+        User u = userDAO.get(userId);
+        List<Module> m = u.getModules();
+        
+        Module mToRemove = m.get(modId);
+        
+        moduleDAO.delete(mToRemove);
+        
+        if (mToRemove == null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }
