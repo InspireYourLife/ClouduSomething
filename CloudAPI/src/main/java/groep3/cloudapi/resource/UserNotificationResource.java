@@ -1,11 +1,17 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Notification;
+import groep3.cloudapi.model.Role;
+import groep3.cloudapi.model.User;
+import groep3.cloudapi.presentation.NotificationPresenter;
+import groep3.cloudapi.presentation.model.NotificationView;
 import groep3.cloudapi.service.NotificationService;
-import groep3.cloudapi.service.UserService;
+import io.dropwizard.auth.Auth;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -18,22 +24,33 @@ import javax.ws.rs.core.MediaType;
 
 public class UserNotificationResource extends BaseResource
 {
-    private final UserService userService;
     private final NotificationService notificationService;
+    private final NotificationPresenter notificationPresenter;
      
     @Inject
-    public UserNotificationResource (UserService userService, NotificationService notificationService)
+    public UserNotificationResource (NotificationService notificationService, NotificationPresenter notificationPresenter)
     {
-        this.userService = userService;
         this.notificationService = notificationService;
+        this.notificationPresenter = notificationPresenter;
     }
  
     //Get Calls - Notifications
     @GET
-    @Path( "/{id}/notifications")
-    public List<Notification> getNotifications(@PathParam( "id") String id)
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    @Path( "/{userId}/notifications")
+    public List<NotificationView> getNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         List<Notification> notifications = notificationService.getNotifications(id);
-        return notifications;
+        List<NotificationView> notificationsToReturn = notificationPresenter.present(notifications);
+        return notificationsToReturn;
+    }
+    
+    @DELETE
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    @Path("/{userId}/notifications/notifications/{notificationId}")
+    public Boolean deleteSpecificNotification(@PathParam("userId") String uid, @PathParam("notificationId") String nid, @Auth User authenticatedUser)
+    {
+        Boolean success = notificationService.deleteSpecificNotification(uid, nid);
+        return success;
     }
 }

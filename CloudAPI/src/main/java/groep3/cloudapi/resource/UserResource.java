@@ -1,15 +1,20 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.User;
-import groep3.cloudapi.presentation.model.UserPresenter;
+import groep3.cloudapi.presentation.UserPresenter;
+import groep3.cloudapi.presentation.model.UserView;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -22,35 +27,40 @@ import javax.ws.rs.core.MediaType;
 public class UserResource extends BaseResource
 {
     private final UserService userService;
-    //private final UserPresenter userPresenter;
+    private final UserPresenter userPresenter;
      
     @Inject
 
     public UserResource (UserService userService, UserPresenter userPresenter)
     {
         this.userService = userService;
-       // this.userPresenter = userPresenter;
+        this.userPresenter = userPresenter;
     }
     
     //Get Calls - User
     @GET
-    public List <User> getAll(@Auth User authenticatedUser)
+    @RolesAllowed(Role.Labels.ADMIN)
+    public List <UserView> getAll(@Auth User authenticatedUser)
     {
         List<User> users = userService.GetAll();
-        return users;
+        List<UserView> usersToReturn = userPresenter.present(users);
+        return usersToReturn;
     }
     
     @GET
-    @Path( "/{id}" )
-    public User getUserById(@PathParam( "id") String id)
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    @Path( "/{userId}" )
+    public UserView getUserById(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         User user = userService.getUserById(id);
-        return user;
+        UserView userToReturn = userPresenter.present(user);
+        return userToReturn;
     }
     
     @GET
-    @Path( "/{id}/points")
-    public int getPoints(@PathParam( "id") String id)
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    @Path( "/{userId}/points")
+    public int getPoints(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         int points = userService.getPoints(id);
         return points;
@@ -58,9 +68,39 @@ public class UserResource extends BaseResource
     
     //Post Calls - User
     @POST
+    @RolesAllowed(Role.Labels.ADMIN)
     public User create(@Valid User newUser)
     {
         userService.create(newUser);
         return newUser;
+    }
+    
+    //Put Calls - User
+    @PUT
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    @Path( "/{userId}")
+    public Boolean editUser(@Valid User editedUser, @PathParam( "userId") String id, @Auth User authenticatedUser)
+    {
+        Boolean success = userService.editUser(editedUser, id);
+        return success;
+    }
+    
+    @PUT
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    @Path( "/{userId}/points" )
+    public Boolean addPoints(int value, @PathParam( "userId") String id, @Auth User authenticatedUser)
+    {
+        Boolean success = userService.addPoints(value, id);
+        return success;
+    }
+    
+    //Delete Calls - User
+    @DELETE
+    @RolesAllowed(Role.Labels.ADMIN)
+    @Path( "/{userId}" )
+    public Boolean deleteUserById(@PathParam( "id") String id, @Auth User authenticatedUser)
+    {
+        Boolean success = userService.deleteUserById(id);
+        return success;
     }
 }

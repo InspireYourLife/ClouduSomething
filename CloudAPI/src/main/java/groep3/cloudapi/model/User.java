@@ -15,43 +15,43 @@ public class User extends EntityModel implements Principal
 {
     @Embedded
     @NotEmpty
-    String name;
+    private String name;
     
     @Embedded
-    String telephone;
-    
-    @Embedded
-    @NotEmpty
-    String email;
+    private String telephone;
     
     @Embedded
     @NotEmpty
-    String password;
+    private String email;
     
     @Embedded
-    List<String> address = new ArrayList<String>();
+    @NotEmpty
+    private String password;
     
     @Embedded
-    int collectedPoints;
+    private List<String> address = new ArrayList<String>();
+    
+    @Embedded
+    private int collectedPoints;
     
     @Embedded
     @NotNull
-    Role role;
+    private Role role;
     
     @Reference
-    List<Module> modules = new ArrayList<Module>();
+    private List<Module> modules = new ArrayList<Module>();
     
     @Reference
-    List<User> contacts = new ArrayList<User>();
+    private List<User> contacts = new ArrayList<User>();
     
     @Reference
-    Calendar calendar = new Calendar();
+    private Calendar calendar = new Calendar();
     
     @Embedded
-    String image;
+    private String image;
     
     @Embedded
-    Date creationDate;
+    private Date creationDate;
 
     public String getName()
     {
@@ -171,5 +171,10 @@ public class User extends EntityModel implements Principal
     public void setCreationDate(Date creationDate)
     {
         this.creationDate = creationDate;
+    }
+
+    public boolean hasRole(String role)
+    {
+        return this.role.toString().equals(role);
     }
 }

@@ -2,7 +2,6 @@ package groep3.cloudapi.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.validator.constraints.NotEmpty;
 import org.mongodb.morphia.annotations.Entity;
 import org.mongodb.morphia.annotations.Reference;
 
@@ -11,10 +10,10 @@ public class Calendar extends EntityModel
 {
     
     @Reference
-    List<Goal> deadlines = new ArrayList<Goal>();
+    private List<Goal> deadlines = new ArrayList<Goal>();
     
     @Reference
-    List<Appointment> appointments = new ArrayList<Appointment>();
+    private List<Appointment> appointments = new ArrayList<Appointment>();
 
     public List<Goal> getDeadlines()
     {
