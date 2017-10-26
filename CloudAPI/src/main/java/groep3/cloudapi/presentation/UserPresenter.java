@@ -1,6 +1,7 @@
-package groep3.cloudapi.presentation.model;
+package groep3.cloudapi.presentation;
 
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.presentation.model.UserView;
 import java.util.ArrayList;
 import java.util.List;
 

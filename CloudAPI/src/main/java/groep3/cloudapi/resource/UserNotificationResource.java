@@ -2,8 +2,9 @@ package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.presentation.NotificationPresenter;
+import groep3.cloudapi.presentation.model.NotificationView;
 import groep3.cloudapi.service.NotificationService;
-import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.inject.Inject;
@@ -22,20 +23,23 @@ import javax.ws.rs.core.MediaType;
 public class UserNotificationResource extends BaseResource
 {
     private final NotificationService notificationService;
+    private final NotificationPresenter notificationPresenter;
      
     @Inject
-    public UserNotificationResource (UserService userService, NotificationService notificationService)
+    public UserNotificationResource (NotificationService notificationService, NotificationPresenter notificationPresenter)
     {
         this.notificationService = notificationService;
+        this.notificationPresenter = notificationPresenter;
     }
  
     //Get Calls - Notifications
     @GET
     @Path( "/{userId}/notifications")
-    public List<Notification> getNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
+    public List<NotificationView> getNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         List<Notification> notifications = notificationService.getNotifications(id);
-        return notifications;
+        List<NotificationView> notificationsToReturn = notificationPresenter.present(notifications);
+        return notificationsToReturn;
     }
     
     @DELETE

@@ -1,7 +1,7 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.User;
-import groep3.cloudapi.presentation.model.UserPresenter;
+import groep3.cloudapi.presentation.UserPresenter;
 import groep3.cloudapi.presentation.model.UserView;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
