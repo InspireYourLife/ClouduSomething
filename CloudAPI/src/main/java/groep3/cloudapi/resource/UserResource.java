@@ -1,11 +1,13 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.UserPresenter;
 import groep3.cloudapi.presentation.model.UserView;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
@@ -37,6 +39,7 @@ public class UserResource extends BaseResource
     
     //Get Calls - User
     @GET
+    @RolesAllowed(Role.Labels.ADMIN)
     public List <UserView> getAll(@Auth User authenticatedUser)
     {
         List<User> users = userService.GetAll();

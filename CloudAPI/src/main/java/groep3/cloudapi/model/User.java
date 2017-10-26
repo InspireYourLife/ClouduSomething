@@ -172,4 +172,9 @@ public class User extends EntityModel implements Principal
     {
         this.creationDate = creationDate;
     }
+
+    public boolean hasRole(String role)
+    {
+        return this.role.toString().equals(role);
+    }
 }
