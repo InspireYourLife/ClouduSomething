@@ -57,18 +57,32 @@ public class ModuleService extends BaseService
         Date currentTime = Date.from(Instant.now());
         newModule.setCreationDate(currentTime);
         
+        newModule.getIsTemplate();
+        
         moduleDAO.create(newModule);
     }
     
     //Assign a module to a specific user
-    public boolean assignModule (String id, Module modId)
+    public boolean assignModule (String id, String modId)
     {
+        
         User u = userDAO.get(id);
-        Module m = moduleDAO.get(id);
+        Module m = moduleDAO.get(modId);
         
         moduleDAO.create(m);
         
-        return false;
+        m.setIsTemplate(false);
+        
+        // u.setmodule(m) ... why is there a setmodules <list> but nothing for individual modules?
+        
+        if (m == null)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }   
     
     //Get specific module from specific user
@@ -84,7 +98,7 @@ public class ModuleService extends BaseService
         return module;
     }
     
-    //Delete module
+    //Delete TEMPLATE module
     public boolean deleteModule(String modId)
     {
         Module m = moduleDAO.get(modId);
