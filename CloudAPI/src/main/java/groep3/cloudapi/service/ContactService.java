@@ -6,7 +6,6 @@ import groep3.cloudapi.persistence.UserDAO;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.NotFoundException;
 
 public class ContactService extends BaseService{
     
@@ -62,12 +61,5 @@ public class ContactService extends BaseService{
             throw new BadRequestException();
         }
         contacts.remove(cId);
-    }
-    
-    protected void requireResult(Object obj, String message)
-    {
-        if(obj == null){
-            throw new NotFoundException(message);
-        }
     }
 }
