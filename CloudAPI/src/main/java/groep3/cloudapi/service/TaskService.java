@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
-import javax.ws.rs.NotFoundException;
 
 public class TaskService extends BaseService{
 
@@ -97,12 +96,5 @@ public class TaskService extends BaseService{
         }
         
         return isComplete;
-    }
-    
-    protected void requireResult(Object obj, String message)
-    {
-        if(obj == null){
-            throw new NotFoundException(message);
-        }
     }
 }
