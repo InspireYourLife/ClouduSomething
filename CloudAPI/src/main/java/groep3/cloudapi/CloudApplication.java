@@ -17,11 +17,11 @@ import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 public class CloudApplication extends Application<CloudConfiguration>
 {
     private GuiceBundle<CloudConfiguration> guiceBundle;
-    private SwaggerBundle<CloudConfiguration> swaggerBundle;
+    //private SwaggerBundle<CloudConfiguration> swaggerBundle;
 
     public static void main(String[] args) throws Exception
     {
-        new CloudApplication().run(args);
+        new CloudApplication().run(new String[] { "server" } );
     }
 
     @Override
@@ -30,8 +30,8 @@ public class CloudApplication extends Application<CloudConfiguration>
         configureGuice();
         bootstrap.addBundle(guiceBundle);
         
-        configureSwagger();
-        bootstrap.addBundle(swaggerBundle);
+    //    configureSwagger();
+    //    bootstrap.addBundle(swaggerBundle);
     }
 
     private void configureGuice()
@@ -43,17 +43,17 @@ public class CloudApplication extends Application<CloudConfiguration>
             .build();
     }
     
-    private void configureSwagger()
-    {
-        swaggerBundle = new SwaggerBundle<CloudConfiguration>()
-                {
-                    @Override
-                    protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(CloudConfiguration configuration)
-                    {
-                        return configuration.swagger;
-                    }
-                };
-    }
+//    private void configureSwagger()
+//    {
+//        swaggerBundle = new SwaggerBundle<CloudConfiguration>()
+//                {
+//                    @Override
+//                    protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(CloudConfiguration configuration)
+//                    {
+//                        return configuration.swagger;
+//                    }
+//                };
+//    }
 
     @Override
     public void run( final CloudConfiguration configuration, 
