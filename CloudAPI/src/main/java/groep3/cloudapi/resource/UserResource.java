@@ -6,6 +6,8 @@ import groep3.cloudapi.presentation.UserPresenter;
 import groep3.cloudapi.presentation.model.UserView;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -20,6 +22,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+@Api ("users")
 @Path( "/users" )
 @Consumes ( MediaType.APPLICATION_JSON )
 @Produces ( MediaType.APPLICATION_JSON )
@@ -30,7 +33,6 @@ public class UserResource extends BaseResource
     private final UserPresenter userPresenter;
      
     @Inject
-
     public UserResource (UserService userService, UserPresenter userPresenter)
     {
         this.userService = userService;
@@ -40,6 +42,7 @@ public class UserResource extends BaseResource
     //Get Calls - User
     @GET
     @RolesAllowed(Role.Labels.ADMIN)
+    @ApiOperation("gets all users")
     public List <UserView> getAll(@Auth User authenticatedUser)
     {
         List<User> users = userService.GetAll();

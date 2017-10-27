@@ -10,11 +10,14 @@ import io.dropwizard.auth.AuthValueFactoryProvider;
 import io.dropwizard.auth.basic.BasicCredentialAuthFilter;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import io.federecio.dropwizard.swagger.SwaggerBundle;
+import io.federecio.dropwizard.swagger.SwaggerBundleConfiguration;
 import org.glassfish.jersey.server.filter.RolesAllowedDynamicFeature;
 
 public class CloudApplication extends Application<CloudConfiguration>
 {
     private GuiceBundle<CloudConfiguration> guiceBundle;
+    private SwaggerBundle<CloudConfiguration> swaggerBundle;
 
     public static void main(String[] args) throws Exception
     {
@@ -26,6 +29,9 @@ public class CloudApplication extends Application<CloudConfiguration>
     {
         configureGuice();
         bootstrap.addBundle(guiceBundle);
+        
+        configureSwagger();
+        bootstrap.addBundle(swaggerBundle);
     }
 
     private void configureGuice()
@@ -35,6 +41,18 @@ public class CloudApplication extends Application<CloudConfiguration>
             .enableAutoConfig(getClass().getPackage().getName())
             .setConfigClass(CloudConfiguration.class)
             .build();
+    }
+    
+    private void configureSwagger()
+    {
+        swaggerBundle = new SwaggerBundle<CloudConfiguration>()
+                {
+                    @Override
+                    protected SwaggerBundleConfiguration getSwaggerBundleConfiguration(CloudConfiguration configuration)
+                    {
+                        return configuration.swagger;
+                    }
+                };
     }
 
     @Override
