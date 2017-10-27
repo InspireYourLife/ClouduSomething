@@ -51,7 +51,7 @@ public class UserModuleResource extends BaseResource
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
     @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
-    public Module getModuleFromUser(@PathParam ("UserId") String uid, @Auth User authenticatedUser,@PathParam ("ModuleId") String moduleId)
+    public Module getModuleFromUser(@PathParam ("UserId") String uId, @Auth User authenticatedUser,@PathParam ("ModuleId") String moduleId)
     {
         ObjectId userId = authenticatedUser.getId();       
         Module m = moduleService.getUserModule(userId.toString(), moduleId);
