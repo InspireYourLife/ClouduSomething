@@ -39,7 +39,7 @@ public class UserModuleResource extends BaseResource
     @GET
     @Path ("/{UserId}/modules")
     @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
-    public List<Module> getModulesFromUser(@Auth User authenticatedUser)
+    public List<Module> getModulesFromUser(@PathParam ("UserId")@Auth User authenticatedUser)
     {
         ObjectId userId = authenticatedUser.getId();
         List<Module> allModulesFromUser = moduleService.getModulesByUserId(userId.toString());
@@ -51,7 +51,7 @@ public class UserModuleResource extends BaseResource
     @GET
     @Path ("/{UserId}/modules/{ModuleId}")
     @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
-    public Module getModuleFromUser(@Auth User authenticatedUser, String moduleId)
+    public Module getModuleFromUser(@PathParam ("UserId") @Auth User authenticatedUser,@PathParam ("ModuleId") String moduleId)
     {
         ObjectId userId = authenticatedUser.getId();       
         Module m = moduleService.getUserModule(userId.toString(), moduleId);
@@ -85,7 +85,7 @@ public class UserModuleResource extends BaseResource
     @PUT
     @Path ("/{UserId}/modules/{ModuleId}")
     @RolesAllowed( "ADMIN, CARETAKER" )
-    public boolean assignModule (String id, String modId)
+    public boolean assignModule (@PathParam ("UserId") String id,@PathParam ("ModuleId") String modId)
     {
         Boolean mAssigned = moduleService.assignModule(id, modId);
         
