@@ -21,7 +21,7 @@ public class CloudApplication extends Application<CloudConfiguration>
 
     public static void main(String[] args) throws Exception
     {
-        new CloudApplication().run(new String[] { "server" } );
+        new CloudApplication().run(args);
     }
 
     @Override
