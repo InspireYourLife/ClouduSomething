@@ -67,15 +67,16 @@ public class ModuleService extends BaseService
     {
         
         User u = userDAO.get(id);
-        Module m = moduleDAO.get(modId);
+        List<Module> m = u.getModules();
         
-        moduleDAO.create(m);
+        Module mToAdd = moduleDAO.get(modId);        
+        mToAdd.setIsTemplate(false);
+        m.add(mToAdd);
         
-        m.setIsTemplate(false);
         
-        // u.setmodule(m) ... why is there a setmodules <list> but nothing for individual modules?
+        u.setModules(m);
         
-        if (m == null)
+        if (mToAdd == null)
         {
             return false;
         }
