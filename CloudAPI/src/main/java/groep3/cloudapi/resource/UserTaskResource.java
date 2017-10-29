@@ -41,6 +41,7 @@ public class UserTaskResource extends BaseResource{
         List<Task> task = taskService.getTasks(userId, moduleId, goalId);
         return taskPresenter.presentAllTasks(task);
     }
+    
     @GET
     @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
     @RolesAllowed({"ADMIN", "CLIENT"})

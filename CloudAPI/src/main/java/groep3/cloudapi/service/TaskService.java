@@ -76,6 +76,10 @@ public class TaskService extends BaseService{
     {
         Task task = taskDAO.get(taskId);
         requireResult(task, "Task not found");
+        Goal goal = goalDAO.get(goalId);
+        requireResult(goal, "Goal not found");
+        
+        goalDAO.update(goal);
         taskDAO.delete(task);
     }
 
