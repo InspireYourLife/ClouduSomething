@@ -34,44 +34,44 @@ public class UserTaskResource extends BaseResource{
     }
     
     @GET
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
     @RolesAllowed({"ADMIN", "CLIENT"})
-    public List<TaskView> getTasks(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId)
+    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId)
     {
         List<Task> task = taskService.getTasks(userId, moduleId, goalId);
         return taskPresenter.presentAllTasks(task);
     }
     
     @GET
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
     @RolesAllowed({"ADMIN", "CLIENT"})
-    public TaskView getSpecificTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    public TaskView getSpecificTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId);
         return taskPresenter.presentSpecificTask(task);
     }
     
     @POST
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
     @RolesAllowed("ADMIN")
-    public TaskView createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @Valid Task newTask)
+    public TaskView createTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @Valid Task newTask)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
         return taskPresenter.presentSpecificTask(newTask);
     }
     
     @DELETE
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
     @RolesAllowed("ADMIN")
-    public void deleteTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    public void deleteTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         taskService.deleteTask(userId, moduleId, goalId, taskId);
     }
     
     @PUT
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}/complete")
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}/complete")
     @RolesAllowed({"ADMIN", "CLIENT"})
-    public boolean taskStatus(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    public boolean taskStatus(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         boolean taskIsCompleted = taskService.taskStatus(userId, moduleId, goalId, taskId);
         return taskIsCompleted;

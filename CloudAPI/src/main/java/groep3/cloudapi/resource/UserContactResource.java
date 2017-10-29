@@ -39,36 +39,36 @@ public class UserContactResource extends BaseResource
     
     //Get Calls - Contacts
     @GET
-    @Path ("{UserId}/contacts")
+    @Path ("{userId}/contacts")
     @RolesAllowed({"ADMIN", "CLIENT"})
-    public List<ContactView> getAllContacts(@PathParam ("UserId") String userId)
+    public List<ContactView> getAllContacts(@PathParam ("userId") String userId)
     {
         List<User> contacts = contactService.getAllContacts(userId);
         return contactPresenter.presentAllContacts(contacts);
     }
     
     @GET
-    @Path ("{UserId}/contacts/{ContactId}")
+    @Path ("{userId}/contacts/{contactId}")
     @RolesAllowed({"ADMIN", "CLIENT"})
-    public ContactView getContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
+    public ContactView getContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId)
     {
         User contact = contactService.getContact(userId, contactId);
         return contactPresenter.presentContact(contact);
     }
     
     @POST
-    @Path ("{UserId}/contacts/{ContactId}/sendMessage")
+    @Path ("{userId}/contacts/{contactId}/sendMessage")
     @RolesAllowed({"ADMIN", "CLIENT"})
-    public Notification sendMessage(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId, @Valid Notification newMessage)
+    public Notification sendMessage(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId, @Valid Notification newMessage)
     {
         contactService.sendMessage(userId, contactId, newMessage);
         return newMessage;
     }
     
     @DELETE
-    @Path ("{UserId}/contacts/{ContactId}")
+    @Path ("{userId}/contacts/{contactId}")
     @RolesAllowed("ADMIN")
-    public void deleteContact(@PathParam ("UserId") String userId, @PathParam ("ContactId") String contactId)
+    public void deleteContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId)
     {
         contactService.deleteContact(userId, contactId);
     }
