@@ -40,7 +40,7 @@ public class UserModuleResource extends BaseResource
     @GET
     @Path ("/{userId}/modules")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public List<Module> getModulesFromUser(@PathParam ("userId") String uId, @Auth User authenticatedUser)
+    public List<ModuleView> getModulesFromUser(@PathParam ("userId") String uId, @Auth User authenticatedUser)
     {
         String userId = uId;
         List<Module> allModulesFromUser = moduleService.getModulesByUserId(userId);
@@ -53,12 +53,12 @@ public class UserModuleResource extends BaseResource
     @GET
     @Path ("/{userId}/modules/{moduleId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public Module getModuleFromUser(@PathParam ("userId") String uId, @Auth User authenticatedUser,@PathParam ("moduleId") String moduleId)
+    public ModuleView getModuleFromUser(@PathParam ("userId") String uId, @Auth User authenticatedUser,@PathParam ("moduleId") String moduleId)
     {
         String userId = uId;       
         Module m = moduleService.getUserModule(userId, moduleId);
-        
-        return m;
+        ModuleView moduleToReturn = modulePresenter.present(m);
+        return moduleToReturn;
     }
     
     //Delete specific module from specific user

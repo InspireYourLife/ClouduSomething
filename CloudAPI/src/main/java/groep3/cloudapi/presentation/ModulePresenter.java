@@ -30,4 +30,17 @@ public class ModulePresenter extends BasePresenter
         
         return safeData;
     }
+    
+    public ModuleView present(Module m)
+    {
+        ModuleView mv = new ModuleView();
+        
+        mv.name = m.getName();
+        mv.creationDate = m.getCreationDate();
+        mv.isApproved = m.getIsApproved();
+        mv.isCompleted = m.getIsCompleted();
+        mv.isTemplate = m.getIsTemplate();
+        
+        return mv;
+    }
 }
