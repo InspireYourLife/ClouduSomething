@@ -35,9 +35,7 @@ public class ModuleService extends BaseService
     // get all modules
     public List<Module> getAllModules()
     {
-        List<Module> modules = new ArrayList<Module>();
-                
-        modules = moduleDAO.getAll();
+        List<Module> modules = moduleDAO.getAll();
         
         //werking van requireResult op single objecten
         if (modules.isEmpty() == true)
@@ -83,7 +81,7 @@ public class ModuleService extends BaseService
         Date currentTime = Date.from(Instant.now());
         newModule.setCreationDate(currentTime);
         
-        newModule.getIsTemplate();
+        //newModule.getIsTemplate();
         
         moduleDAO.create(newModule);
     }
@@ -95,31 +93,32 @@ public class ModuleService extends BaseService
         requireResult(u, "User not found");
                 
         List<Module> m = u.getModules();  
-        if (m.isEmpty() == true)
-        {
-            throw new NotFoundException("There are no modules in the database");
-        }
 
-        Module mToAdd = moduleDAO.get(modId);
-        requireResult(mToAdd, "Module not found");
+        Module mod = moduleDAO.get(modId);
+        requireResult(mod, "Module not found");
         
-        mToAdd.setIsTemplate(false);
-        
-        if (m.contains(mToAdd))
+        if (mod.getIsTemplate() == true)
         {
-            throw new BadRequestException("This module has already been assigned to the user");
-        }
+            Module mToAdd = mod;
+            
+            if (m.contains(mToAdd))
+            {
+                throw new BadRequestException("This module has already been assigned to the user");
+            }
+            
+            mToAdd.setIsTemplate(false);
+            mToAdd.setId(null);
+            
+            m.add(mToAdd);                
+            u.setModules(m);
         
-        m.add(mToAdd);                
-        u.setModules(m);
-        
-        if (mToAdd == null)
-        {
-            return false;
+            userDAO.update(u);
+            
+            return true;
         }
         else
         {
-            return true;
+            throw new BadRequestException("The selected module is not a template");
         }
     }   
     

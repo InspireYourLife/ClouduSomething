@@ -64,7 +64,7 @@ public class UserModuleResource extends BaseResource
     @DELETE
     @Path("/{userId}/modules/{moduleId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
-    public boolean deleteUserModule(@PathParam ("userId") String uId,@PathParam ("moduleId") String modId)
+    public boolean deleteUserModule(@PathParam ("userId") String uId,@PathParam ("moduleId") String modId, @Auth User authenticatedUser)
     {
         Boolean deleted = moduleService.deleteModule(modId);
         
@@ -75,7 +75,7 @@ public class UserModuleResource extends BaseResource
     @PUT
     @Path ("/{userId}/modules/{moduleId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
-    public boolean assignModule (@PathParam ("userId") String uId,@PathParam ("moduleId") String modId)
+    public boolean assignModule (@PathParam ("userId") String uId,@PathParam ("moduleId") String modId, @Auth User authenticatedUser)
     {
         Boolean mAssigned = moduleService.assignModule(uId, modId);
         
