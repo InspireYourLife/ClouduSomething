@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -99,9 +100,7 @@ public class ModuleService extends BaseService
             throw new BadRequestException("This module has already been assigned to the user");
         }
         
-        m.add(mToAdd);
-        
-        
+        m.add(mToAdd);                
         u.setModules(m);
         
         if (mToAdd == null)
@@ -125,17 +124,20 @@ public class ModuleService extends BaseService
         List<Module> m = u.getModules();
         
         Module module = m.get(modId);
+        requireResult(m, "Module not found");
         
         return module;
     }
     
     //Delete TEMPLATE module
     public boolean deleteModule(String modId)
-    {
+    {  
         Module m = moduleDAO.get(modId);
+        requireResult(m, "Module not found");
+        
         moduleDAO.delete(m);
         
-        if (moduleDAO.get(modId)== null)
+        if (moduleDAO.get(modId) == null)
         {
             return true;
         }
@@ -156,6 +158,7 @@ public class ModuleService extends BaseService
         List<Module> m = u.getModules();
         
         Module mToRemove = m.get(modId);
+        requireResult(m, "Module not found");
         
         moduleDAO.delete(mToRemove);
         
