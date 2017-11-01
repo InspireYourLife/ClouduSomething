@@ -1,9 +1,10 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Module;
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.presentation.ModulePresenter;
+import groep3.cloudapi.presentation.model.ModuleView;
 import groep3.cloudapi.service.ModuleService;
-import groep3.cloudapi.service.UserService;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -24,29 +25,28 @@ import javax.ws.rs.core.MediaType;
 public class ModuleResource extends BaseResource
 {
     private final ModuleService moduleService;
-    private final UserService userService;
     private final ModulePresenter modulePresenter;
     
     @Inject
-    public ModuleResource (ModuleService moduleService, UserService userService, ModulePresenter modulePresenter)
+    public ModuleResource (ModuleService moduleService, ModulePresenter modulePresenter)
     {
         this.moduleService = moduleService;
-        this.userService = userService;
         this.modulePresenter = modulePresenter;
     }
     
     // Get all modules 
     @GET
-    @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
-    public List<Module> getAllModules()
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    public List<ModuleView> getAllModules()
     {
         List<Module> modules = moduleService.getAllModules();
-        return modules;
+        List<ModuleView> modulesToReturn = modulePresenter.present(modules);
+        return modulesToReturn;
     }
     
     //Create a new module
     @POST
-    @RolesAllowed( "ADMIN" )
+    @RolesAllowed({Role.Labels.ADMIN})
     public Module createModule(@Valid Module newModule)
     {
         moduleService.createModule(newModule);
@@ -56,7 +56,7 @@ public class ModuleResource extends BaseResource
     //Delete a module by Id
     @DELETE
     @Path("/{moduleId}")
-    @RolesAllowed( "ADMIN" )
+    @RolesAllowed({Role.Labels.ADMIN})
     public boolean deleteModule(@PathParam ("id") String modId)
     {
         Boolean deleted = moduleService.deleteModule(modId);
