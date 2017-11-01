@@ -8,7 +8,9 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -32,13 +34,22 @@ public class ModuleService extends BaseService
     // get all modules
     public List<Module> getAllModules()
     {
-        return moduleDAO.getAll();
+        List<Module> modules = moduleDAO.getAll();
+        
+        if (modules.isEmpty() == true)
+        {
+            throw new NotFoundException("There are no Modules in the database");
+        }
+        
+        return modules;
     }
     
     // get specific module by id
     public Module getModuleById(String moduleId)
     {
         Module tempModule = moduleDAO.get(moduleId);
+        requireResult(tempModule, "Module not found");
+        
         return tempModule;
     }
     
@@ -49,6 +60,7 @@ public class ModuleService extends BaseService
         requireResult(u, "User not found");
         
         List<Module> m = u.getModules();
+        requireResult (m, "No Modules were found");
         
         return m;    
     }
@@ -56,6 +68,11 @@ public class ModuleService extends BaseService
     //Create a new module
     public void createModule (Module newModule)
     {
+        if (newModule != null)
+            {
+                throw new BadRequestException("A module with this name already exists");
+            }
+        
         Date currentTime = Date.from(Instant.now());
         newModule.setCreationDate(currentTime);
         
@@ -71,10 +88,17 @@ public class ModuleService extends BaseService
         User u = userDAO.get(id);
         requireResult(u, "User not found");
                 
-        List<Module> m = u.getModules();
+        List<Module> m = u.getModules();        
         
-        Module mToAdd = moduleDAO.get(modId);        
+        Module mToAdd = moduleDAO.get(modId);
+        requireResult(mToAdd, "Module not found");
         mToAdd.setIsTemplate(false);
+        
+        if (m.contains(mToAdd))
+        {
+            throw new BadRequestException("This module has already been assigned to the user");
+        }
+        
         m.add(mToAdd);
         
         
