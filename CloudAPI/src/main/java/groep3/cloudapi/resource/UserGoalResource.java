@@ -58,7 +58,7 @@ public class UserGoalResource extends BaseResource
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER, Role.Labels.CLIENT, Role.Labels.FAMILY})
     @ApiOperation("Gets all goals from a specific module from a specififc user")
     @Path("/{userId}/modules/{moduleId}/goals")
-    public List<GoalView> getGoalsFormModule(@PathParam("userId") String userId, @PathParam("moduleId") String moduleId) 
+    public List<GoalView> getGoalsFormModule(@Auth User authenticatedUser, @PathParam("userId") String userId, @PathParam("moduleId") String moduleId) 
     {
         List<Goal> goalsFromModule = goalService.getGoalsFromModule(moduleId);
         return goalPresenter.presentListOfGoals(goalsFromModule);
@@ -69,7 +69,7 @@ public class UserGoalResource extends BaseResource
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER, Role.Labels.CLIENT, Role.Labels.FAMILY})
     @ApiOperation("Gets a specific goal from a specific module from a specififc user")
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
-    public GoalView getGoal(@PathParam("goalId") String goalId)
+    public GoalView getGoal(@Auth User authenticatedUser, @PathParam("goalId") String goalId)
     {
         Goal goal = goalService.getGoal(goalId);
         return goalPresenter.presentGoal(goal);
@@ -80,7 +80,7 @@ public class UserGoalResource extends BaseResource
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     @ApiOperation("Assigns a goal to a module of a user")
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
-    public Boolean assignGoalToModule(@PathParam("userId") String userId, @PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId) 
+    public Boolean assignGoalToModule(@Auth User authenticatedUser, @PathParam("userId") String userId, @PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId) 
     {
         boolean hasSucceeded = goalService.assignGoalToModule(moduleId, goalId);
         return hasSucceeded;
@@ -91,7 +91,7 @@ public class UserGoalResource extends BaseResource
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     @ApiOperation("Removes a goal from a module of a user")
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
-    public Boolean removeGoal(@PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId)
+    public Boolean removeGoal(@Auth User authenticatedUser, @PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId)
     {
         boolean hasSucceeded = goalService.removeGoal(moduleId, goalId);
         return hasSucceeded;
