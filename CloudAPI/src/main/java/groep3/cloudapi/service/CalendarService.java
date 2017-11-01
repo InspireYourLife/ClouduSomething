@@ -82,4 +82,37 @@ public class CalendarService extends BaseService
             throw new BadRequestException("User is not a participant");
         }
     }
+
+    public Boolean deleteAppointment(String uid, String aid)
+    {
+        Appointment a = appointmentDAO.get(aid);
+        
+        requireResult(a, "Appointment not found");
+        
+        appointmentDAO.delete(a);
+        
+        User u = userDAO.get(uid);
+        
+        requireResult(u, "User not found");
+        
+        Calendar c = u.getCalendar();
+        
+        List<Appointment> calendarAppointments = c.getAppointments();
+        
+        calendarAppointments.remove(a);
+        
+        c.setAppointments(calendarAppointments);
+        
+        calendarDAO.update(c);
+        
+        if (appointmentDAO.get(aid) == null)
+        {
+            return true;
+        }
+        
+        else
+        {
+            return false;
+        }
+    }
 }

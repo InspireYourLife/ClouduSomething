@@ -14,6 +14,7 @@ import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -69,5 +70,15 @@ public class UserCalendarResource extends BaseResource
     public Boolean addAppointment(@PathParam("id") String id, @Valid Appointment appointment, @Auth User authenticatedUser)
     {
         return calendarService.addAppointment(id, appointment);
+    }
+    
+    //Delete Calls
+    @DELETE
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    @Path( "/{userId}/calendar/appointment/{appointmentId}")
+    
+    public Boolean deleteAppointment(@PathParam("userId") String uid, @PathParam("appointmentId") String aid, @Auth User authenticatedUser)
+    {
+        return calendarService.deleteAppointment(uid, aid);
     }
 }
