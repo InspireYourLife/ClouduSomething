@@ -103,7 +103,7 @@ public class UserResource extends BaseResource
     @DELETE
     @RolesAllowed(Role.Labels.ADMIN)
     @Path( "/{userId}" )
-    public Boolean deleteUserById(@PathParam( "id") String id, @Auth User authenticatedUser)
+    public Boolean deleteUserById(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         Boolean success = userService.deleteUserById(id);
         return success;

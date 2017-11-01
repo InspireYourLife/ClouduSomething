@@ -66,7 +66,7 @@ public class UserCalendarResource extends BaseResource
     
     //Post Calls - Calendar
     @POST
-    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    @RolesAllowed(Role.Labels.ADMIN)
     @Path("/{userId}/calendar/")
     
     public Boolean postCalendar(@PathParam("userId") String id, @Valid Calendar calendar, @Auth User authenticatedUser)
