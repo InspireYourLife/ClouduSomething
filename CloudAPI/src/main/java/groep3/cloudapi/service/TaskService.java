@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 
 public class TaskService extends BaseService{
 
@@ -27,20 +28,41 @@ public class TaskService extends BaseService{
         this.userDAO = userDAO;
     }
 
-    public List<Task> getTasks(String userId, String moduleId, String goalId) 
+    public List<Task> getTasks(String userId, String moduleId, String goalId, String ownerId) 
     {    
         Goal goal = goalDAO.get(goalId);
         requireResult(goal, "Goal not found");
         
-        List<Task> tasks = goal.getTasks();
+        List<Task> tasks = new ArrayList<Task>();
         requireResult(tasks, "No tasks found in this list");
+        
+        User owner = userDAO.get(ownerId);
+        
+        if(owner != null){
+            tasks = taskDAO.getTaskByOwner(owner);
+            if(tasks.isEmpty()){
+                throw new NotFoundException("This user has not tasks");
+            }
+        } else {
+            tasks = goal.getTasks();
+            if(tasks.isEmpty()){
+                throw new NotFoundException("This user has not tasks");
+            }
+        }
         return tasks;
     }
 
-    public Task getSpecificTask(String userId, String moduleId, String goalId, String taskId) 
+    public Task getSpecificTask(String userId, String moduleId, String goalId, String taskId, String name) 
     {   
-        Task task = taskDAO.get(taskId);
-        requireResult(task, "Task not found");
+        Task task = new Task();
+        if(name != null){
+            task = taskDAO.getTaskByName(name);
+            requireResult(task, "Task not found");
+        } else {
+            task = taskDAO.get(taskId);
+            requireResult(task, "Task not found");
+        }
+        
         return task;
     }
 
@@ -68,6 +90,7 @@ public class TaskService extends BaseService{
         if(newTask.getId() == null){
             throw new BadRequestException();
         }
+        
         taskDAO.create(newTask);
         goalDAO.update(goal);        
     }
@@ -76,6 +99,10 @@ public class TaskService extends BaseService{
     {
         Task task = taskDAO.get(taskId);
         requireResult(task, "Task not found");
+        Goal goal = goalDAO.get(goalId);
+        requireResult(goal, "Goal not found");
+        
+        goalDAO.update(goal);
         taskDAO.delete(task);
     }
 
