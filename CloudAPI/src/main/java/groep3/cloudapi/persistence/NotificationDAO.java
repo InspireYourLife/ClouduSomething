@@ -4,6 +4,7 @@ import groep3.cloudapi.model.Notification;
 import groep3.cloudapi.model.User;
 import java.util.List;
 import javax.inject.Inject;
+import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.query.Query;
 
@@ -27,9 +28,11 @@ public class NotificationDAO extends BaseDAO<Notification>
         return find(query).asList();
     }
 
-    public void deleteReceivedNotification(User u, String nid)
+    public void deleteReceivedNotification(User u, ObjectId nid)
     {
         Query<Notification> query = createQuery();
         query.and(query.criteria("_id").equal(nid), query.criteria("recipient").equal(u));
+        Notification n = find(query).get();
+        delete(n);
     }
 }
