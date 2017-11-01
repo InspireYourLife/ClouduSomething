@@ -1,7 +1,7 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Module;
-import groep3.cloudapi.presentation.model.ModulePresenter;
+import groep3.cloudapi.presentation.ModulePresenter;
 import groep3.cloudapi.service.ModuleService;
 import groep3.cloudapi.service.UserService;
 import java.util.List;
