@@ -74,10 +74,9 @@ public class UserResource extends BaseResource
     //Post Calls - User
     @POST
     @RolesAllowed(Role.Labels.ADMIN)
-    public User create(@Valid User newUser)
+    public Boolean create(@Valid User newUser)
     {
-        userService.create(newUser);
-        return newUser;
+        return userService.create(newUser);      
     }
     
     //Put Calls - User

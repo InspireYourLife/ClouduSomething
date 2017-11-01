@@ -87,7 +87,7 @@ public class UserService extends BaseService
         return u.getCollectedPoints();
     }
             
-    public void create(User newUser)
+    public Boolean create(User newUser)
     {
         Date currentTime = Date.from(Instant.now());
         newUser.setCreationDate(currentTime);
@@ -95,6 +95,8 @@ public class UserService extends BaseService
         calendarDAO.create(newUser.getCalendar());
         
         userDAO.create(newUser);
+        
+        return true;
     }
 
     public Boolean editUser(User editedUser, String id)
