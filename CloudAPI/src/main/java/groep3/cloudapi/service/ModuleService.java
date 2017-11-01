@@ -46,6 +46,8 @@ public class ModuleService extends BaseService
     public List<Module> getModulesByUserId(String id)
     {
         User u = userDAO.get(id);
+        requireResult(u, "User not found");
+        
         List<Module> m = u.getModules();
         
         return m;    
@@ -67,6 +69,8 @@ public class ModuleService extends BaseService
     {
         
         User u = userDAO.get(id);
+        requireResult(u, "User not found");
+                
         List<Module> m = u.getModules();
         
         Module mToAdd = moduleDAO.get(modId);        
@@ -92,6 +96,8 @@ public class ModuleService extends BaseService
         int modId = Integer.parseInt(moduleId);
         
         User u = userDAO.get(userId);
+        requireResult(u, "User not found");
+        
         List<Module> m = u.getModules();
         
         Module module = m.get(modId);
@@ -121,6 +127,8 @@ public class ModuleService extends BaseService
         int modId = Integer.parseInt(moduleId);
         
         User u = userDAO.get(userId);
+        requireResult(u, "User not found");
+        
         List<Module> m = u.getModules();
         
         Module mToRemove = m.get(modId);
