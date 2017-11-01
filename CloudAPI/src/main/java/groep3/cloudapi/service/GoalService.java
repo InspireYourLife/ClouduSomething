@@ -36,27 +36,31 @@ public class GoalService extends BaseService
     {
         return goalDAO.getAll();
     }
-    
-    public List<Goal> getAllGoalsFromUser(String userId)
+
+    public List<Goal> getAllGoalsFromUser(User authenticatedUser, String userId)
     {
+        Boolean shouldHaveAcess = TestForAcces(authenticatedUser, userId);
+
+        if (!shouldHaveAcess) {
+            // throw exception
+        }
+        
         List<Goal> allGoalsFromUser = new ArrayList<Goal>();
         User tempUser = userDAO.get(userId);
-        
+
         // Get all modules from a user
         List<Module> allModulesFromUser = tempUser.getModules();
-        
+
         // Get all goals from every found module
-        for (Module module : allModulesFromUser) 
-        {
+        for (Module module : allModulesFromUser) {
             List<Goal> allGoalsFromModule = module.getGoals();
-            
+
             // Add goal into the 'big' List
-            for (Goal goal : allGoalsFromModule) 
-            {
+            for (Goal goal : allGoalsFromModule) {
                 allGoalsFromUser.add(goal);
             }
         }
-        
+
         return allGoalsFromUser;
     }
     
@@ -139,28 +143,67 @@ public class GoalService extends BaseService
         return itemHasChanged;
     }
     
-    public Boolean removeGoal(String goalId)
+    public Boolean removeGoal(String moduleId, String goalId)
     {
         boolean hasSucceeded = false;
         
         Goal goal = goalDAO.get(goalId);
+        Module module = moduleDAO.get(moduleId);
+        
         goalDAO.delete(goal);
+        module.getGoals().remove(goal);
         
         Goal goalAfterDeletion = goalDAO.get(goalId);
         
-        if (goalAfterDeletion == null) 
+        if (goalAfterDeletion == null && !module.getGoals().contains(goal)) 
         {
             hasSucceeded = true;
         }
-        
+
         return hasSucceeded;
     }
     
-    public void create(Goal newGoal)
+    public Boolean create(Goal newGoal)
     {
         Date currentTime = Date.from(Instant.now());
         newGoal.setCreationDate(currentTime);
         
+        //List<Goal> goalsBefore = new ArrayList<Goal>();
+        List<Goal> goalsBefore = goalDAO.getAll();
+        int amountOfGoalsBefore = goalsBefore.size();
+        
         goalDAO.create(newGoal);
+        
+        //List<Goal> goalsAfter = new ArrayList<Goal>();
+        List<Goal> goalsAfter = goalDAO.getAll();
+        int amountOfGoalsAfter = goalsAfter.size();
+        
+        if (amountOfGoalsBefore != amountOfGoalsAfter) 
+        {
+            return true;
+        }
+        return false;
+    }
+    
+    private Boolean TestForAcces(User authenticatedUser, String userId)
+    {
+        Boolean shouldHaveAcess = false;
+        
+        if (authenticatedUser.hasRole("ADMIN"))
+        {
+            shouldHaveAcess = true;
+        }
+        else
+        {
+            User user = userDAO.get(userId);
+            List<User> contacts = user.getContacts();
+            
+            if (contacts.contains(authenticatedUser)) 
+            {
+                shouldHaveAcess = true;
+            }
+        }
+        
+        return shouldHaveAcess;
     }
 }

@@ -1,12 +1,14 @@
 package groep3.cloudapi.presentation.model;
 
+import java.util.Date;
+
 public class GoalView
 {
     public String name;
     public String description;
-    public String deadline;
-    public String completionDate;
+    public Date deadline;
+    public Date completionDate;
     public boolean isCompleted;
     public boolean isApproved;
-    public String creationDate;
+    public Date creationDate;
 }
