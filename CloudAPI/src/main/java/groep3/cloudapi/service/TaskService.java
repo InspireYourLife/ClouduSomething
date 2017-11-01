@@ -68,6 +68,7 @@ public class TaskService extends BaseService{
         if(newTask.getId() == null){
             throw new BadRequestException();
         }
+        
         taskDAO.create(newTask);
         goalDAO.update(goal);        
     }

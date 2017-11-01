@@ -2,6 +2,7 @@ package groep3.cloudapi.resource;
 
 import groep3.cloudapi.service.ContactService;
 import groep3.cloudapi.model.Notification;
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.ContactPresenter;
 import groep3.cloudapi.presentation.model.ContactView;
@@ -40,7 +41,7 @@ public class UserContactResource extends BaseResource
     //Get Calls - Contacts
     @GET
     @Path ("{userId}/contacts")
-    @RolesAllowed({"ADMIN", "CLIENT"})
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT})
     public List<ContactView> getAllContacts(@PathParam ("userId") String userId)
     {
         List<User> contacts = contactService.getAllContacts(userId);
@@ -49,7 +50,7 @@ public class UserContactResource extends BaseResource
     
     @GET
     @Path ("{userId}/contacts/{contactId}")
-    @RolesAllowed({"ADMIN", "CLIENT"})
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     public ContactView getContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId)
     {
         User contact = contactService.getContact(userId, contactId);
@@ -58,7 +59,7 @@ public class UserContactResource extends BaseResource
     
     @POST
     @Path ("{userId}/contacts/{contactId}/sendMessage")
-    @RolesAllowed({"ADMIN", "CLIENT"})
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     public Notification sendMessage(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId, @Valid Notification newMessage)
     {
         contactService.sendMessage(userId, contactId, newMessage);
@@ -67,7 +68,7 @@ public class UserContactResource extends BaseResource
     
     @DELETE
     @Path ("{userId}/contacts/{contactId}")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed(Role.Labels.ADMIN)
     public void deleteContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId)
     {
         contactService.deleteContact(userId, contactId);

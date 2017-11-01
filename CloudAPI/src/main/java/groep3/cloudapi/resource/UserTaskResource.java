@@ -1,5 +1,6 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.Task;
 import groep3.cloudapi.presentation.model.TaskPresenter;
 import groep3.cloudapi.presentation.model.TaskView;
@@ -35,7 +36,7 @@ public class UserTaskResource extends BaseResource{
     
     @GET
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
-    @RolesAllowed({"ADMIN", "CLIENT"})
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId)
     {
         List<Task> task = taskService.getTasks(userId, moduleId, goalId);
@@ -44,7 +45,7 @@ public class UserTaskResource extends BaseResource{
     
     @GET
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
-    @RolesAllowed({"ADMIN", "CLIENT"})
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     public TaskView getSpecificTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId);
@@ -53,7 +54,7 @@ public class UserTaskResource extends BaseResource{
     
     @POST
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     public TaskView createTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @Valid Task newTask)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
@@ -62,7 +63,7 @@ public class UserTaskResource extends BaseResource{
     
     @DELETE
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
-    @RolesAllowed("ADMIN")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     public void deleteTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         taskService.deleteTask(userId, moduleId, goalId, taskId);
@@ -70,7 +71,7 @@ public class UserTaskResource extends BaseResource{
     
     @PUT
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}/complete")
-    @RolesAllowed({"ADMIN", "CLIENT"})
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     public boolean taskStatus(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         boolean taskIsCompleted = taskService.taskStatus(userId, moduleId, goalId, taskId);

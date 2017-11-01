@@ -21,6 +21,13 @@ public class UserDAO extends BaseDAO<User>
         return findOne(query);
     }
     
+    public User getByEmail (String email)
+    {
+        Query<User> query = createQuery().field("email").equal(email);
+        
+        return findOne(query);
+    }
+    
     public void sendMessage(User contact, Notification newMessage) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
