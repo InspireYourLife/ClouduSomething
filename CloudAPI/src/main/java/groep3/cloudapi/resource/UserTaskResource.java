@@ -3,9 +3,10 @@ package groep3.cloudapi.resource;
 import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.Task;
 import groep3.cloudapi.model.User;
-import groep3.cloudapi.presentation.model.TaskPresenter;
+import groep3.cloudapi.presentation.TaskPresenter;
 import groep3.cloudapi.presentation.model.TaskView;
 import groep3.cloudapi.service.TaskService;
+import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -39,7 +40,7 @@ public class UserTaskResource extends BaseResource{
     @GET
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @QueryParam("owner") String owner)
+    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @QueryParam("owner") String owner, @Auth User authenticatedUser)
     {
         List<Task> task = taskService.getTasks(userId, moduleId, goalId, owner);
         return taskPresenter.presentAllTasks(task);
@@ -48,7 +49,7 @@ public class UserTaskResource extends BaseResource{
     @GET
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public TaskView getSpecificTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId, @QueryParam("name") String name)
+    public TaskView getSpecificTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId, @QueryParam("name") String name, @Auth User authenticatedUser)
     {
         Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId, name);
         return taskPresenter.presentSpecificTask(task);
@@ -57,7 +58,7 @@ public class UserTaskResource extends BaseResource{
     @POST
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
-    public TaskView createTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @Valid Task newTask)
+    public TaskView createTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @Valid Task newTask, @Auth User authenticatedUser)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
         return taskPresenter.presentSpecificTask(newTask);
@@ -66,15 +67,16 @@ public class UserTaskResource extends BaseResource{
     @DELETE
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
-    public void deleteTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
+    public Boolean deleteTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId, @Auth User authenticatedUser)
     {
-        taskService.deleteTask(userId, moduleId, goalId, taskId);
+        Boolean success = taskService.deleteTask(userId, moduleId, goalId, taskId);
+        return success;
     }
     
     @PUT
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}/complete")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
-    public boolean taskStatus(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
+    public boolean taskStatus(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId, @Auth User authenticatedUser)
     {
         boolean taskIsCompleted = taskService.taskStatus(userId, moduleId, goalId, taskId);
         return taskIsCompleted;

@@ -66,7 +66,7 @@ public class ContactService extends BaseService{
         
     }
 
-    public void deleteContact(String userId, String contactId) {
+    public Boolean deleteContact(String userId, String contactId) {
         
         User user = userDAO.get(userId);
         requireResult(user, "User not found");
@@ -86,5 +86,11 @@ public class ContactService extends BaseService{
         
         contacts.remove(contact);
         userDAO.update(user);
+        
+        if(userDAO.get(contactId) == null){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
