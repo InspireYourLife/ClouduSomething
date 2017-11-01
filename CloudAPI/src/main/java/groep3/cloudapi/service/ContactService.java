@@ -44,7 +44,7 @@ public class ContactService extends BaseService{
     }
     
     //Verplaatsen naar NotificationService
-    public Notification sendMessage(String userId, String contactId, Notification newMessage) {
+    public void sendMessage(String userId, String contactId, Notification newMessage) {
         
         Date currentTime = Date.from(Instant.now());
         newMessage.setCreationDate(currentTime);
