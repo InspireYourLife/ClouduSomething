@@ -36,7 +36,7 @@ public class ModuleService extends BaseService
     {
         List<Module> modules = moduleDAO.getAll();
         
-        //werking van requireResult
+        //werking van requireResult op single objecten
         if (modules.isEmpty() == true)
         {
             throw new NotFoundException("There are no Modules in the database");
@@ -61,7 +61,10 @@ public class ModuleService extends BaseService
         requireResult(u, "User not found");
         
         List<Module> m = u.getModules();
-        requireResult (m, "No Modules were found");
+        if (m.isEmpty() == true)
+        {
+            throw new NotFoundException("There are no modules in the database");
+        }
         
         return m;    
     }
@@ -89,8 +92,11 @@ public class ModuleService extends BaseService
         requireResult(u, "User not found");
                 
         List<Module> m = u.getModules();  
-        requireResult (m, "No Modules were found");
-        
+        if (m.isEmpty() == true)
+        {
+            throw new NotFoundException("There are no modules in the database");
+        }
+
         Module mToAdd = moduleDAO.get(modId);
         requireResult(mToAdd, "Module not found");
         
