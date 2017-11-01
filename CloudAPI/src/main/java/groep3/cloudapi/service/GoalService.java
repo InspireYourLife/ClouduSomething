@@ -45,20 +45,19 @@ public class GoalService extends BaseService
     public List<Goal> getAllGoalsFromUser(User authenticatedUser, String userId)
     {
         Boolean shouldHaveAcess = TestForAcces(authenticatedUser, userId);
-
-        if (!shouldHaveAcess) {
-            // throw exception
-        }
         
         List<Goal> allGoalsFromUser = new ArrayList<Goal>();
         User tempUser = userDAO.get(userId);
+        requireResult(tempUser, "User could not be found");
 
         // Get all modules from a user
         List<Module> allModulesFromUser = tempUser.getModules();
+        requireResult(allModulesFromUser, "Modules could not be found");
 
         // Get all goals from every found module
         for (Module module : allModulesFromUser) {
             List<Goal> allGoalsFromModule = module.getGoals();
+            requireResult(allGoalsFromModule, "Goals could not be found");
 
             // Add goal into the 'big' List
             for (Goal goal : allGoalsFromModule) {
@@ -165,7 +164,7 @@ public class GoalService extends BaseService
         Goal goal = goalDAO.get(goalId);
         requireResult(goal, "Goal could not be found");
         Module module = moduleDAO.get(moduleId);
-        requireResult(module, "Goal could not be found");
+        requireResult(module, "Module could not be found");
         
         goalDAO.delete(goal);
         module.getGoals().remove(goal);
