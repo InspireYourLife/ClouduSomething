@@ -6,6 +6,7 @@ import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.AppointmentPresenter;
 import groep3.cloudapi.presentation.CalendarPresenter;
+import groep3.cloudapi.presentation.model.AppointmentView;
 import groep3.cloudapi.presentation.model.CalendarView;
 import groep3.cloudapi.service.CalendarService;
 import io.dropwizard.auth.Auth;
@@ -42,21 +43,31 @@ public class UserCalendarResource extends BaseResource
     @GET
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path( "/{userId}/calendar")
-    public CalendarView getCalendar(@PathParam("id") String id, @Auth User authenticatedUser)
+    public CalendarView getCalendar(@PathParam("userId") String id, @Auth User authenticatedUser)
     {
         Calendar calendar = calendarService.getCalendar(id);
         CalendarView calendarView = calendarPresenter.present(calendar);
         return calendarView;
     }
     
+    @GET
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    @Path( "/{userId}/calendar/appointment/{appointmentId}")
+    
+    public AppointmentView getAppointment(@PathParam("userId") String uid, @PathParam("appointmentId") String aid, @Auth User authenticatedUser)
+    {
+        Appointment appointment = calendarService.getAppointment(uid, aid);
+        
+        AppointmentView appointmentView = appointmentPresenter.present(appointment);
+        return appointmentView;
+    }
+    
     //Post Calls - Calendar
     @POST
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
-    @Path( "/{userId}/calendar/appointment")
-    public Calendar addAppointment(@PathParam("id") String id, @Valid Appointment appointment, @Auth User authenticatedUser)
+    
+    public Boolean addAppointment(@PathParam("id") String id, @Valid Appointment appointment, @Auth User authenticatedUser)
     {
-        calendarService.addAppointment(id, appointment);
-        Calendar calendar = calendarService.getCalendar(id);
-        return calendar;
+        return calendarService.addAppointment(id, appointment);
     }
 }

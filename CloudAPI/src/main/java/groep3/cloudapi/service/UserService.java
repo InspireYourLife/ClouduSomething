@@ -7,6 +7,7 @@ import java.time.Instant;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.NotFoundException;
 
 public class UserService extends BaseService
 {
@@ -22,17 +23,31 @@ public class UserService extends BaseService
 
     public List<User> GetAll()
     {
-        return userDAO.getAll();
+        List<User> users = userDAO.getAll();
+        
+        if (users.isEmpty() == true)
+        {
+            throw new NotFoundException("There are no users in the database");
+        }
+        
+        return users;
     }
 
         public User getUserById(String id)
     {
-        return userDAO.get(id);
+        User u = userDAO.get(id);
+        
+        requireResult(u, "User not found");
+        
+        return u;
     }
         
     public int getPoints(String id)
     {
         User u = userDAO.get(id);
+        
+        requireResult(u, "User not found");
+        
         return u.getCollectedPoints();
     }
             
@@ -49,6 +64,9 @@ public class UserService extends BaseService
     public Boolean editUser(User editedUser, String id)
     {
         User originalUser = userDAO.get(id);
+        
+        requireResult(originalUser, "User not found");
+        
         userDAO.update(editedUser);
         User newUser = userDAO.get(id);
         
@@ -66,6 +84,9 @@ public class UserService extends BaseService
     public Boolean addPoints(int value, String id)
     {
         User originalUser = userDAO.get(id);
+        
+        requireResult(originalUser, "User not found");
+        
         int newPoints = originalUser.getCollectedPoints() + value;
         
         User editedUser = originalUser;
