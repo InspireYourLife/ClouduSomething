@@ -44,6 +44,17 @@ public class ModuleResource extends BaseResource
         return modulesToReturn;
     }
     
+    //Get one module
+    @GET
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER, Role.Labels.CLIENT})
+    public ModuleView getModule(String modId)
+    {
+        Module m = moduleService.getModuleById(modId);
+        ModuleView moduleToShow = modulePresenter.present(m);
+        
+        return moduleToShow;
+    }
+    
     //Create a new module
     @POST
     @RolesAllowed({Role.Labels.ADMIN})
