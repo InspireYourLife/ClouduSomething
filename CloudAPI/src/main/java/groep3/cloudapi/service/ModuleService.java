@@ -5,6 +5,7 @@ import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
@@ -34,7 +35,9 @@ public class ModuleService extends BaseService
     // get all modules
     public List<Module> getAllModules()
     {
-        List<Module> modules = moduleDAO.getAll();
+        List<Module> modules = new ArrayList<Module>();
+                
+        modules = moduleDAO.getAll();
         
         //werking van requireResult op single objecten
         if (modules.isEmpty() == true)

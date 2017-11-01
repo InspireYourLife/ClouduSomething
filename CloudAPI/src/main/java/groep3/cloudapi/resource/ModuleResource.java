@@ -2,9 +2,11 @@ package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Module;
 import groep3.cloudapi.model.Role;
+import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.ModulePresenter;
 import groep3.cloudapi.presentation.model.ModuleView;
 import groep3.cloudapi.service.ModuleService;
+import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -16,6 +18,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path( "/modules" )
@@ -37,7 +40,7 @@ public class ModuleResource extends BaseResource
     // Get all modules 
     @GET
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public List<ModuleView> getAllModules()
+    public List<ModuleView> getAllModules(@Auth User authenticatedUser, @QueryParam("role") String role)
     {
         List<Module> modules = moduleService.getAllModules();
         List<ModuleView> modulesToReturn = modulePresenter.present(modules);
