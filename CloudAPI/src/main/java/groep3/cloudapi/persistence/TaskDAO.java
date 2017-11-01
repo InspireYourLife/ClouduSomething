@@ -2,6 +2,7 @@ package groep3.cloudapi.persistence;
 
 import groep3.cloudapi.model.Task;
 import groep3.cloudapi.model.User;
+import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Path;
@@ -21,15 +22,15 @@ public class TaskDAO extends BaseDAO<Task>{
         super(Task.class, ds);
     }
     
-    public Task getTasksByName(String name)
+    public Task getTaskByName(String name)
     {
         Query<Task> query = createQuery().field("name").equal(name);
         return findOne(query);
     }
     
-    public Task getTaskByOwner(User owner)
+    public List<Task> getTaskByOwner(User owner)
     {
         Query<Task> query = createQuery().field("owner").equal(owner);
-        return findOne(query);
+        return find(query).asList();
     }
 }

@@ -2,6 +2,7 @@ package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.Task;
+import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.TaskPresenter;
 import groep3.cloudapi.presentation.model.TaskView;
 import groep3.cloudapi.service.TaskService;
@@ -17,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path ("/users")
@@ -37,18 +39,18 @@ public class UserTaskResource extends BaseResource{
     @GET
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId)
+    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @QueryParam("owner") User owner)
     {
-        List<Task> task = taskService.getTasks(userId, moduleId, goalId);
+        List<Task> task = taskService.getTasks(userId, moduleId, goalId, owner);
         return taskPresenter.presentAllTasks(task);
     }
     
     @GET
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public TaskView getSpecificTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
+    public TaskView getSpecificTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId, @QueryParam("name") String name)
     {
-        Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId);
+        Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId, name);
         return taskPresenter.presentSpecificTask(task);
     }
     

@@ -60,7 +60,7 @@ public class UserContactResource extends BaseResource
     @POST
     @Path ("{userId}/contacts/{contactId}/sendMessage")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public Notification sendMessage(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId, @Valid Notification newMessage)
+    public Notification sendMessage(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId, Notification newMessage)
     {
         contactService.sendMessage(userId, contactId, newMessage);
         return newMessage;
