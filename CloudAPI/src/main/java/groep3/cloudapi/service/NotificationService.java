@@ -51,8 +51,9 @@ public class NotificationService extends BaseService
     public Boolean deleteReceivedNotification(String uid, String nid)
     {
         User u = userDAO.get(uid);
+        Notification n = notificationDAO.get(nid);
         
-        notificationDAO.deleteReceivedNotification(u, nid);
+        notificationDAO.deleteReceivedNotification(u, n.getId());
         
         if (notificationDAO.get(nid) == null)
         {
