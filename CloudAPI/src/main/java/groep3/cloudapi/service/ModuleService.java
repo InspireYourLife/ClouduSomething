@@ -109,6 +109,7 @@ public class ModuleService extends BaseService
             u.setModules(mList);
 
             userDAO.update(u);
+            moduleDAO.create(mToAdd);
 
             return true;
         }

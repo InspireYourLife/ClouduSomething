@@ -11,7 +11,7 @@ import org.mongodb.morphia.annotations.Reference;
 public class Task extends EntityModel 
 {
     @Reference
-    @NotEmpty
+    //@NotEmpty
     User owner;
     
     @Embedded
