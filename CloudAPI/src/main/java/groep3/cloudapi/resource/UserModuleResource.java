@@ -1,7 +1,10 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Module;
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.presentation.ModulePresenter;
+import groep3.cloudapi.presentation.model.ModuleView;
 import groep3.cloudapi.service.ModuleService;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
@@ -16,7 +19,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import org.bson.types.ObjectId;
 
 @Path( "/users" )
 @Consumes ( MediaType.APPLICATION_JSON )
@@ -25,56 +27,45 @@ import org.bson.types.ObjectId;
 public class UserModuleResource extends BaseResource
 {
      private final ModuleService moduleService;
-     private final UserService userService;
+     private final ModulePresenter modulePresenter;
      
     @Inject
-    public UserModuleResource (ModuleService moduleService, UserService userService)
+    public UserModuleResource (ModuleService moduleService, ModulePresenter modulePresenter)
     {
         this.moduleService = moduleService;
-        this.userService = userService;
+        this.modulePresenter = modulePresenter;
     }
 
-    //What if I want to get a list of modules from a different user?
     //Get all modules from logged in user
     @GET
-    @Path ("/{UserId}/modules")
-    @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
-    public List<Module> getModulesFromUser(@PathParam ("UserId") String id, @Auth User authenticatedUser)
+    @Path ("/{userId}/modules")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    public List<Module> getModulesFromUser(@PathParam ("userId") String uId, @Auth User authenticatedUser)
     {
-        ObjectId userId = authenticatedUser.getId();
-        List<Module> allModulesFromUser = moduleService.getModulesByUserId(userId.toString());
+        String userId = uId;
+        List<Module> allModulesFromUser = moduleService.getModulesByUserId(userId);
+        List<ModuleView> modulesToReturn = modulePresenter.present(allModulesFromUser);
         
-        return allModulesFromUser;
+        return modulesToReturn;
     }
     
     //Get specific module from logged in user
     @GET
-    @Path ("/{UserId}/modules/{ModuleId}")
-    @RolesAllowed( "ADMIN, CLIENT, CARETAKER" )
-    public Module getModuleFromUser(@PathParam ("UserId") String uId, @Auth User authenticatedUser,@PathParam ("ModuleId") String moduleId)
+    @Path ("/{userId}/modules/{moduleId}")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    public Module getModuleFromUser(@PathParam ("userId") String uId, @Auth User authenticatedUser,@PathParam ("moduleId") String moduleId)
     {
-        ObjectId userId = authenticatedUser.getId();       
-        Module m = moduleService.getUserModule(userId.toString(), moduleId);
+        String userId = uId;       
+        Module m = moduleService.getUserModule(userId, moduleId);
         
         return m;
     }
     
-    //Get specific module from specific user
-//    @GET
-//    @Path ("/{UserId}/modules/{ModuleId}")
-//    @RolesAllowed( "ADMIN, CLIENT, CARETAKER, FAMILY" )
-//    public Module getModule(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId)
-//    {
-//        Module module = moduleService.getModuleById(moduleId);
-//        
-//        return module;
-//    }
-    
     //Delete specific module from specific user
     @DELETE
-    @Path("/{UserId}/modules/{ModuleId}")
+    @Path("/{userId}/modules/{moduleId}")
     @RolesAllowed( "ADMIN, CARETAKER" )
-    public boolean deleteUserModule(@PathParam ("id") String modId)
+    public boolean deleteUserModule(@PathParam ("moduleId") String modId)
     {
         Boolean deleted = moduleService.deleteModule(modId);
         
@@ -83,9 +74,9 @@ public class UserModuleResource extends BaseResource
     
     //Assign a module to a user
     @PUT
-    @Path ("/{UserId}/modules/{ModuleId}")
+    @Path ("/{userId}/modules/{moduleId}")
     @RolesAllowed( "ADMIN, CARETAKER" )
-    public boolean assignModule (@PathParam ("UserId") String id,@PathParam ("ModuleId") String modId)
+    public boolean assignModule (@PathParam ("userId") String id,@PathParam ("moduleId") String modId)
     {
         Boolean mAssigned = moduleService.assignModule(id, modId);
         
