@@ -20,6 +20,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Api ("users")
@@ -40,12 +41,13 @@ public class UserResource extends BaseResource
     }
     
     //Get Calls - User
+
     @GET
     @RolesAllowed(Role.Labels.ADMIN)
     @ApiOperation("gets all users")
-    public List <UserView> getAll(@Auth User authenticatedUser)
+    public List <UserView> getAll(@Auth User authenticatedUser, @QueryParam("role") String role, @QueryParam("username") String username)
     {
-        List<User> users = userService.GetAll();
+        List<User> users = userService.GetAll(role, username);
         List<UserView> usersToReturn = userPresenter.present(users);
         return usersToReturn;
     }
@@ -101,7 +103,7 @@ public class UserResource extends BaseResource
     @DELETE
     @RolesAllowed(Role.Labels.ADMIN)
     @Path( "/{userId}" )
-    public Boolean deleteUserById(@PathParam( "id") String id, @Auth User authenticatedUser)
+    public Boolean deleteUserById(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         Boolean success = userService.deleteUserById(id);
         return success;

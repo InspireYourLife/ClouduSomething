@@ -38,9 +38,19 @@ public class UserNotificationResource extends BaseResource
     @GET
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path( "/{userId}/notifications")
-    public List<NotificationView> getNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
+    public List<NotificationView> getReceivedNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
-        List<Notification> notifications = notificationService.getNotifications(id);
+        List<Notification> notifications = notificationService.getReceivedNotifications(id);
+        List<NotificationView> notificationsToReturn = notificationPresenter.present(notifications);
+        return notificationsToReturn;
+    }
+    
+    @GET
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    @Path( "/{userId}/notifications/sent")
+    public List<NotificationView> getSentNotifications(@PathParam( "userId") String id, @Auth User authenticatedUser)
+    {
+        List<Notification> notifications = notificationService.getSentNotifications(id);
         List<NotificationView> notificationsToReturn = notificationPresenter.present(notifications);
         return notificationsToReturn;
     }
@@ -48,9 +58,9 @@ public class UserNotificationResource extends BaseResource
     @DELETE
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
     @Path("/{userId}/notifications/notifications/{notificationId}")
-    public Boolean deleteSpecificNotification(@PathParam("userId") String uid, @PathParam("notificationId") String nid, @Auth User authenticatedUser)
+    public Boolean deleteReceivedNotification(@PathParam("userId") String uid, @PathParam("notificationId") String nid, @Auth User authenticatedUser)
     {
-        Boolean success = notificationService.deleteSpecificNotification(uid, nid);
+        Boolean success = notificationService.deleteReceivedNotification(uid, nid);
         return success;
     }
 }

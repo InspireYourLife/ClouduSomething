@@ -1,9 +1,9 @@
 package groep3.cloudapi.persistence;
 
-import com.google.inject.util.Modules;
 import groep3.cloudapi.model.EntityModel;
 import java.util.List;
 import javax.inject.Singleton;
+import javax.ws.rs.NotFoundException;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.dao.BasicDAO;
