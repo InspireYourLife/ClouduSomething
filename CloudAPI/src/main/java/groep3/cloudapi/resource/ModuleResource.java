@@ -46,8 +46,9 @@ public class ModuleResource extends BaseResource
     
     //Get one module
     @GET
+    @Path ("/{moduleId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER, Role.Labels.CLIENT})
-    public ModuleView getModule(String modId)
+    public ModuleView getModule(@PathParam ("moduleId") String modId)
     {
         Module m = moduleService.getModuleById(modId);
         ModuleView moduleToShow = modulePresenter.present(m);
