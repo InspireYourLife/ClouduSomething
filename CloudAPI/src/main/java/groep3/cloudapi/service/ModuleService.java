@@ -72,16 +72,9 @@ public class ModuleService extends BaseService
     
     //Create a new module
     public void createModule (Module newModule)
-    {
-        if (newModule != null)
-            {
-                throw new BadRequestException("A module with this name already exists");
-            }
-        
+    {        
         Date currentTime = Date.from(Instant.now());
         newModule.setCreationDate(currentTime);
-        
-        //newModule.getIsTemplate();
         
         moduleDAO.create(newModule);
     }
@@ -101,13 +94,13 @@ public class ModuleService extends BaseService
         {
             Module mToAdd = mod;
             
-//            for (Module m : mList)
-//            {                            
-//                if (mList.isEmpty() == false && m.getName() == mod.getName())
-//                {
-//                    throw new BadRequestException("This module has already been assigned to the user");
-//                }
-//            }
+            for (Module m : mList)
+            {                            
+                if (mList.isEmpty() == false && m.getName() == mod.getName())
+                {
+                    throw new BadRequestException("This module has already been assigned to the user");
+                }
+            }
             
             mToAdd.setIsTemplate(false);
             mToAdd.setId(new ObjectId());
@@ -165,6 +158,7 @@ public class ModuleService extends BaseService
         requireResult(mId, "Module not found");
         
         moduleDAO.delete(mId);
+        userDAO.update(u);
                
         if (mId == null)
         {
