@@ -5,7 +5,6 @@ import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
@@ -15,6 +14,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import org.bson.types.ObjectId;
 
 @Path ("/modules")
 @Consumes ( MediaType.APPLICATION_JSON )
@@ -92,7 +92,7 @@ public class ModuleService extends BaseService
         User u = userDAO.get(id);
         requireResult(u, "User not found");
                 
-        List<Module> m = u.getModules();  
+        List<Module> mList = u.getModules();  
 
         Module mod = moduleDAO.get(modId);
         requireResult(mod, "Module not found");
@@ -101,19 +101,22 @@ public class ModuleService extends BaseService
         {
             Module mToAdd = mod;
             
-            if (m.contains(mToAdd))
-            {
-                throw new BadRequestException("This module has already been assigned to the user");
-            }
+//            for (Module m : mList)
+//            {                            
+//                if (mList.isEmpty() == false && m.getName() == mod.getName())
+//                {
+//                    throw new BadRequestException("This module has already been assigned to the user");
+//                }
+//            }
             
             mToAdd.setIsTemplate(false);
-            mToAdd.setId(null);
-            
-            m.add(mToAdd);                
-            u.setModules(m);
-        
+            mToAdd.setId(new ObjectId());
+
+            mList.add(mToAdd);                
+            u.setModules(mList);
+
             userDAO.update(u);
-            
+
             return true;
         }
         else

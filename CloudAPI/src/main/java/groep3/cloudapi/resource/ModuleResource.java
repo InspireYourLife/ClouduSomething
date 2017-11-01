@@ -51,7 +51,7 @@ public class ModuleResource extends BaseResource
     @GET
     @Path ("/{moduleId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER, Role.Labels.CLIENT})
-    public ModuleView getModule(@PathParam ("moduleId") String modId)
+    public ModuleView getModule(@PathParam ("moduleId") String modId, @Auth User authenticatedUser)
     {
         Module m = moduleService.getModuleById(modId);
         ModuleView moduleToShow = modulePresenter.present(m);
@@ -62,7 +62,7 @@ public class ModuleResource extends BaseResource
     //Create a new module
     @POST
     @RolesAllowed({Role.Labels.ADMIN})
-    public Module createModule(@Valid Module newModule)
+    public Module createModule(@Valid Module newModule, @Auth User authenticatedUser)
     {
         moduleService.createModule(newModule);
         return newModule;
