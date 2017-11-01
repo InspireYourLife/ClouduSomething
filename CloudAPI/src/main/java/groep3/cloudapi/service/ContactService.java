@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.NotFoundException;
 
 public class ContactService extends BaseService{
     
@@ -48,14 +49,11 @@ public class ContactService extends BaseService{
         Date currentTime = Date.from(Instant.now());
         newMessage.setCreationDate(currentTime);
         
-        int cId = Integer.parseInt(contactId);
         User user = userDAO.get(userId);
         requireResult(user, "User not found");
         
-        List<User> contactsToReturn = user.getContacts();
-        requireResult(contactsToReturn, "Empty list");
-        
-        User contact = contactsToReturn.get(cId);
+        User contact = userDAO.get(contactId);
+        requireResult(contact, "Contact not Found");
         
         newMessage.setSender(user);
         newMessage.setRecipient(contact);
@@ -70,15 +68,23 @@ public class ContactService extends BaseService{
 
     public void deleteContact(String userId, String contactId) {
         
-        int cId = Integer.parseInt(contactId);
         User user = userDAO.get(userId);
         requireResult(user, "User not found");
+        User contact = userDAO.get(contactId);
+        requireResult(contact, "Contact not found");
         List<User> contacts = user.getContacts();
         requireResult(contacts, "Empty list");
         
-        if(contacts.get(cId) == null){
+        if (contacts.isEmpty())
+        {
+            throw new NotFoundException("No notifications were found");
+        }
+        
+        if(contact.getId() == null){
             throw new BadRequestException();
         }
-        contacts.remove(cId);
+        
+        contacts.remove(contact);
+        userDAO.update(user);
     }
 }
