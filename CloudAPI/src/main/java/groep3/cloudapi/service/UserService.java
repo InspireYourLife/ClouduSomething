@@ -4,6 +4,7 @@ import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.CalendarDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
@@ -21,13 +22,48 @@ public class UserService extends BaseService
         this.calendarDAO = calendarDAO;
     }
 
-    public List<User> GetAll()
+    public List<User> GetAll(String role, String username)
     {
-        List<User> users = userDAO.getAll();
+        List<User> users = new ArrayList<User>();
         
-        if (users.isEmpty() == true)
+        if(role != null && username == null)
         {
-            throw new NotFoundException("There are no users in the database");
+            users = userDAO.getAllByRole(role);
+        
+            if (users.isEmpty() == true)
+            {
+                throw new NotFoundException("There are no users in the database");
+            }
+        }
+        
+        else if (role == null && username != null)
+        {
+            users = userDAO.getAllByUserName(username);
+        
+            if (users.isEmpty() == true)
+            {
+                throw new NotFoundException("There are no users in the database");
+            }
+        }
+        
+        else if (role != null && username != null)
+        {
+            users = userDAO.getAllByRoleAndUserName(role, username);
+        
+            if (users.isEmpty() == true)
+            {
+                throw new NotFoundException("There are no users in the database");
+            }
+        }
+        
+        else
+        {
+            users = userDAO.getAll();
+        
+            if (users.isEmpty() == true)
+            {
+                throw new NotFoundException("There are no users in the database");
+            }
         }
         
         return users;

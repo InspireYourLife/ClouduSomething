@@ -17,6 +17,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -66,10 +67,30 @@ public class UserCalendarResource extends BaseResource
     //Post Calls - Calendar
     @POST
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    @Path("/{userId}/calendar/")
     
-    public Boolean addAppointment(@PathParam("id") String id, @Valid Appointment appointment, @Auth User authenticatedUser)
+    public Boolean postCalendar(@PathParam("userId") String id, @Valid Calendar calendar, @Auth User authenticatedUser)
+    {
+        return calendarService.postCalendar(id, calendar);
+    }
+    
+    
+    @POST
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    @Path("/{userId}/calendar/appointment/")
+    
+    public Boolean addAppointment(@PathParam("userId") String id, @Valid Appointment appointment, @Auth User authenticatedUser)
     {
         return calendarService.addAppointment(id, appointment);
+    }
+    
+    //Put Calls - Calendar
+    @PUT
+    @RolesAllowed(Role.Labels.ADMIN)
+    @Path("/{userId}/calendar/{calendarId}")
+    public Boolean changeCalendar(@PathParam("userId") String uid, @PathParam("calendarId") String calendarId, @Auth User authenticatedUser, @Valid Calendar c)
+    {
+        return calendarService.changeCalendar(uid, calendarId, c);
     }
     
     //Delete Calls

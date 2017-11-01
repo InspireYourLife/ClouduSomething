@@ -115,4 +115,36 @@ public class CalendarService extends BaseService
             return false;
         }
     }
+
+    public Boolean changeCalendar(String uid, String calendarId, Calendar c)
+    {
+        Calendar oldCalendar = calendarDAO.get(calendarId);
+        
+        requireResult(oldCalendar, "Calendar does not exist");
+        
+        calendarDAO.update(c);
+        
+        User u = userDAO.get(uid);;
+        requireResult(u, "User does not exist");
+        
+        u.setCalendar(c);
+        
+        userDAO.update(u);
+        
+        if (oldCalendar == c)
+        {
+            return false;
+        }
+        
+        else
+        {
+            return true;
+        }
+    }
+
+    public Boolean postCalendar(String id, Calendar calendar)
+    {
+        calendarDAO.create(calendar);
+        return true;
+    }
 }
