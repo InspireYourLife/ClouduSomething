@@ -1,6 +1,8 @@
 package groep3.cloudapi.resource;
 
+import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.Task;
+import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.model.TaskPresenter;
 import groep3.cloudapi.presentation.model.TaskView;
 import groep3.cloudapi.service.TaskService;
@@ -16,6 +18,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 @Path ("/users")
@@ -34,43 +37,44 @@ public class UserTaskResource extends BaseResource{
     }
     
     @GET
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
-    @RolesAllowed({"ADMIN", "CLIENT"})
-    public List<TaskView> getTasks(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId)
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @QueryParam("owner") User owner)
     {
-        List<Task> task = taskService.getTasks(userId, moduleId, goalId);
+        List<Task> task = taskService.getTasks(userId, moduleId, goalId, owner);
         return taskPresenter.presentAllTasks(task);
     }
+    
     @GET
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
-    @RolesAllowed({"ADMIN", "CLIENT"})
-    public TaskView getSpecificTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
+    public TaskView getSpecificTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId, @QueryParam("name") String name)
     {
-        Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId);
+        Task task = taskService.getSpecificTask(userId, moduleId, goalId, taskId, name);
         return taskPresenter.presentSpecificTask(task);
     }
     
     @POST
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks")
-    @RolesAllowed("ADMIN")
-    public TaskView createTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @Valid Task newTask)
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    public TaskView createTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @Valid Task newTask)
     {
         taskService.createTask(userId, moduleId, goalId, newTask);
         return taskPresenter.presentSpecificTask(newTask);
     }
     
     @DELETE
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}")
-    @RolesAllowed("ADMIN")
-    public void deleteTask(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    public void deleteTask(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         taskService.deleteTask(userId, moduleId, goalId, taskId);
     }
     
     @PUT
-    @Path("/{UserId}/modules/{ModuleId}/goals/{GoalId}/tasks/{TaskId}/complete")
-    @RolesAllowed({"ADMIN", "CLIENT"})
-    public boolean taskStatus(@PathParam ("UserId") String userId, @PathParam ("ModuleId") String moduleId, @PathParam ("GoalId") String goalId, @PathParam ("TaskId") String taskId)
+    @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks/{taskId}/complete")
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    public boolean taskStatus(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @PathParam ("taskId") String taskId)
     {
         boolean taskIsCompleted = taskService.taskStatus(userId, moduleId, goalId, taskId);
         return taskIsCompleted;
