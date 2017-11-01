@@ -2,7 +2,6 @@ package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.Module;
 import groep3.cloudapi.model.User;
-import groep3.cloudapi.persistence.GoalDAO;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
@@ -24,14 +23,12 @@ public class ModuleService extends BaseService
 {
     private final ModuleDAO moduleDAO;
     private final UserDAO userDAO;
-    private final GoalDAO goalDAO;
     
     @Inject
-    public ModuleService (ModuleDAO moduleDAO, UserDAO userDAO, GoalDAO goalDAO)
+    public ModuleService (ModuleDAO moduleDAO, UserDAO userDAO)
     {
         this.moduleDAO = moduleDAO;
         this.userDAO = userDAO;
-        this.goalDAO = goalDAO;
     }
     
     // get all modules
@@ -87,8 +84,7 @@ public class ModuleService extends BaseService
     
     //Assign a module to a specific user
     public boolean assignModule (String id, String modId)
-    {
-        
+    {       
         User u = userDAO.get(id);
         requireResult(u, "User not found");
                 
@@ -120,19 +116,14 @@ public class ModuleService extends BaseService
     
     //Get specific module from specific user
     public Module getUserModule(String userId, String modId)
-    {
-        int mId = Integer.parseInt(modId);
-        
+    {       
         User u = userDAO.get(userId);
         requireResult(u, "User not found");
         
-        List<Module> m = u.getModules();
-        requireResult (m, "No Modules were found");
-        
-        Module uMod = m.get(mId);
-        requireResult(uMod, "Module not found");
-        
-        return uMod;
+        Module m = moduleDAO.get(modId);
+        requireResult(m, "Module not found");
+                
+        return m;
     }
     
     //Delete TEMPLATE module
@@ -155,21 +146,16 @@ public class ModuleService extends BaseService
     
     //Delete specific module from specific user
     public boolean deleteModuleFromUser(String userId, String modId)
-    {
-        int mId = Integer.parseInt(modId);
-        
+    {        
         User u = userDAO.get(userId);
         requireResult(u, "User not found");
         
-        List<Module> m = u.getModules();
-        requireResult(m, "No modules were found");
+        Module mId = moduleDAO.get(modId);
+        requireResult(mId, "Module not found");
         
-        Module mToRemove = m.get(mId);
-        requireResult(mToRemove, "Module not found");
-
-        moduleDAO.delete(mToRemove);
-        
-        if (mToRemove == null)
+        moduleDAO.delete(mId);
+               
+        if (mId == null)
         {
             return true;
         }
@@ -177,5 +163,5 @@ public class ModuleService extends BaseService
         {
             return false;
         }
-    }
+    }   
 }

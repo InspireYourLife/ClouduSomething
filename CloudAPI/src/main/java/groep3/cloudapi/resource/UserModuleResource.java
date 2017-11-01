@@ -6,7 +6,6 @@ import groep3.cloudapi.model.User;
 import groep3.cloudapi.presentation.ModulePresenter;
 import groep3.cloudapi.presentation.model.ModuleView;
 import groep3.cloudapi.service.ModuleService;
-import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
