@@ -29,12 +29,17 @@ public class GoalService extends BaseService
     public Goal getGoal(String goalId)
     {
         Goal tempGoal = goalDAO.get(goalId);
+        requireResult(tempGoal, "Goal could not be found");
+        
         return tempGoal;
     }
     
     public List<Goal> getAll()
     {
-        return goalDAO.getAll();
+        List<Goal> allGoals = goalDAO.getAll();
+        requireResult(allGoals, "Goals could not be found");
+        
+        return allGoals;
     }
 
     public List<Goal> getAllGoalsFromUser(User authenticatedUser, String userId)
@@ -60,14 +65,17 @@ public class GoalService extends BaseService
                 allGoalsFromUser.add(goal);
             }
         }
+        requireResult(allGoalsFromUser, "Goals could not be found");
 
         return allGoalsFromUser;
     }
     
     public List<Goal> getGoalsFromModule(String moduleId)
     {
-        List<Goal> goalsFormModule = moduleDAO.get(moduleId).getGoals();
-        return goalsFormModule;
+        List<Goal> goalsFromModule = moduleDAO.get(moduleId).getGoals();
+        requireResult(goalsFromModule, "Goals could not be found");
+        
+        return goalsFromModule;
     }
     
     //Assign goal to module
@@ -78,9 +86,14 @@ public class GoalService extends BaseService
         List<Goal> oldGoalList = moduleDAO.get(moduleId).getGoals();
         
         Module module = moduleDAO.get(moduleId);
+        requireResult(module, "Module could not be found");
+        
         Goal goal = goalDAO.get(goalId);
+        requireResult(goal, "Goal could not be found");
         
         List<Goal> goalsFromModule = module.getGoals();
+        requireResult(goalsFromModule, "Goals could not be found");
+        
         goalsFromModule.add(goal);
         module.setGoals(goalsFromModule);
         
@@ -103,6 +116,7 @@ public class GoalService extends BaseService
         Boolean originalBoolean;
         
         Goal goal = goalDAO.get(goalId);
+        requireResult(goal, "Goal could not be found");
         originalBoolean = goal.getIsApproved();
         
         boolean isApproved = goal.getIsApproved();
@@ -126,6 +140,7 @@ public class GoalService extends BaseService
         Boolean originalBoolean;
         
         Goal goal = goalDAO.get(goalId);
+        requireResult(goal, "Goal could not be found");
         originalBoolean = goal.getIsCompleted();
         
         boolean isCompleted = goal.getIsCompleted();
@@ -148,7 +163,9 @@ public class GoalService extends BaseService
         boolean hasSucceeded = false;
         
         Goal goal = goalDAO.get(goalId);
+        requireResult(goal, "Goal could not be found");
         Module module = moduleDAO.get(moduleId);
+        requireResult(module, "Goal could not be found");
         
         goalDAO.delete(goal);
         module.getGoals().remove(goal);
@@ -168,15 +185,11 @@ public class GoalService extends BaseService
         Date currentTime = Date.from(Instant.now());
         newGoal.setCreationDate(currentTime);
         
-        //List<Goal> goalsBefore = new ArrayList<Goal>();
-        List<Goal> goalsBefore = goalDAO.getAll();
-        int amountOfGoalsBefore = goalsBefore.size();
+        int amountOfGoalsBefore = goalDAO.getAll().size();
         
         goalDAO.create(newGoal);
         
-        //List<Goal> goalsAfter = new ArrayList<Goal>();
-        List<Goal> goalsAfter = goalDAO.getAll();
-        int amountOfGoalsAfter = goalsAfter.size();
+        int amountOfGoalsAfter = goalDAO.getAll().size();
         
         if (amountOfGoalsBefore != amountOfGoalsAfter) 
         {
