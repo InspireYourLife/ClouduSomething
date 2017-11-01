@@ -28,7 +28,7 @@ public class TaskService extends BaseService{
         this.userDAO = userDAO;
     }
 
-    public List<Task> getTasks(String userId, String moduleId, String goalId, User owner) 
+    public List<Task> getTasks(String userId, String moduleId, String goalId, String ownerId) 
     {    
         Goal goal = goalDAO.get(goalId);
         requireResult(goal, "Goal not found");
@@ -36,9 +36,10 @@ public class TaskService extends BaseService{
         List<Task> tasks = new ArrayList<Task>();
         requireResult(tasks, "No tasks found in this list");
         
+        User owner = userDAO.get(ownerId);
+        
         if(owner != null){
             tasks = taskDAO.getTaskByOwner(owner);
-            
             if(tasks.isEmpty()){
                 throw new NotFoundException("This user has not tasks");
             }

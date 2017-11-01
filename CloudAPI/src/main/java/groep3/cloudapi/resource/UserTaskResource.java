@@ -39,7 +39,7 @@ public class UserTaskResource extends BaseResource{
     @GET
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}/tasks")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT, Role.Labels.CARETAKER})
-    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @QueryParam("owner") User owner)
+    public List<TaskView> getTasks(@PathParam ("userId") String userId, @PathParam ("moduleId") String moduleId, @PathParam ("goalId") String goalId, @QueryParam("owner") String owner)
     {
         List<Task> task = taskService.getTasks(userId, moduleId, goalId, owner);
         return taskPresenter.presentAllTasks(task);
