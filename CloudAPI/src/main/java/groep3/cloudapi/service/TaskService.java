@@ -95,7 +95,7 @@ public class TaskService extends BaseService{
         goalDAO.update(goal);        
     }
 
-    public void deleteTask(String userId, String moduleId, String goalId, String taskId) 
+    public boolean deleteTask(String userId, String moduleId, String goalId, String taskId) 
     {
         Task task = taskDAO.get(taskId);
         requireResult(task, "Task not found");
@@ -104,6 +104,12 @@ public class TaskService extends BaseService{
         
         goalDAO.update(goal);
         taskDAO.delete(task);
+        
+        if(taskDAO.get(taskId) == null){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean taskStatus(String userId, String moduleId, String goalId, String taskId) {

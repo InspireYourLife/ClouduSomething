@@ -42,7 +42,7 @@ public class UserContactResource extends BaseResource
     @GET
     @Path ("{userId}/contacts")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CLIENT})
-    public List<ContactView> getAllContacts(@PathParam ("userId") String userId)
+    public List<ContactView> getAllContacts(@PathParam ("userId") String userId, @Auth User authenticatedUser)
     {
         List<User> contacts = contactService.getAllContacts(userId);
         return contactPresenter.presentAllContacts(contacts);
@@ -51,7 +51,7 @@ public class UserContactResource extends BaseResource
     @GET
     @Path ("{userId}/contacts/{contactId}")
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
-    public ContactView getContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId)
+    public ContactView getContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId, @Auth User authenticatedUser)
     {
         User contact = contactService.getContact(userId, contactId);
         return contactPresenter.presentContact(contact);
@@ -69,8 +69,9 @@ public class UserContactResource extends BaseResource
     @DELETE
     @Path ("{userId}/contacts/{contactId}")
     @RolesAllowed(Role.Labels.ADMIN)
-    public void deleteContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId, @Auth User authenticatedUser)
+    public Boolean deleteContact(@PathParam ("userId") String userId, @PathParam ("contactId") String contactId, @Auth User authenticatedUser)
     {
-        contactService.deleteContact(userId, contactId);
+        Boolean success = contactService.deleteContact(userId, contactId);
+        return success;
     }
 }
