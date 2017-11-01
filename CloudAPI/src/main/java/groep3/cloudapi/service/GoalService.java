@@ -168,14 +168,14 @@ public class GoalService extends BaseService
         Date currentTime = Date.from(Instant.now());
         newGoal.setCreationDate(currentTime);
         
-        List<Goal> goalsBefore = new ArrayList<Goal>();
-        //List<Goal> goalsBefore = goalDAO.getAll();
+        //List<Goal> goalsBefore = new ArrayList<Goal>();
+        List<Goal> goalsBefore = goalDAO.getAll();
         int amountOfGoalsBefore = goalsBefore.size();
         
         goalDAO.create(newGoal);
         
-        List<Goal> goalsAfter = new ArrayList<Goal>();
-        //List<Goal> goalsAfter = goalDAO.getAll();
+        //List<Goal> goalsAfter = new ArrayList<Goal>();
+        List<Goal> goalsAfter = goalDAO.getAll();
         int amountOfGoalsAfter = goalsAfter.size();
         
         if (amountOfGoalsBefore != amountOfGoalsAfter) 
