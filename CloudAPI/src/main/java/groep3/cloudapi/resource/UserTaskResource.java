@@ -3,7 +3,7 @@ package groep3.cloudapi.resource;
 import groep3.cloudapi.model.Role;
 import groep3.cloudapi.model.Task;
 import groep3.cloudapi.model.User;
-import groep3.cloudapi.presentation.model.TaskPresenter;
+import groep3.cloudapi.presentation.TaskPresenter;
 import groep3.cloudapi.presentation.model.TaskView;
 import groep3.cloudapi.service.TaskService;
 import java.util.List;

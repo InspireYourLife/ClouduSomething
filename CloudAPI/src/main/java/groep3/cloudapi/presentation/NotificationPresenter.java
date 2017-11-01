@@ -22,8 +22,8 @@ public class NotificationPresenter extends BasePresenter
             
             nv.body = n.getBody();
             nv.subject = n.getSubject();
-            nv.recipient = n.getRecipient();
-            nv.sender = n.getSender();
+            nv.recipientName = n.getRecipient().getName();
+            nv.senderName = n.getSender().getName();
             
             safeData.add(nv);
             i++;
