@@ -6,6 +6,8 @@ import groep3.cloudapi.presentation.UserPresenter;
 import groep3.cloudapi.presentation.model.UserView;
 import groep3.cloudapi.service.UserService;
 import io.dropwizard.auth.Auth;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -18,8 +20,10 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+@Api ("users")
 @Path( "/users" )
 @Consumes ( MediaType.APPLICATION_JSON )
 @Produces ( MediaType.APPLICATION_JSON )
@@ -30,7 +34,6 @@ public class UserResource extends BaseResource
     private final UserPresenter userPresenter;
      
     @Inject
-
     public UserResource (UserService userService, UserPresenter userPresenter)
     {
         this.userService = userService;
@@ -38,11 +41,13 @@ public class UserResource extends BaseResource
     }
     
     //Get Calls - User
+
     @GET
     @RolesAllowed(Role.Labels.ADMIN)
-    public List <UserView> getAll(@Auth User authenticatedUser)
+    @ApiOperation("gets all users")
+    public List <UserView> getAll(@Auth User authenticatedUser, @QueryParam("role") String role, @QueryParam("username") String username)
     {
-        List<User> users = userService.GetAll();
+        List<User> users = userService.GetAll(role, username);
         List<UserView> usersToReturn = userPresenter.present(users);
         return usersToReturn;
     }
@@ -98,7 +103,7 @@ public class UserResource extends BaseResource
     @DELETE
     @RolesAllowed(Role.Labels.ADMIN)
     @Path( "/{userId}" )
-    public Boolean deleteUserById(@PathParam( "id") String id, @Auth User authenticatedUser)
+    public Boolean deleteUserById(@PathParam( "userId") String id, @Auth User authenticatedUser)
     {
         Boolean success = userService.deleteUserById(id);
         return success;

@@ -14,9 +14,21 @@ public class NotificationDAO extends BaseDAO<Notification>
         super(Notification.class, ds);
     }
 
-    public List<Notification> getAllByOwnerId(String id)
+    public List<Notification> getAllByReceiverId(String id)
     {
         Query<Notification> query = createQuery().field("recipient").equal(id);
         return find(query).asList();
+    }
+    
+    public List<Notification> getAllBySenderId(String id)
+    {
+        Query<Notification> query = createQuery().field("sender").equal(id);
+        return find(query).asList();
+    }
+
+    public void deleteReceivedNotification(String uid, String nid)
+    {
+        Query<Notification> query = createQuery();
+        query.and(query.criteria("_id").equal(nid), query.criteria("recipient").equal(uid));
     }
 }
