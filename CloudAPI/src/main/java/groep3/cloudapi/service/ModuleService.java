@@ -2,6 +2,7 @@ package groep3.cloudapi.service;
 
 import groep3.cloudapi.model.Module;
 import groep3.cloudapi.model.User;
+import groep3.cloudapi.persistence.GoalDAO;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
@@ -10,7 +11,6 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.NotAuthorizedException;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -24,12 +24,14 @@ public class ModuleService extends BaseService
 {
     private final ModuleDAO moduleDAO;
     private final UserDAO userDAO;
+    private final GoalDAO goalDAO;
     
     @Inject
-    public ModuleService (ModuleDAO moduleDAO, UserDAO userDAO)
+    public ModuleService (ModuleDAO moduleDAO, UserDAO userDAO, GoalDAO goalDAO)
     {
         this.moduleDAO = moduleDAO;
         this.userDAO = userDAO;
+        this.goalDAO = goalDAO;
     }
     
     // get all modules
@@ -37,6 +39,7 @@ public class ModuleService extends BaseService
     {
         List<Module> modules = moduleDAO.getAll();
         
+        //werking van requireResult
         if (modules.isEmpty() == true)
         {
             throw new NotFoundException("There are no Modules in the database");
@@ -89,10 +92,12 @@ public class ModuleService extends BaseService
         User u = userDAO.get(id);
         requireResult(u, "User not found");
                 
-        List<Module> m = u.getModules();        
+        List<Module> m = u.getModules();  
+        requireResult (m, "No Modules were found");
         
         Module mToAdd = moduleDAO.get(modId);
         requireResult(mToAdd, "Module not found");
+        
         mToAdd.setIsTemplate(false);
         
         if (m.contains(mToAdd))
@@ -114,19 +119,20 @@ public class ModuleService extends BaseService
     }   
     
     //Get specific module from specific user
-    public Module getUserModule(String userId, String moduleId)
+    public Module getUserModule(String userId, String modId)
     {
-        int modId = Integer.parseInt(moduleId);
+        int mId = Integer.parseInt(modId);
         
         User u = userDAO.get(userId);
         requireResult(u, "User not found");
         
         List<Module> m = u.getModules();
+        requireResult (m, "No Modules were found");
         
-        Module module = m.get(modId);
-        requireResult(m, "Module not found");
+        Module uMod = m.get(mId);
+        requireResult(uMod, "Module not found");
         
-        return module;
+        return uMod;
     }
     
     //Delete TEMPLATE module
@@ -148,18 +154,19 @@ public class ModuleService extends BaseService
     }
     
     //Delete specific module from specific user
-    public boolean deleteModuleFromUser(String userId, String moduleId)
+    public boolean deleteModuleFromUser(String userId, String modId)
     {
-        int modId = Integer.parseInt(moduleId);
+        int mId = Integer.parseInt(modId);
         
         User u = userDAO.get(userId);
         requireResult(u, "User not found");
         
         List<Module> m = u.getModules();
+        requireResult(m, "No modules were found");
         
-        Module mToRemove = m.get(modId);
-        requireResult(m, "Module not found");
-        
+        Module mToRemove = m.get(mId);
+        requireResult(mToRemove, "Module not found");
+
         moduleDAO.delete(mToRemove);
         
         if (mToRemove == null)
