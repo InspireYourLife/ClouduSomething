@@ -1,8 +1,12 @@
 package groep3.cloudapi.resource;
 
 import groep3.cloudapi.model.Goal;
-import groep3.cloudapi.presentation.model.GoalPresenter;
+import groep3.cloudapi.model.Role;
+import groep3.cloudapi.model.User;
+import groep3.cloudapi.presentation.GoalPresenter;
+import groep3.cloudapi.presentation.model.GoalView;
 import groep3.cloudapi.service.GoalService;
+import io.dropwizard.auth.Auth;
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -14,6 +18,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+//@Api ("goals")
 @Path( "/goals" )
 @Consumes ( MediaType.APPLICATION_JSON )
 @Produces ( MediaType.APPLICATION_JSON )
@@ -31,18 +36,20 @@ public class GoalResource extends BaseResource
     }
     
     @GET
-    @RolesAllowed( "CARETAKER" )
-    public List <Goal> getAll()
+    @RolesAllowed(Role.Labels.ADMIN)
+    //@ApiOperation("Gets all goals")
+    public List<GoalView> getAll(@Auth User authenticatedUser)
     {
         List<Goal> goals = goalService.getAll();
-        return goals;
+        return goalPresenter.presentListOfGoals(goals);
     }
     
     @POST
-    @RolesAllowed( "ADMIN" )
-    public Goal create(@Valid Goal newGoal)
+    @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
+    //@ApiOperation("Creates a new goal")
+    public Boolean create(@Auth User authenticatedUser, @Valid Goal newGoal)
     {
-        goalService.create(newGoal);
-        return newGoal;
+        Boolean hasSucceeded = goalService.create(newGoal);
+        return hasSucceeded;
     }
 }
