@@ -13,6 +13,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
 
 public class TaskService extends BaseService{
 
@@ -88,7 +89,7 @@ public class TaskService extends BaseService{
         newTask.setOwner(owner);
         
         if(newTask.getId() == null){
-            throw new BadRequestException();
+            throw new BadRequestException("New task was not added");
         }
         
         taskDAO.create(newTask);
@@ -108,7 +109,7 @@ public class TaskService extends BaseService{
         if(taskDAO.get(taskId) == null){
             return true;
         } else {
-            return false;
+            throw new ProcessingException("Task was not deleted");
         }
     }
 
