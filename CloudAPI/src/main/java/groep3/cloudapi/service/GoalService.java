@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
+import javax.ws.rs.ProcessingException;
 
 public class GoalService extends BaseService
 {
@@ -43,28 +44,25 @@ public class GoalService extends BaseService
     }
 
     public List<Goal> getAllGoalsFromUser(User authenticatedUser, String userId)
-    {
-        Boolean shouldHaveAcess = TestForAcces(authenticatedUser, userId);
-        
+    {        
         List<Goal> allGoalsFromUser = new ArrayList<Goal>();
+        
         User tempUser = userDAO.get(userId);
         requireResult(tempUser, "User could not be found");
 
-        // Get all modules from a user
         List<Module> allModulesFromUser = tempUser.getModules();
         requireResult(allModulesFromUser, "Modules could not be found");
 
-        // Get all goals from every found module
-        for (Module module : allModulesFromUser) {
+        for (Module module : allModulesFromUser) 
+        {
             List<Goal> allGoalsFromModule = module.getGoals();
             requireResult(allGoalsFromModule, "Goals could not be found");
 
-            // Add goal into the 'big' List
-            for (Goal goal : allGoalsFromModule) {
+            for (Goal goal : allGoalsFromModule) 
+            {
                 allGoalsFromUser.add(goal);
             }
         }
-        requireResult(allGoalsFromUser, "Goals could not be found");
 
         return allGoalsFromUser;
     }
@@ -77,7 +75,6 @@ public class GoalService extends BaseService
         return goalsFromModule;
     }
     
-    //Assign goal to module
     public Boolean assignGoalToModule(String moduleId, String goalId)
     {
         boolean hasSucceeded = false;
@@ -104,10 +101,8 @@ public class GoalService extends BaseService
         {
             hasSucceeded = true;
         }
-        
-        return hasSucceeded;
+        throw new ProcessingException("Could not assign goal to module");
     }
-    
     
     public Boolean switchApproveBool(String goalId)
     {
@@ -129,8 +124,7 @@ public class GoalService extends BaseService
         {
             itemHasChanged = true;
         }
-        
-        return itemHasChanged;
+        throw new ProcessingException("Could not switch approval bool");
     }
     
     public Boolean switchCompleteBool(String goalId)
@@ -153,8 +147,7 @@ public class GoalService extends BaseService
         {
             itemHasChanged = true;
         }
-        
-        return itemHasChanged;
+        throw new ProcessingException("Could not switch completion bool");
     }
     
     public Boolean removeGoal(String moduleId, String goalId)
@@ -175,8 +168,7 @@ public class GoalService extends BaseService
         {
             hasSucceeded = true;
         }
-
-        return hasSucceeded;
+        throw new ProcessingException("Could not remove goal from database or list in module");
     }
     
     public Boolean create(Goal newGoal)
@@ -184,38 +176,16 @@ public class GoalService extends BaseService
         Date currentTime = Date.from(Instant.now());
         newGoal.setCreationDate(currentTime);
         
-        int amountOfGoalsBefore = goalDAO.getAll().size();
+        List<Goal> goalsBefore = goalDAO.getAll();
         
         goalDAO.create(newGoal);
         
-        int amountOfGoalsAfter = goalDAO.getAll().size();
+        List<Goal> goalsAfter = goalDAO.getAll();
         
-        if (amountOfGoalsBefore != amountOfGoalsAfter) 
+        if (goalsBefore != goalsAfter)
         {
             return true;
         }
-        return false;
-    }
-    
-    private Boolean TestForAcces(User authenticatedUser, String userId)
-    {
-        Boolean shouldHaveAcess = false;
-        
-        if (authenticatedUser.hasRole("ADMIN"))
-        {
-            shouldHaveAcess = true;
-        }
-        else
-        {
-            User user = userDAO.get(userId);
-            List<User> contacts = user.getContacts();
-            
-            if (contacts.contains(authenticatedUser)) 
-            {
-                shouldHaveAcess = true;
-            }
-        }
-        
-        return shouldHaveAcess;
+        throw new ProcessingException("Could not create a new goal");
     }
 }
