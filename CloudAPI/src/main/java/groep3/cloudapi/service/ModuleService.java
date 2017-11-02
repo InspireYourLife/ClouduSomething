@@ -12,6 +12,7 @@ import javax.ws.rs.BadRequestException;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.Path;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.bson.types.ObjectId;
@@ -35,24 +36,24 @@ public class ModuleService extends BaseService
     // get all modules
     public List<Module> getAllModules()
     {
-        List<Module> modules = moduleDAO.getAll();
+        List<Module> m = moduleDAO.getAll();
         
         //werking van requireResult op single objecten
-        if (modules.isEmpty() == true)
+        if (m.isEmpty() == true)
         {
             throw new NotFoundException("There are no Modules in the database");
         }
         
-        return modules;
+        return m;
     }
     
     // get specific module by id
     public Module getModuleById(String moduleId)
     {
-        Module tempModule = moduleDAO.get(moduleId);
-        requireResult(tempModule, "Module not found");
+        Module mod = moduleDAO.get(moduleId);
+        requireResult(mod, "Module not found");
         
-        return tempModule;
+        return mod;
     }
     
     // get all modules from a specific user
@@ -71,12 +72,24 @@ public class ModuleService extends BaseService
     }
     
     //Create a new module
-    public void createModule (Module newModule)
+    public boolean createModule (Module newModule)
     {        
         Date currentTime = Date.from(Instant.now());
         newModule.setCreationDate(currentTime);
         
+        List<Module> m = moduleDAO.getAll();
+        
         moduleDAO.create(newModule);
+        m.add(newModule);
+        
+        if (m.size() == moduleDAO.getAll().size())
+        {
+            return true;
+        }
+        else
+        {
+            throw new ProcessingException("Could not create module");
+        }
     }
     
     //Assign a module to a specific user
@@ -145,7 +158,7 @@ public class ModuleService extends BaseService
         }
         else
         {
-            return false;
+            throw new ProcessingException("Could not delete module");
         }
     }
     
@@ -155,19 +168,24 @@ public class ModuleService extends BaseService
         User u = userDAO.get(userId);
         requireResult(u, "User not found");
         
-        Module mId = moduleDAO.get(modId);
-        requireResult(mId, "Module not found");
+        Module mod = moduleDAO.get(modId);
+        requireResult(mod, "Module not found");
         
-        moduleDAO.delete(mId);
+        List<Module> userModules = u.getModules();
+        
+        userModules.remove(mod);
+        u.setModules(userModules);
+        
+        moduleDAO.delete(mod);
         userDAO.update(u);
                
-        if (mId == null)
+        if (mod == null)
         {
             return true;
         }
         else
         {
-            return false;
+            throw new ProcessingException("Could not delete the user module");
         }
     }   
 }
