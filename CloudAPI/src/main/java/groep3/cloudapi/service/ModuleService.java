@@ -5,6 +5,7 @@ import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.ModuleDAO;
 import groep3.cloudapi.persistence.UserDAO;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
@@ -77,12 +78,10 @@ public class ModuleService extends BaseService
         Date currentTime = Date.from(Instant.now());
         newModule.setCreationDate(currentTime);
         
-        List<Module> m = moduleDAO.getAll();
-        
+        List<Module> modList = moduleDAO.getAll();       
         moduleDAO.create(newModule);
-        m.add(newModule);
         
-        if (m.size() == moduleDAO.getAll().size())
+        if (modList.size() == moduleDAO.getAll().size())
         {
             return true;
         }
