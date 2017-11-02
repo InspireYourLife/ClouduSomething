@@ -1,5 +1,6 @@
 package groep3.cloudapi.service;
 
+import groep3.cloudapi.model.Calendar;
 import groep3.cloudapi.model.User;
 import groep3.cloudapi.persistence.CalendarDAO;
 import groep3.cloudapi.persistence.UserDAO;
@@ -9,6 +10,7 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
 
 public class UserService extends BaseService
 {
@@ -89,6 +91,9 @@ public class UserService extends BaseService
             
     public Boolean create(User newUser)
     {
+        List<User> usersPreCreate = userDAO.getAll();
+        List<Calendar> calendarsPreCreate = calendarDAO.getAll();
+        
         Date currentTime = Date.from(Instant.now());
         newUser.setCreationDate(currentTime);
         
@@ -96,7 +101,26 @@ public class UserService extends BaseService
         
         userDAO.create(newUser);
         
-        return true;
+        List<User> usersPostCreate = userDAO.getAll();
+        List<Calendar> calendarsPostCreate = calendarDAO.getAll();
+        
+        if(usersPreCreate.size() < usersPostCreate.size())
+        {
+            if(calendarsPreCreate.size() < calendarsPostCreate.size())
+            {
+                return true;
+            }
+            
+            else
+            {
+                throw new ProcessingException("Calendar has not been added");
+            }
+            
+        }
+        else
+        {
+            throw new ProcessingException("User has not been added");
+        }
     }
 
     public Boolean editUser(User editedUser, String id)
@@ -115,7 +139,7 @@ public class UserService extends BaseService
         
         else
         {
-            return true;
+            throw new ProcessingException("User has not been edited");
         }
     }
 
@@ -140,7 +164,7 @@ public class UserService extends BaseService
         
         else
         {
-            return true;
+            throw new ProcessingException("Points have not been edited");
         }
          
     }
@@ -148,7 +172,11 @@ public class UserService extends BaseService
     public Boolean deleteUserById(String id)
     {
         User u = userDAO.get(id);
-        userDAO.deleteById(u.getId());
+        userDAO.delete(u);
+        
+        Calendar c = u.getCalendar();
+        
+        calendarDAO.delete(c);
         
         if (userDAO.get(id) == null)
         {
@@ -156,7 +184,7 @@ public class UserService extends BaseService
         }
         else
         {
-            return false;
+            throw new ProcessingException("User has not been deleted");
         }
     }
 }
