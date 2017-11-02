@@ -7,6 +7,7 @@ import groep3.cloudapi.persistence.UserDAO;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
 
 public class NotificationService extends BaseService
 {
@@ -61,7 +62,7 @@ public class NotificationService extends BaseService
         }
         else
         {
-            return false;
+            throw new ProcessingException("User has not been added");
         }
     }  
     
