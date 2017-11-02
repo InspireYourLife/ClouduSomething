@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
+import javax.ws.rs.ProcessingException;
 
 public class CalendarService extends BaseService
 {
@@ -39,6 +40,8 @@ public class CalendarService extends BaseService
 
     public boolean addAppointment(String id, Appointment appointment)
     {
+        List<Appointment> appointmentsPreCreate = appointmentDAO.getAll();
+        
         Date currentTime = Date.from(Instant.now());
         appointment.setCreationDate(currentTime);
         
@@ -62,7 +65,16 @@ public class CalendarService extends BaseService
         
         userDAO.update(u);
         
-        return true;
+        List<Appointment> appointmentsPostCreate = appointmentDAO.getAll();
+        
+        if(appointmentsPreCreate.size() < appointmentsPostCreate.size())
+        {
+            return true;
+        }
+        else
+        {
+            throw new ProcessingException("Appointment has not been added");
+        }
     }
 
     public Appointment getAppointment(String uid, String aid)
@@ -112,7 +124,7 @@ public class CalendarService extends BaseService
         
         else
         {
-            return false;
+            throw new ProcessingException("Appointment has not been deleted");        
         }
     }
 
@@ -138,7 +150,7 @@ public class CalendarService extends BaseService
         
         else
         {
-            return true;
+            throw new ProcessingException("Calendar has not been updated");
         }
     }
 
