@@ -62,10 +62,10 @@ public class ModuleResource extends BaseResource
     //Create a new module
     @POST
     @RolesAllowed({Role.Labels.ADMIN})
-    public Module createModule(@Valid Module newModule, @Auth User authenticatedUser)
+    public Boolean createModule(@Valid Module newModule, @Auth User authenticatedUser)
     {
-        moduleService.createModule(newModule);
-        return newModule;
+        Boolean created = moduleService.createModule(newModule);
+        return created;
     }
     
     //Delete a module by Id
