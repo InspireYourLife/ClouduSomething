@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.ws.rs.BadRequestException;
 import javax.ws.rs.NotFoundException;
+import javax.ws.rs.ProcessingException;
 
 public class ContactService extends BaseService{
     
@@ -26,18 +27,23 @@ public class ContactService extends BaseService{
         
         User user = userDAO.get(userId);
         requireResult(user, "Üser not found");
+        
         List<User> contactsToReturn = user.getContacts();
         requireResult(contactsToReturn, "Empty list");
+        
         return contactsToReturn;
     }
 
     public User getContact(String userId, String contactId) {
+        
         int cId = Integer.parseInt(contactId);
         
         User user = userDAO.get(userId);
         requireResult(user, "User not found");
+        
         List<User> contactsToReturn = user.getContacts();
         requireResult(contactsToReturn, "Empty list");
+        
         User contact = contactsToReturn.get(cId);
         
         return contact;
@@ -70,10 +76,11 @@ public class ContactService extends BaseService{
         
         User user = userDAO.get(userId);
         requireResult(user, "User not found");
+        
         User contact = userDAO.get(contactId);
         requireResult(contact, "Contact not found");
+        
         List<User> contacts = user.getContacts();
-        requireResult(contacts, "Empty list");
         
         if (contacts.isEmpty())
         {
@@ -81,7 +88,7 @@ public class ContactService extends BaseService{
         }
         
         if(contact.getId() == null){
-            throw new BadRequestException();
+            throw new BadRequestException("Contact does not exsist");
         }
         
         contacts.remove(contact);
@@ -90,7 +97,7 @@ public class ContactService extends BaseService{
         if(userDAO.get(contactId) == null){
             return true;
         } else {
-            return false;
+            throw new ProcessingException("Contact was not removed");
         }
     }
 }
