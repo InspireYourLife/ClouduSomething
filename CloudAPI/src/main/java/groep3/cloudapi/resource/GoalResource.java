@@ -17,6 +17,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -52,6 +53,12 @@ public class GoalResource extends BaseResource
     public Boolean create(@Auth User authenticatedUser, @Valid Goal newGoal)
     {
         Boolean hasSucceeded = goalService.create(newGoal);
+        
+        if (!hasSucceeded) 
+        {
+            throw new ProcessingException("Could not create new goal");
+        }
+        
         return hasSucceeded;
     }
 }

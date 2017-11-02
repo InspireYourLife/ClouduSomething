@@ -20,6 +20,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -76,13 +77,14 @@ public class UserGoalResource extends BaseResource
     }
     
     // Assigns a goal to a module
-    @POST
+    @PUT
     @RolesAllowed({Role.Labels.ADMIN, Role.Labels.CARETAKER})
     @ApiOperation("Assigns a goal to a module of a user")
     @Path("/{userId}/modules/{moduleId}/goals/{goalId}")
     public Boolean assignGoalToModule(@Auth User authenticatedUser, @PathParam("userId") String userId, @PathParam("moduleId") String moduleId, @PathParam("goalId") String goalId) 
     {
         boolean hasSucceeded = goalService.assignGoalToModule(moduleId, goalId);
+
         return hasSucceeded;
     }
     
